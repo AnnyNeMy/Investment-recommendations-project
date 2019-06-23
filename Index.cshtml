@@ -1,0 +1,2753 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>TestMethod</title>
+
+    <link rel="stylesheet" href="~/Content/themes/base/jquery-ui.min.css">
+    <link rel="stylesheet" href="~/Content/themes/base/datepicker.css">
+    <link rel="stylesheet" href="~/Content/themes/base/tooltip.css">
+    <link rel="stylesheet" href="~/Content/themes/base/button.css">
+    <link rel="stylesheet" href="~/Content/themes/base/menu.css">
+    <link rel="stylesheet" href="~/Content/bootstrap.min.css">
+    <link rel="stylesheet" href="~/Content/bootstrap-grid.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="~/Content/Site.css">
+    <link href="https://gitcdn.github.io/bootstrap-toggle/2.2.2/css/bootstrap-toggle.min.css" rel="stylesheet">
+    <link type="text/css" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jsgrid/1.5.3/jsgrid.min.css" />
+    <link type="text/css" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jsgrid/1.5.3/jsgrid-theme.min.css" />
+
+
+
+    <script src="~/Scripts/jquery-3.4.1.js"></script>
+    <script src="~/Scripts/jquery.svg.pan.zoom.js"></script>
+    <script src="~/Scripts/jquery-ui-1.12.1.js"></script>
+    <script type="module" src="~/Scripts/popper-utils.js">
+    </script>
+    <script type="module" src="~/Scripts/popper.js">
+    </script>
+    <script src="~/Scripts/bootstrap.min.js"></script>
+    <script src="~/Scripts/bootstrap.bundle.min.js"></script>
+    <script src="https://gitcdn.github.io/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js"></script>
+    <script src="~/Scripts/svg.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jsgrid/1.5.3/jsgrid.min.js"></script>
+
+</head>
+
+
+<body>
+    <!--        ВКЛАДКИ           -->
+    <div id="tabs" class="container-fluid">
+        <div class="row">
+            <ul class="row" id="tabsNames"></ul>
+        </div>
+
+        <!--        ВКЛАДКА - О ПРОГРАММЕ -->
+        <div id="tabs-aboutProject">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12">
+                        <div class="" id="aboutCompanySoft_name">
+
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!--        ВКЛАДКА - Данные -->
+        <div id="tabs-dates">
+            <div class="container-fluid">
+                <div class="row mBottom">
+                    <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12">
+                        <div class="discription" name="showDescription" id="showDescription_Dates" data-toggle="collapse" data-target="#collapseDescription_Dates" aria-expanded="false" aria-controls="collapseDescription_Dates">
+                            <span id="showSpanshowDescription_Dates" name="showDescription" class="showDescription"> Показать описание раздела</span>
+                            <span id="hideSpanshowDescription_Dates" name="hideDescription" class="hideDescription">Скрыть описание раздела</span>
+                        </div>
+                        <div class="collapse" id="collapseDescription_Dates">
+                            <div class="card card-body p0m0" id="description_Dates" name="descriptionContent">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-12 col-md-12 col-lg-4 col-xl-4">
+                        <form id="formChose_dates" name="formChose" action='@Url.Action("getDates_single", "Main")' title="" method="post">
+                            <!--выбор рынка  - селект-->
+                            <div class="fieldInput1Variant">
+                                <label for="typeOfMarket_dates">Выбор рынка/биржи</label>
+                                <select name="typeOfMarket" id="typeOfMarket_dates">
+                                    <option selected value="Мосбиржа, РТС">Мосбиржа, РТС</option>
+                                </select>
+                            </div>
+
+                            <!--Обозначение бумаги - селект-->
+                            <div class="fieldInput1Variant">
+                                <label for="typeOfPaper_dates">Обозначение бумаги</label>
+                                <select name="selectTypeOfPaper_typeOfMarket_dates" id="typeOfPaper_dates">
+                                    <option disabled selected value="">выбрать ...</option>
+                                </select>
+                            </div>
+                            <!--Выбор даты начала - datepicker-->
+                            <div class="fieldInput1Variant">
+                                <label for="datepickerStart_dates">Начальная дата</label>
+                                <input name="datepickerStart" type="text" id="datepickerStart_dates" size="25">
+                            </div>
+                            <!--Выбор конечной даты - datepicker-->
+                            <div class="fieldInput1Variant">
+                                <label for="datepickerEnd_dates">Конечная дата</label>
+                                <input name="datepickerEnd" type="text" id="datepickerEnd_dates" size="25">
+                            </div>
+
+                            <!--Выбрать сколько данных вывести на экран - селект-->
+                            <div class="fieldInput1Variant">
+                                <label for="showFirst1000_dates">Вывести </label>
+                                <select name="showFirst1000_dates" id="showFirst1000_dates" class="ui-selectmenu-buttonu">
+                                    <option> Последние 100</option>
+                                    <option> Последние 500</option>
+                                    <option selected> Последние 1000</option>
+                                    <option> Первые 100</option>
+                                    <option> Первые 500</option>
+                                    <option> Первые 1000</option>
+                                    <option> Все</option>
+                                </select>
+                            </div>
+                            <!--ПОДТВЕРДИТЬ выбранные данные  - кнопка-->
+                            <div name="chose" style="margin-top : 20px" class="fieldInput1Variant">
+                                <input type="submit" id="choseDates_dates" class="btn-dark ui-button ui-widget ui-corner-all" style="margin-bottom: 0px!important" value="Вывести" />
+                                <span id="loaderChoseDates_dates" class="spinner-border spinner-border-sm text-secondary d-none" role="status" aria-hidden="true"></span>
+                            </div>
+                        </form>
+                    </div>
+
+                    <!--Выбрать тип ошибки - селект-->
+                    <div id="tabs-dates" class="col-sm-12 col-md-12 col-lg-4 col-xl-4">
+                        <div class="fieldInput1Variant">
+                            <label for="typeOfMistake_dates">Тип ошибки </label>
+                            <select name="typeOfMistake_dates" id="typeOfMistake_dates">
+                                <option selected>Торги в выходной день</option>
+                                <option>Экстремальные значения</option>
+                            </select>
+                        </div>
+                        <!--ПОДТВЕРДИТЬ выбранный тип ошибки  - кнопка-->
+                        <div name="chose" id="tabs-dates" style="margin-top : 30px">
+                            <input type="button" id="choseTypeOfMistake_dates" class="btn-dark ui-button ui-widget ui-corner-all" value="Вывести ошибки" />
+                            <span id="loaderChoseTypeOfMistake_dates" class="spinner-border spinner-border-sm text-secondary d-none" role="status" aria-hidden="true"></span>
+                        </div>
+                        <!--Вывести ТАБЛИЦ ДИВИДЕНДОВ-->
+                        <div name="chose" id="tabs-dates" style="margin-top : 30px">
+                            <input type="button" id="choseDividends_dates" class="btn-dark ui-button ui-widget ui-corner-all" value="Вывести таблицу дивидендов" />
+                            <span id="loaderChoseDividends_dates" class="spinner-border spinner-border-sm text-secondary d-none" role="status" aria-hidden="true"></span>
+                        </div>
+                    </div>
+
+                    <!--Выбрать наименование бyмаги - чекбокс-->
+                    <div id="tabs-dates" class="col-sm-12 col-md-12 col-lg-4 col-xl-4">
+                        <div class="widget">
+                            <form id="formdata">
+                                <fieldset id="checkboxTypeOfPaper_dates" name="checkboxTypeOfPaper_typeOfMarket_dates" class="fieldCheckbox_dates">
+                                    <legend>  Выбрать обозначения бумаг </legend>
+                                </fieldset>
+                            </form>
+                            <input type="checkbox" name="checkBox" id="checkbox_dates" /> <label for="checkbox_dates" id="labelForCheckbox"> Отметить/снять все </label>
+                        </div>
+
+                        <!--ПОДТВЕРДИТЬ выбор "сводные данные о состоянии БД"- кнопка-->
+                        <div id="tabs-dates" style="margin-top : 30px">
+                            <input type="button" id="allDates_dates" class="btn-dark ui-button ui-widget ui-corner-all" value="Вывести сводные данные о состоянии БД" />
+                            <span id="loaderAllDates_dates" class="spinner-border spinner-border-sm text-secondary d-none" role="status" aria-hidden="true"></span>
+                        </div>
+                    </div>
+                </div>
+
+                <!--ПОДТВЕРДИТЬ выбор "Обновить БД"- кнопка-->
+                <div class="row">
+                    <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12" style="margin-top : 10px">
+                        <input type="button" id="updateList_dates" class="ui-button ui-widget ui-corner-all bg-warning" value="Обновить БД" />
+                        <span id="loaderUpdate_dates" class="spinner-border spinner-border-sm text-secondary d-none" role="status" aria-hidden="true"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!--        ВКЛАДКА - Расчет 1 методом для ОДНОЙ бумаги -->
+        <div id="tabs-oneStock">
+            <div class="container-fluid">
+                <div class="row mBottom">
+                    <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12">
+                        <div class="discription" name="showDescription" id="showDescription_OneStock" data-toggle="collapse" data-target="#collapseDescription_OneStock" aria-expanded="false" aria-controls="collapseDescription_OneStock">
+                            <span id="showSpanshowDescription_OneStock" name="showDescription" class="showDescription"> Показать описание раздела</span>
+                            <span id="hideSpanshowDescription_OneStock" name="hideDescription" class="hideDescription">Скрыть описание раздела</span>
+                        </div>
+                        <div class="collapse" id="collapseDescription_OneStock">
+                            <div class="card card-body p0m0" id="description_OneStock" name="descriptionContent">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <form id="formChose_OneStock" action='@Url.Action("Sngl_meth_sngl_stc_partial", "Main")' title="" method="post">
+                    <div class="row">
+                        <div class="col-sm-12 col-md-12 col-lg-4 col-xl-4">
+                            <!--выбор рынка  - селект-->
+                            <div class="fieldInput1Variant">
+                                <label for="typeOfMarket_OneStock">Выбор рынка/биржи</label>
+                                <select name="typeOfMarket" id="typeOfMarket_OneStock">
+                                    <option selected value="Мосбиржа, РТС">Мосбиржа, РТС</option>
+                                </select>
+                            </div>
+                            <!--Обозначение бумаги - селект-->
+                            <div class="fieldInput1Variant">
+                                <label for="typeOfPaper_OneStock">Обозначение бумаги</label>
+                                <select name="selectTypeOfPaper_typeOfMarket_OneStock" id="typeOfPaper_OneStock">
+                                    <option disabled selected value="">выбрать ...</option>
+                                </select>
+                            </div>
+                            <!--Выбор даты начала - datepicker-->
+                            <div class="fieldInput1Variant">
+                                <label for="datepickerStart_OneStock">Начальная дата</label>
+                                <input name="datepickerStart" type="text" id="datepickerStart_OneStock" size="25">
+                            </div>
+                            <!--Выбор конечной даты - datepicker-->
+                            <div class="fieldInput1Variant">
+                                <label for="datepickerEnd_OneStock">Конечная дата</label>
+                                <input name="datepickerEnd" type="text" id="datepickerEnd_OneStock" size="25">
+                            </div>
+
+                            <!--Выбрать тип цены - <option >Тип цены</option> селект-->
+                            <div name="typeOfPrice" class="fieldInput1Variant">
+                                <label for="typeOfPrice_OneStock"> Тип цены </label>
+                                <select name="typeOfPrice" id="typeOfPrice_OneStock">
+                                    <option value='Open' selected> Цена на момент открытия </option>
+                                </select>
+                            </div>
+
+                        </div>
+                        <div class="col-sm-12 col-md-12 col-lg-4 col-xl-4">
+
+                            <!--Выбрать метод расчета - селект-->
+                            <div class="fieldInput1Variant">
+                                <label for="calculateMethod_OneStock">Метод расчета </label>
+                                <select name="calculateMethod" id="calculateMethod_OneStock">
+                                    <option selected value="RSI"> RSI </option>
+                                </select>
+                            </div>
+                            <!--Выбрать записей - селект-->
+                            <div class="fieldInput1Variant">
+                                <label for="numberOfRecords_OneStock">Вывести </label>
+                                <select name="numberOfRecords" id="numberOfRecords_OneStock">
+                                    <option> Последние 100</option>
+                                    <option> Последние 500</option>
+                                    <option selected> Последние 1000</option>
+                                    <option> Первые 100</option>
+                                    <option> Первые 500</option>
+                                    <option> Первые 1000</option>
+                                    <option> Все </option>
+                                </select>
+                            </div>
+
+                        </div>
+                        <div class="col-sm-12 col-md-12 col-lg-4 col-xl-4">
+                            <div class="mBottom15Underline"> <span>Исходные данные: </span></div>
+                            <!--Ввести первый коэффициент n1-->
+                            <div class="fieldInput1Variant">
+                                <label for="koeff_n_1_calculateMethod_OneStock"> Критерий n1 </label>
+                                <input type="number" id="koeff_n_1_calculateMethod_OneStock" name="koeff_calculateMethod_OneStock" value="21" data-toggle="tooltip" title="Tooltip message" data-html="true" />
+                            </div>
+
+                            <!--Ввести  второй коэффициент n2-->
+                            <div class="fieldInput1Variant">
+                                <label for="koeff_n_2_calculateMethod_OneStock"> Критерий n2 </label>
+                                <input type="number" id="koeff_n_2_calculateMethod_OneStock" name="koeff_calculateMethod_OneStock" value="12" />
+                            </div>
+                            <!--Ввести  третий коэффициент n3-->
+                            <div class="fieldInput1Variant">
+                                <label for="koeff_n_3_calculateMethod_OneStock"> Критерий n3</label>
+                                <input type="number" id="koeff_n_3_calculateMethod_OneStock" name="koeff_calculateMethod_OneStock" value="26" />
+                            </div>
+
+                            <!--Ввести Критерий верхнего уровня-->
+                            <div class="fieldInput1Variant">
+                                <label for="koeff_K_up_calculateMethod_OneStock"> Критерий верхнего уровня </label>
+                                <input type="number" id="koeff_K_up_calculateMethod_OneStock" name="koeff_calculateMethod_OneStock" value="21" />
+                            </div>
+
+                            <!--Выбрать  Критерий нижнего уровня-->
+                            <div class="fieldInput1Variant">
+                                <label for="koeff_K_down_calculateMethod_OneStock"> Критерий нижнего уровня </label>
+                                <input type="number" id="koeff_K_down_calculateMethod_OneStock" name="koeff_calculateMethod_OneStock" value="21" />
+                            </div>
+                            
+                            <!--Ввести Критерий stop_loss-->
+                            <div class="fieldInput1Variant">
+                                <label for="koeff_stop_loss_calculateMethod_OneStock"> Критерий stop_loss </label>
+                                <input type="number" id="koeff_stop_loss_calculateMethod_OneStock" name="koeff_calculateMethod_OneStock" value="950" max="1000" />
+                            </div>
+
+                            <!--Выбрать  Критерий take_profit-->
+                            <div class="fieldInput1Variant">
+                                <label for="koeff_take_profit_calculateMethod_OneStock"> Критерий нижнего уровня </label>
+                                <input type="number" id="koeff_take_profit_calculateMethod_OneStock" name="koeff_calculateMethod_OneStock" value="1050" min="1000" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12">
+                            <!--Подтвердить выбранные данные  - кнопка-->
+                            <div name="chose2" style="margin-top : 5px; margin-right: 5px;  float: right">
+                                <input type="submit" id="chose_OneStock" class="btn-dark ui-button ui-widget ui-corner-all" value="Рассчитать" />
+                                <span id="loaderChose_OneStock" class="spinner-border spinner-border-sm text-secondary d-none" role="status" aria-hidden="true"></span>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <!--        ВКЛАДКА - Расчет 1 методом для ВСЕХ бумаг -->
+        <div id="tabs-allStock">
+            <div class="container-fluid">
+                <div class="row mBottom">
+                    <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12">
+                        <div class="discription" name="showDescription" id="showDescription_AllStock" data-toggle="collapse" data-target="#collapseDescription_AllStock" aria-expanded="false" aria-controls="collapseDescription_AllStock">
+                            <span id="showSpanshowDescription_AllStock" name="showDescription" class="showDescription"> Показать описание раздела</span>
+                            <span id="hideSpanshowDescription_AllStock" name="hideDescription" class="hideDescription">Скрыть описание раздела</span>
+                        </div>
+                        <div class="collapse" id="collapseDescription_AllStock">
+                            <div class="card card-body p0m0" id="description_AllStock" name="descriptionContent">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <form id="formChose_AllStock" action='@Url.Action("Single_meth_multi_stc_partial", "Main")' title="" method="post">
+                    <div class="row">
+                        <div class="col-sm-12 col-md-12 col-lg-4 col-xl-4">
+                            <!--выбор рынка  - селект-->
+                            <div class="fieldInput1Variant">
+                                <label for="typeOfMarket_AllStock">Выбор рынка/биржи</label>
+                                <select name="typeOfMarket" id="typeOfMarket_AllStock">
+                                    <option selected value="Мосбиржа, РТС">Мосбиржа, РТС</option>
+                                </select>
+                            </div>
+                            <!--Выбор обозначения бумаг-->
+                            <div class="widget">
+                                <fieldset id="checkboxTypeOfPaper_AllStock" name="checkboxTypeOfPaper_typeOfMarket_AllStock" class="fieldCheckbox_checkbox_AllStock">
+                                    <legend>  Выбрать обозначения бумаг </legend>
+                                </fieldset>
+                                <input type="checkbox" name="checkBox" id="checkbox_AllStock" /> <label for="checkbox_AllStock" id="labelForCheckbox_AllStock"> Отметить/снять все </label>
+                            </div>
+                        </div>
+                        <div class="col-sm-12 col-md-12 col-lg-4 col-xl-4">
+                            <!--Выбор даты начала - datepicker-->
+                            <div class="fieldInput1Variant">
+                                <label for="datepickerStart_AllStock">Начальная дата</label>
+                                <input name="datepickerStart" type="text" id="datepickerStart_AllStock" size="25">
+                            </div>
+                            <!--Выбор конечной даты - datepicker-->
+                            <div class="fieldInput1Variant">
+                                <label for="datepickerEnd_AllStock">Конечная дата</label>
+                                <input name="datepickerEnd" type="text" id="datepickerEnd_AllStock" size="25">
+                            </div>
+                            <!--Выбрать тип цены - <option >Тип цены</option> селект-->
+                            <div name="typeOfPrice" class="fieldInput1Variant">
+                                <label for="typeOfPrice_AllStock"> Тип цены </label>
+                                <select name="typeOfPrice" id="typeOfPrice_AllStock">
+                                    <option value='Open' selected> Цена на момент открытия </option>
+                                </select>
+                            </div>
+                            <!--Выбрать метод расчета - селект-->
+                            <div class="fieldInput1Variant">
+                                <label for="calculateMethod_AllStock">Метод расчета </label>
+                                <select name="calculateMethod" id="calculateMethod_AllStock">
+                                    <option selected value="RSI"> RSI </option>
+                                </select>
+                            </div>
+                            <!--
+                                Генерировать ли сигнал 
+                            <div class="paddBott" id="divIfSignalGenerate_AllStock" style="margin-top: 23px;">
+                                <input type="checkbox" name="ifSignalGenerate" id="ifSignalGenerate_AllStock"> <label for="ifSignalGenerate_AllStock"> Генерировать сигнал на продажу <span id="headerSignalForSellKritery_ifSignalGenerate_AllStock" style="display: none;"> в случае: </span> </label>
+                            </div>
+
+                            падения цены более, чем на 
+                            <div class="input-group generteSignal" id="divFallingPriceKritery_ifSignalGenerate_AllStock" style="display: none;">
+                                <label for="fallingPriceKritery_ifSignalGenerate_AllStock" class="generteSignalLabel"> <img id="forSpisok" src="~/Content/forSpisok.svg" /> падения цены более, чем на </label>
+                                <input type="number" id="fallingPriceKritery_ifSignalGenerate_AllStock" name="fallingPriceKritery_AllStock" value="10" data-toggle="tooltip" title="Tooltip message" data-html="true" />
+                                <div class="input-group-append">
+                                    <span class="input-group-text">%</span>
+                                </div>
+                            </div>
+
+                            падения величины индикатора больше чем на 
+                            <div class="input-group generteSignal" id="divFallingIndicatorKritery_ifSignalGenerate_AllStock" style="display: none;">
+                                <label for="fallingIndicatorKritery_ifSignalGenerate_AllStock" class="generteSignalLabel"><img id="forSpisok" src="~/Content/forSpisok.svg" /> падения величины индикатора более, чем на </label>
+                                <input type="number" id="fallingIndicatorKritery_ifSignalGenerate_AllStock" name="fallingIndicatorKritery_AllStock" value="10" data-toggle="tooltip" title="Tooltip message" data-html="true" />
+                                <div class="input-group-append">
+                                    <span class="input-group-text">%</span>
+                                </div>
+                            </div>
+                            удержания акций более
+                            <div class="input-group generteSignal1" id="divBuyPapersKritery_ifSignalGenerate_AllStock" style="display: none;">
+                                <label for="buyPapersKritery_ifSignalGenerate_AllStock" class="generteSignalLabel1"> <img id="forSpisok" src="~/Content/forSpisok.svg" /> удержания акций более </label>
+                                <input type="number" id="buyPapersKritery_ifSignalGenerate_AllStock" name="buyPapersKritery_AllStock" value="100" data-toggle="tooltip" title="Tooltip message" data-html="true" />
+                                <div class="input-group-append">
+                                    <span class="input-group-text">дней</span>
+                                </div>
+                            </div>
+                                -->
+                            
+                        </div>
+                        <div class="col-sm-12 col-md-12 col-lg-4 col-xl-4">
+
+                            <div class="mBottom15Underline"> <span>Исходные данные: </span></div>
+                            <!--Ввести первый коэффициент n1-->
+                            <div class="fieldInput1Variant">
+                                <label for="koeff_n_1_calculateMethod_AllStock"> Критерий n1 </label>
+                                <input type="number" id="koeff_n_1_calculateMethod_AllStock" name="koeff_calculateMethod_AllStock" value="21" data-toggle="tooltip" title="Tooltip message" data-html="true" />
+                            </div>
+
+                            <!--Ввести  второй коэффициент n2-->
+                            <div class="fieldInput1Variant">
+                                <label for="koeff_n_2_calculateMethod_AllStock"> Критерий n2 </label>
+                                <input type="number" id="koeff_n_2_calculateMethod_AllStock" name="koeff_calculateMethod_AllStock" value="12" />
+                            </div>
+                            <!--Ввести  третий коэффициент n3-->
+                            <div class="fieldInput1Variant">
+                                <label for="koeff_n_3_calculateMethod_AllStock"> Критерий n3</label>
+                                <input type="number" id="koeff_n_3_calculateMethod_AllStock" name="koeff_calculateMethod_AllStock" value="26" />
+                            </div>
+
+                            <!--Ввести Критерий верхнего уровня-->
+                            <div class="fieldInput1Variant">
+                                <label for="koeff_K_up_calculateMethod_AllStock"> Критерий верхнего уровня </label>
+                                <input type="number" id="koeff_K_up_calculateMethod_AllStock" name="koeff_calculateMethod_AllStock" value="21" />
+                            </div>
+
+                            <!--Выбрать  Критерий нижнего уровня-->
+                            <div class="fieldInput1Variant">
+                                <label for="koeff_K_down_calculateMethod_AllStock"> Критерий нижнего уровня </label>
+                                <input type="number" id="koeff_K_down_calculateMethod_AllStock" name="koeff_calculateMethod_AllStock" value="21" />
+                            </div>
+
+                            <!--Ввести Критерий stop_loss-->
+                            <div class="fieldInput1Variant">
+                                <label for="koeff_stop_loss_calculateMethod_AllStock"> Критерий stop_loss </label>
+                                <input type="number" id="koeff_stop_loss_calculateMethod_AllStock" name="koeff_calculateMethod_AllStock" value="950" max="1000" />
+                            </div>
+
+                            <!--Выбрать  Критерий take_profit-->
+                            <div class="fieldInput1Variant">
+                                <label for="koeff_take_profit_calculateMethod_AllStock"> Критерий нижнего уровня </label>
+                                <input type="number" id="koeff_take_profit_calculateMethod_AllStock" name="koeff_calculateMethod_AllStock" value="1050" min="1000" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12">
+                            <!--Подтвердить выбранные данные - кнопка-->
+                            <div style="margin-top : 5px; margin-right: 5px;  float: right">
+                                <input type="submit" id="chose_AllStock" class="btn-dark ui-button ui-widget ui-corner-all" value="Рассчитать" />
+                                <span id="loaderChose_AllStock" class="spinner-border spinner-border-sm text-secondary d-none" role="status" aria-hidden="true"></span>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+                <div class="row">
+                    <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12">
+                        <div class="custom-control custom-switch" style="margin-top : 5px; margin-right: 5px;  float: right">
+                            <label class="checkbox-inline">
+                                <input type="checkbox" checked data-toggle="toggle" data-width="80" data-height="20" id="switch_AllStock" data-onstyle="primary" data-offstyle="secondary"> Включить параллельное выполнение
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!--        ВКЛАДКА - Расчет всеми методами для одной бумаги -->
+        <div id="tabs-allMethodsAllStock">
+            <div class="container-fluid">
+                <div class="row mBottom">
+                    <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12">
+                        <div class="discription" name="showDescription" id="showDescription_AllMethodsAllStock" data-toggle="collapse" data-target="#collapseDescription_AllMethodsAllStock" aria-expanded="false" aria-controls="collapseDescription_AllMethodsAllStock">
+                            <span id="showSpanshowDescription_AllMethodsAllStock" name="showDescription" class="showDescription"> Показать описание раздела</span>
+                            <span id="hideSpanshowDescription_AllMethodsAllStock" name="hideDescription" class="hideDescription">Скрыть описание раздела</span>
+                        </div>
+                        <div class="collapse" id="collapseDescription_AllMethodsAllStock">
+                            <div class="card card-body p0m0" id="description_AllMethodsAllStock" name="descriptionContent">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <form id="formChose_AllMethodsAllStock" action='@Url.Action("Multi_meth_sngl_stc_partial", "Main")' title="" method="post">
+                    <div class="row">
+                        <div class="col-sm-12 col-md-12 col-lg-4 col-xl-4">
+                            <!--выбор рынка  - селект-->
+                            <div class="fieldInput1Variant">
+                                <label for="typeOfMarket_AllMethodsAllStock">Выбор рынка/биржи</label>
+                                <select name="typeOfMarket" id="typeOfMarket_AllMethodsAllStock">
+                                    <option selected value="Мосбиржа, РТС">Мосбиржа, РТС</option>
+                                </select>
+                            </div>
+                            <!--Обозначение бумаги - селект-->
+                            <div class="fieldInput1Variant">
+                                <label for="typeOfPaper_AllMethodsAllStock">Обозначение бумаги</label>
+                                <select name="selectTypeOfPaper_typeOfMarket_AllMethodsAllStock" id="typeOfPaper_AllMethodsAllStock">
+                                    <option disabled selected value="">выбрать ...</option>
+                                </select>
+                            </div>
+                            <div name="typeOfPrice" class="fieldInput1Variant">
+                                <label for="typeOfPrice_AllMethodsAllStock"> Тип цены </label>
+                                <select name="typeOfPrice" id="typeOfPrice_AllMethodsAllStock">
+                                    <option value='Open' selected> Цена на момент открытия </option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-sm-12 col-md-12 col-lg-4 col-xl-4">
+                            <!--Выбор даты начала - datepicker-->
+                            <div class="fieldInput1Variant">
+                                <label for="datepickerStart_AllMethodsAllStock">Начальная дата</label>
+                                <input name="datepickerStart" type="text" id="datepickerStart_AllMethodsAllStock" size="25">
+                            </div>
+                            <!--Выбор конечной даты - datepicker-->
+                            <div class="fieldInput1Variant">
+                                <label for="datepickerEnd_AllMethodsAllStock">Конечная дата</label>
+                                <input name="datepickerEnd" type="text" id="datepickerEnd_AllMethodsAllStock" size="25">
+                            </div>
+                            <div class="fieldInput1Variant">
+                                <label for="numberOfRecords_AllMethodsAllStock">Вывести </label>
+                                <select name="numberOfRecords" id="numberOfRecords_AllMethodsAllStock">
+                                    <option> Последние 100</option>
+                                    <option> Последние 500</option>
+                                    <option selected> Последние 1000</option>
+                                    <option> Первые 100</option>
+                                    <option> Первые 500</option>
+                                    <option> Первые 1000</option>
+                                    <option> Все </option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="col-sm-12 col-md-12 col-lg-4 col-xl-4">
+                            <!--падения цены более, чем на -->
+                            <div class="input-group generteSignal" id="divFallingPriceKritery_ifSignalGenerate_AllMethodsAllStock" style="display: none;">
+                                <label for="fallingPriceKritery_ifSignalGenerate_AllMethodsAllStock" class="generteSignalLabel"> <img id="forSpisok" src="~/Content/forSpisok.svg" /> падения цены более, чем на </label>
+                                <input type="number" id="fallingPriceKritery_ifSignalGenerate_AllMethodsAllStock" name="fallingPriceKritery_AllMethodsAllStock" value="10" data-toggle="tooltip" title="Tooltip message" data-html="true" />
+                                <div class="input-group-append">
+                                    <span class="input-group-text">%</span>
+                                </div>
+                            </div>
+
+                            <!--падения величины индикатора больше чем на -->
+                            <div class="input-group generteSignal" id="divFallingIndicatorKritery_ifSignalGenerate_AllMethodsAllStock" style="display: none;">
+                                <label for="fallingIndicatorKritery_ifSignalGenerate_AllMethodsAllStock" class="generteSignalLabel"><img id="forSpisok" src="~/Content/forSpisok.svg" /> падения величины индикатора более, чем на </label>
+                                <input type="number" id="fallingIndicatorKritery_ifSignalGenerate_AllMethodsAllStock" name="fallingIndicatorKritery_AllMethodsAllStock" value="10" data-toggle="tooltip" title="Tooltip message" data-html="true" />
+                                <div class="input-group-append">
+                                    <span class="input-group-text">%</span>
+                                </div>
+                            </div>
+                            <!--удержания акций более  -->
+                            <div class="input-group generteSignal1" id="divBuyPapersKritery_ifSignalGenerate_AllMethodsAllStock" style="display: none;">
+                                <label for="buyPapersKritery_ifSignalGenerate_AllMethodsAllStock" class="generteSignalLabel1"> <img id="forSpisok" src="~/Content/forSpisok.svg" /> удержания акций более </label>
+                                <input type="number" id="buyPapersKritery_ifSignalGenerate_AllMethodsAllStock" name="buyPapersKritery_AllMethodsAllStock" value="100" data-toggle="tooltip" title="Tooltip message" data-html="true" />
+                                <div class="input-group-append">
+                                    <span class="input-group-text">дней</span>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12">
+                            <input type="checkbox" name="checkBox" id="checkbox_AllMethodsAllStock" class="tableMeth"> <label for="checkbox_AllMethodsAllStock" id="labelForCheckbox_AllMethodsAllStock"> Отметить/снять все </label>
+                            <table class="table table-bordered table-sm table-responsive methodsTable" id="MethodsTable_AllMethodsAllStock">
+                                <tr id="Methods_AllMethodsAllStock" class="metCheckbox_checkbox_AllMethodsAllStock" name="methodsCheckbox" data-toggle="checkbox"> </tr>
+                                <tr id="koeff_n_1_calculateMethod_AllMethodsAllStock" name="koeff_n_1"> </tr>
+                                <tr id="koeff_n_2_calculateMethod_AllMethodsAllStock" name="koeff_n_2"> </tr>
+                                <tr id="koeff_n_3_calculateMethod_AllMethodsAllStock" name="koeff_n_3"> </tr>
+                                <tr id="koeff_K_up_calculateMethod_AllMethodsAllStock" name="koeff_K_up"> </tr>
+                                <tr id="koeff_K_down_calculateMethod_AllMethodsAllStock" name="koeff_K_down"> </tr>
+                                <tr id="koeff_stop_loss_calculateMethod_AllMethodsAllStock" name="koeff_stop_loss"> </tr>
+                                <tr id="koeff_take_profit_calculateMethod_AllMethodsAllStock" name="koeff_take_profit"> </tr>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12">
+                            <!--Подтвердить выбранные данные - кнопка-->
+                            <div name="chose_AllMethodsAllStock" style="margin-top : 5px; margin-right: 5px;  float: right">
+                                <input type="submit" id="chose_AllMethodsAllStock" class="btn-dark ui-button ui-widget ui-corner-all" value="Рассчитать" />
+                                <span id="loaderChose_AllMethodsAllStock" class="spinner-border spinner-border-sm text-secondary d-none" role="status" aria-hidden="true"></span>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+                <div class="row">
+                    <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12">
+                        <div class="custom-control custom-switch" style="margin-top : 5px; margin-right: 5px;  float: right">
+                            <label class="checkbox-inline">
+                                <input type="checkbox" checked data-toggle="toggle" data-width="80" data-height="20" id="switch_AllMethodsAllStock" data-onstyle="primary" data-offstyle="secondary"> Включить параллельное выполнение
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <!--        ВКЛАДКА - Расчет всеми методами для всех бумаг -->
+        <div id="tabs-multiMethodMultiStock">
+            <div class="container-fluid">
+                <div class="row mBottom">
+                    <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12">
+                        <div class="discription" name="showDescription" id="showDescription_multiMethodMultiStock" data-toggle="collapse" data-target="#collapseDescription_multiMethodMultiStock" aria-expanded="false" aria-controls="collapseDescription_multiMethodMultiStock">
+                            <span id="showSpanshowDescription_multiMethodMultiStock" name="showDescription" class="showDescription"> Показать описание раздела</span>
+                            <span id="hideSpanshowDescription_multiMethodMultiStock" name="hideDescription" class="hideDescription">Скрыть описание раздела</span>
+                        </div>
+                        <div class="collapse" id="collapseDescription_multiMethodMultiStock">
+                            <div class="card card-body p0m0" id="description_multiMethodMultiStock" name="descriptionContent">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <form id="formChoseDatas_multiMethodMultiStock" action='@Url.Action("Multi_meth_multi_stc", "Main")' title="" method="post">
+                    <div class="row">
+                        <div name="namesPapers3" class="col-sm-12 col-md-12 col-lg-7 col-xl-7">
+                            <!--Выбор наименоываний бумаг-->
+                            <div class="fieldInput1Variant">
+                                <label for="typeOfMarket_multiMethodMultiStock">Выбор рынка/биржи</label>
+                                <select name="typeOfMarket" id="typeOfMarket_multiMethodMultiStock">
+                                    <option selected value="Мосбиржа, РТС">Мосбиржа, РТС</option>
+                                </select>
+                            </div>
+                            <!--Выбор обозначения бумаг-->
+                            <div class="widget">
+                                <fieldset id="checkboxTypeOfPaper_multiMethodMultiStock" name="checkboxTypeOfPaper_typeOfMarket_multiMethodMultiStock" class="fieldCheckbox_checkbox_multiMethodMultiStock">
+                                    <legend>  Выбрать обозначения бумаг </legend>
+                                </fieldset>
+                                <input type="checkbox" name="checkBox" id="checkbox_multiMethodMultiStock" /> <label for="checkbox_multiMethodMultiStock" id="labelForCheckbox_TypeOfPaper_multiMethodMultiStock"> Отметить/снять все </label>
+                            </div>
+                        </div>
+                        <div class="col-sm-12 col-md-12 col-lg-5 col-xl-5">
+                            <!--Выбор даты начала - datepicker-->
+                            <div class="fieldInput1Variant">
+                                <label for="datepickerStart_multiMethodMultiStock">Начальная дата</label>
+                                <input name="datepickerStart" type="text" id="datepickerStart_multiMethodMultiStock" size="25">
+                            </div>
+                            <!--Выбор конечной даты - datepicker-->
+                            <div class="fieldInput1Variant">
+                                <label for="datepickerEnd_multiMethodMultiStock">Конечная дата</label>
+                                <input name="datepickerEnd" type="text" id="datepickerEnd_multiMethodMultiStock" size="25">
+                            </div>
+                            <!--Выбрать тип цены - <option >Тип цены</option> селект-->
+                            <div name="typeOfPrice" class="fieldInput1Variant">
+                                <label for="typeOfPrice_multiMethodMultiStock"> Тип цены </label>
+                                <select name="typeOfPrice" id="typeOfPrice_multiMethodMultiStock">
+                                    <option value='Open' selected> Цена на момент открытия </option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row mBottom pBottom">
+                        <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12">
+                            <input type="checkbox" name="checkBox" id="checkbox_methods_multiMethodMultiStock" class="tableMeth"> <label for="checkbox_methods_multiMethodMultiStock" id="labelForCheckbox_methods_multiMethodMultiStock"> Отметить/снять все </label>
+                            <table class="table table-bordered table-sm table-responsive methodsTable" id="MethodsTable_multiMethodMultiStock">
+                                <tr id="Methods_multiMethodMultiStock" class="metCheckbox_checkbox_multiMethodMultiStock" name="methodsCheckbox" data-toggle="checkbox"> </tr>
+                                <tr id="koeff_n_1_calculateMethod_multiMethodMultiStock" name="koeff_n_1"> </tr>
+                                <tr id="koeff_n_2_calculateMethod_multiMethodMultiStock" name="koeff_n_2"> </tr>
+                                <tr id="koeff_n_3_calculateMethod_multiMethodMultiStock" name="koeff_n_3"> </tr>
+                                <tr id="koeff_K_up_calculateMethod_multiMethodMultiStock" name="koeff_K_up"> </tr>
+                                <tr id="koeff_K_down_calculateMethod_multiMethodMultiStock" name="koeff_K_down"> </tr>
+                                <tr id="koeff_stop_loss_calculateMethod_multiMethodMultiStock" name="koeff_stop_loss"> </tr>
+                                <tr id="koeff_take_profit_calculateMethod_multiMethodMultiStock" name="koeff_take_profit"> </tr>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12">
+                            <!--Подтвердить выбранные данные - кнопка-->
+                            <div name="chose_multiMethodMultiStock" style="margin-top : 5px; margin-right: 5px;  float: right">
+                                <input type="submit" id="chose_multiMethodMultiStock" class="btn-dark ui-button ui-widget ui-corner-all" value="Рассчитать" />
+                                <span id="loaderChose_multiMethodMultiStock" class="spinner-border spinner-border-sm text-secondary d-none" role="status" aria-hidden="true"></span>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+                <div class="row">
+                    <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12">
+                        <div class="custom-control custom-switch" style="margin-top : 5px; margin-right: 5px;  float: right">
+                            <label class="checkbox-inline">
+                                <input type="checkbox" checked data-toggle="toggle" data-width="80" data-height="20" id="switch_multiMethodMultiStock" data-onstyle="primary" data-offstyle="secondary"> Включить параллельное выполнение
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <!--        ВКЛАДКА - Расчет оптимальных параметров технических индикаторов -->
+        <div id="tabs-optimal">
+            <div class="container-fluid">
+                <div class="row mBottom">
+                    <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12">
+                        <div class="discription" name="showDescription" id="showDescription_optimal" data-toggle="collapse" data-target="#collapseDescription_optimal" aria-expanded="false" aria-controls="collapseDescription_optimal">
+                            <span id="showSpanshowDescription_optimal" name="showDescription" class="showDescription"> Показать описание раздела</span>
+                            <span id="hideSpanshowDescription_optimal" name="hideDescription" class="hideDescription">Скрыть описание раздела</span>
+                        </div>
+                        <div class="collapse" id="collapseDescription_optimal">
+                            <div class="card card-body p0m0" id="description_optimal" name="descriptionContent">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <form id="formChose_optimal" action='@Url.Action("Optimizer", "Main")' title="" method="post">
+                    <div class="row">
+                        <div class="col-sm-12 col-md-12 col-lg-7 col-xl-7">
+                            <!--Выбор наименований бумаг-->
+                            <div class="fieldInput1Variant">
+                                <label for="typeOfMarket_optimal">Выбор рынка/биржи</label>
+                                <select name="typeOfMarket" id="typeOfMarket_optimal">
+                                    <option selected value="Мосбиржа, РТС">Мосбиржа, РТС</option>
+                                </select>
+                            </div>
+                            <!--Выбор обозначения бумаг-->
+                            <div class="widget">
+                                <fieldset id="checkboxTypeOfPaper_optimal" name="checkboxTypeOfPaper_typeOfMarket_optimal" class="fieldCheckbox_checkbox_optimal">
+                                    <legend>  Выбрать обозначения бумаг </legend>
+                                </fieldset>
+                                <input type="checkbox" name="checkBox" id="checkbox_optimal" /> <label for="checkbox_optimal" id="labelForCheckbox_TypeOfPaper_optimal"> Отметить/снять все </label>  
+                            </div>
+                        </div>
+                        <div class="col-sm-12 col-md-12 col-lg-5 col-xl-5">
+                            <!--Выбор даты начала - datepicker-->
+                            <div class="fieldInput1Variant">
+                                <label for="datepickerStart_optimal">Начальная дата</label>
+                                <input name="datepickerStart" type="text" id="datepickerStart_optimal" size="25">
+                            </div>
+                            <!--Выбор конечной даты - datepicker-->
+                            <div class="fieldInput1Variant">
+                                <label for="datepickerEnd_optimal">Конечная дата</label>
+                                <input name="datepickerEnd" type="text" id="datepickerEnd_optimal" size="25">
+                            </div>
+
+                            <!--Выбрать тип цены - <option >Тип цены</option> селект-->
+                            <div name="typeOfPrice" class="fieldInput1Variant">
+                                <label for="typeOfPrice_optimal"> Тип цены </label>
+                                <select name="typeOfPrice" id="typeOfPrice_optimal">
+                                    <option value='Open' selected> Цена на момент открытия </option>
+                                </select>
+                            </div>
+                            <!--Выбрать метод расчета - селект-->
+                            <div class="fieldInput1Variant">
+                                <label for="calculateMethod_optimal">Метод расчета </label>
+                                <select name="calculateMethod" id="calculateMethod_optimal">
+                                    <option selected value="RSI"> RSI </option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-12 col-md-7 col-lg-5 col-xl-5">
+                            <table class="table table-bordered table-sm">
+                                <caption style="caption-side: top">
+                                    Выбор значений критериев для дальнейшего тестирования (интервал можно задать только для 2 критериев)
+                                </caption>
+                                <thead class="thead-dark">
+                                    <tr>
+                                        <th> Наименование критерия </th>
+                                        <th>Значение критерия или начало интервала</th>
+                                        <th>Значение окончания интервала</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="koeff_optimal" class="optimize">
+                                    <tr id="koeff_n_1_optimal">
+                                        <td class="Otstup0">n_1</td>
+                                        <td><input class="n_1" name="td_start_calculateMethod_optimal" id="koeff_n_1_calculateMethod_optimal" style="height: 30px; " type="number" value="0" /></td>
+                                        <td><input class="n_1" name="td_end_calculateMethod_optimal" id="td_end_n_1_calculateMethod_optimal" style="height: 30px; " type="number" value="0" /></td>');
+                                    </tr>
+                                    <tr id="koeff_n_2_optimal">
+                                        <td class="Otstup0">n_2</td>
+                                        <td><input class="n_2" name="td_start_calculateMethod_optimal" id="koeff_n_2_calculateMethod_optimal" style="height: 30px; " type="number" value="0" /></td>
+                                        <td><input class="n_2" name="td_end_calculateMethod_optimal" id="td_end_n_2_calculateMethod_optimal" style="height: 30px; " type="number" value="0" /></td>');
+                                    </tr>
+                                    <tr id="koeff_n_3_optimal">
+                                        <td class="Otstup0">n_3</td>
+                                        <td><input class="n_3" name="td_start_calculateMethod_optimal" id="koeff_n_3_calculateMethod_optimal" style="height: 30px; " type="number" value="0" /></td>
+                                        <td><input class="n_3" name="td_end_calculateMethod_optimal" id="td_end_n_3_calculateMethod_optimal" style="height: 30px; " type="number" value="0" /></td>');
+                                    </tr>
+                                    <tr id="koeff_K_up_optimal">
+                                        <td class="Otstup0">K_up</td>
+                                        <td><input class="K_up" name="td_start_calculateMethod_optimal" id="koeff_K_up_calculateMethod_optimal" style="height: 30px; " type="number" value="0" /></td>
+                                        <td><input class="K_up" name="td_end_calculateMethod_optimal" id="td_end_K_up_calculateMethod_optimal" style="height: 30px; " type="number" value="0" /></td>');
+                                    </tr>
+                                    <tr id="koeff_K_down_optimal">
+                                        <td class="Otstup0">K_down</td>
+                                        <td><input class="K_down" name="td_start_calculateMethod_optimal" id="koeff_K_down_calculateMethod_optimal" style="height: 30px; " type="number" value="0" /></td>
+                                        <td><input class="K_down" name="td_end_calculateMethod_optimal" id="td_end_K_down_calculateMethod_optimal" style="height: 30px; " type="number" value="0" /></td>');
+                                    </tr>
+                                    <tr id="koeff_stop_loss_optimal">
+                                        <td class="Otstup0">stop_loss</td>
+                                        <td><input class="stop_loss" name="td_start_calculateMethod_optimal" id="koeff_stop_loss_calculateMethod_optimal" style="height: 30px; " type="number" value="0" /></td>
+                                        <td><input class="stop_loss" name="td_end_calculateMethod_optimal" id="td_end_stop_loss_calculateMethod_optimal" style="height: 30px; " type="number" value="0" /></td>');
+                                    </tr>
+                                    <tr id="koeff_take_profit_optimal">
+                                        <td class="Otstup0">take_profit</td>
+                                        <td><input class="take_profit" name="td_start_calculateMethod_optimal" id="koeff_take_profit_calculateMethod_optimal" style="height: 30px; " type="number" value="0" /></td>
+                                        <td><input class="take_profit" name="td_end_calculateMethod_optimal" id="td_end_take_profit_calculateMethod_optimal" style="height: 30px; " type="number" value="0" /></td>');
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <span id="tooltipForMethod_optimal"> Для расчетов по выбранному методу (RSI) используются следующие коэфициенты: n_1, K_up, K_down</span>
+                        </div>
+                        <!--   <div class="col-sm-12 col-md-12 offset-lg-1 offset-xl-2 col-lg-5 col-xl-5">
+                              <div class="paddBott" id="divIfSignalGenerate6" style="margin-top: 20px;">
+                                  <input type="checkbox" id="ifSignalGenerate6"> <label for="ifSignalGenerate6" id="labelIfSignalGenerate6"> Генерировать сигнал на продажу <span id="headerSignalForSellKriteryList6" style="display: none;"> в случае: </span> </label>
+                              </div>
+
+                              <div class="input-group generteSignal" id="divFallingPriceKritery6" style="display: none;">
+                                  <label for="fallingPriceKritery6" class="generteSignalLabel" id="labelForKritery6"> <img id="forSpisok" src="~/Content/forSpisok.svg" />  падения цены более, чем на </label>
+                                  <input type="number" id="fallingPriceKritery6" name="fallingPriceKritery6" value="10" data-toggle="tooltip" title="Tooltip message" data-html="true" />
+                                  <div class="input-group-append">
+                                      <span class="input-group-text">%</span>
+                                  </div>
+                              </div>
+
+                              <div class="input-group generteSignal" id="divFallingIndicatorKritery6" style="display: none;">
+                                  <label for="fallingIndicatorKritery6" class="generteSignalLabel"><img id="forSpisok" src="~/Content/forSpisok.svg" /> падения величины индикатора более, чем на </label>
+                                  <input type="number" id="fallingIndicatorKritery6" name="fallingIndicatorKritery6" value="10" data-toggle="tooltip" title="Tooltip message" data-html="true" />
+                                  <div class="input-group-append">
+                                      <span class="input-group-text">%</span>
+                                  </div>
+                              </div>
+
+                              <div class="input-group generteSignal1" id="divBuyPapersKritery6" style="display: none;">
+                                  <label for="buyPapersKritery6" class="generteSignalLabel1"> <img id="forSpisok" src="~/Content/forSpisok.svg" /> удержания акций более </label>
+                                  <input type="number" id="buyPapersKritery6" name="buyPapersKritery6" value="100" data-toggle="tooltip" title="Tooltip message" data-html="true" />
+                                  <div class="input-group-append">
+                                      <span class="input-group-text">дней</span>
+                                  </div>
+                              </div>
+                          </div>-->
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12">
+                            <!--Подтвердить выбранные данные - кнопка-->
+                            <div name="stopChose_optimal" style="margin-top : 5px; margin-right: 5px;  float: right">
+                                <input type="button" id="stopChose_optimal" class="btn-danger ui-button  ui-widget ui-corner-all" value="Остановить расчет" />
+                            </div>
+                            <div name="chose_optimal" style="margin-top : 5px; margin-right: 5px;  float: right">
+                                <input type="submit" id="chose_optimal" class="btn-dark ui-button  ui-widget ui-corner-all" value="Расчет" />
+                                <span id="loaderChose_optimal" class="spinner-border spinner-border-sm text-secondary d-none" role="status" aria-hidden="true"></span>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+                <div class="row">
+                    <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12">
+                        <div class="custom-control custom-switch" style="margin-top : 5px; margin-right: 5px;  float: right">
+                            <label class="checkbox-inline">
+                                <input type="checkbox" checked data-toggle="toggle" data-width="80" data-height="20" id="switch_optimal" data-onstyle="primary" data-offstyle="secondary"> Включить параллельное выполнение
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!--        ВКЛАДКА - Сбор сигналов -->
+        <div id="tabs-signal">
+            <div class="container-fluid">
+                <div class="row mBottom">
+                    <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12">
+                        <div class="discription" name="showDescription" id="showDescription_signal" data-toggle="collapse" data-target="#collapseDescription_signal" aria-expanded="false" aria-controls="collapseDescription_signal">
+                            <span id="showSpanshowDescription_signal" name="showDescription" class="showDescription"> Показать описание раздела</span>
+                            <span id="hideSpanshowDescription_signal" name="hideDescription" class="hideDescription">Скрыть описание раздела</span>
+                        </div>
+                        <div class="collapse" id="collapseDescription_signal">
+                            <div class="card card-body p0m0" id="description_signal" name="descriptionContent">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <form id="formChose_signal" action='@Url.Action("ActualSignal", "Main")' title="" method="post">
+                    <div class="row">
+                        <div class="col-sm-12 col-md-12 col-lg-7 col-xl-7">
+                            <!--Выбор рынка-->
+                            <div class="fieldInput1Variant">
+                                <label for="typeOfMarket_signal">Выбор рынка/биржи</label>
+                                <select name="typeOfMarket" id="typeOfMarket_signal">
+                                    <option selected value="Мосбиржа, РТС">Мосбиржа, РТС</option>
+                                </select>
+                            </div>
+                            <!--Выбор обозначения бумаг-->
+                            <div class="widget">
+                                <fieldset id="checkboxTypeOfPaper_signal" name="checkboxTypeOfPaper_typeOfMarket_signal" class="fieldCheckbox_checkbox_signal">
+                                    <legend>  Выбрать обозначения бумаг </legend>
+                                </fieldset>
+                                <input type="checkbox" name="checkBox" id="checkbox_signal" /> <label for="checkbox_signal" id="labelForCheckbox_TypeOfPaper_signal"> Отметить/снять все </label> 
+                            </div>
+                        </div>
+                        <div class="col-sm-12 col-md-12 col-lg-5 col-xl-5">
+                            <!--Выбор даты начала - datepicker-->
+                            <div class="fieldInput1Variant">
+                                <label for="datepickerStart_signal">Начальная дата</label>
+                                <input name="datepickerStart" type="text" id="datepickerStart_signal" size="25">
+                            </div>
+                            <!--Выбор конечной даты - datepicker-->
+                            <div class="fieldInput1Variant">
+                                <label for="datepickerEnd_signal">Конечная дата</label>
+                                <input name="datepickerEnd" type="text" id="datepickerEnd_signal" size="25">
+                            </div>
+
+                            <!--Выбрать тип цены - <option >Тип цены</option> селект-->
+                            <div name="typeOfPrice" class="fieldInput1Variant">
+                                <label for="typeOfPrice_signal"> Тип цены </label>
+                                <select name="typeOfPrice" id="typeOfPrice_signal">
+                                    <option value='Open' selected> Цена на момент открытия </option>
+                                </select>
+                            </div>
+                            <!--Выбрать период сбора сигнала - селект-->
+                            <div class="fieldInput1Variant">
+                                <label for="signalPeriod_signal">Период сбора сигнала</label>
+                                <select name="signalPeriod" id="signalPeriod_signal">
+                                    <option>Последняя неделя</option>
+                                    <option selected>Последние 2 недели</option>
+                                    <option>Последний месяц</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <!--
+                                    <div class="row" style="margin-top: 0px;">
+                                    <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12">
+                                        <div class="paddBott5" id="divIfSignalGenerate5" style="margin-top: 2px;">
+                                            <input type="checkbox" id="ifSignalGenerate5"> <label for="ifSignalGenerate5" id="labelIfSignalGenerate5"> Генерировать сигнал на продажу <span id="headerSignalForSellKriteryList5" style="display: none;"> в случае: </span> </label>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row" style="margin-bottom: 18px;">
+                                    <div class="col-sm-12 col-md-12 col-lg-4 col-xl-4">
+
+                                        <div class="input-group generteSignal" id="divFallingPriceKritery5" style="display: none;">
+                                            <label for="fallingPriceKritery5" class="generteSignalLabel" id="labelForKritery5"> <img id="forSpisok" src="~/Content/forSpisok.svg" /> падения цены более, чем на </label>
+                                            <input type="number" id="fallingPriceKritery5" name="fallingPriceKritery5" value="10" data-toggle="tooltip" title="Tooltip message" data-html="true" />
+                                            <div class="input-group-append">
+                                                <span class="input-group-text">%</span>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-sm-12 col-md-12 col-lg-4 col-xl-4">
+
+                                        <div class="input-group generteSignal" id="divFallingIndicatorKritery5" style="display: none;">
+                                            <label for="fallingIndicatorKritery5" class="generteSignalLabel"><img id="forSpisok" src="~/Content/forSpisok.svg" /> падения величины индикатора более, чем на </label>
+                                            <input type="number" id="fallingIndicatorKritery5" name="fallingIndicatorKritery5" value="10" data-toggle="tooltip" title="Tooltip message" data-html="true" />
+                                            <div class="input-group-append">
+                                                <span class="input-group-text">%</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-12 col-md-12 col-lg-4 col-xl-4">
+
+                                        <div class="input-group generteSignal1" id="divBuyPapersKritery5" style="display: none;">
+                                            <label for="buyPapersKritery5" class="generteSignalLabel1"> <img id="forSpisok" src="~/Content/forSpisok.svg" /> удержания акций более </label>
+                                            <input type="number" id="buyPapersKritery5" name="buyPapersKritery5" value="100" data-toggle="tooltip" title="Tooltip message" data-html="true" />
+                                            <div class="input-group-append">
+                                                <span class="input-group-text">дней</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                    -->
+                    <div class="row mBottom pBottom">
+                        <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12">
+                            <input type="checkbox" name="checkBox" id="checkbox_methods_signal" class="tableMeth"> <label for="checkbox_methods_signal" id="labelForCheckbox_methods_signal"> Отметить/снять все </label>
+                            <table class="table table-bordered table-sm table-responsive methodsTable" id="MethodsTable_multiMethodMultiStock">
+                                <tr id="Methods_signal" class="metCheckbox_checkbox_methods_signal" name="methodsCheckbox" data-toggle="checkbox"> </tr>
+                                <tr id="koeff_n_1_calculateMethod_signal" name="koeff_n_1"> </tr>
+                                <tr id="koeff_n_2_calculateMethod_signal" name="koeff_n_2"> </tr>
+                                <tr id="koeff_n_3_calculateMethod_signal" name="koeff_n_3"> </tr>
+                                <tr id="koeff_K_up_calculateMethod_signal" name="koeff_K_up"> </tr>
+                                <tr id="koeff_K_down_calculateMethod_signal" name="koeff_K_down"> </tr>
+                                <tr id="koeff_stop_loss_calculateMethod_signal" name="koeff_stop_loss"> </tr>
+                                <tr id="koeff_take_profit_calculateMethod_signal" name="koeff_take_profit"> </tr>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12">
+                            <!--Подтвердить выбранные данные - кнопка-->
+                            <div style="margin-top : 5px; margin-right: 5px;  float: right">
+                                <input type="submit" id="chose_signal" class="btn-dark ui-button  ui-widget ui-corner-all" value="Рассчитать" />
+                                <span id="loaderChose_signal" class="spinner-border spinner-border-sm text-secondary d-none" role="status" aria-hidden="true"></span>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+                <div class="row">
+                    <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12">
+                        <div class="custom-control custom-switch" style="margin-top : 5px; margin-right: 5px;  float: right">
+                            <label class="checkbox-inline">
+                                <input type="checkbox" checked data-toggle="toggle" data-width="80" data-height="20" id="switch_signal" data-onstyle="primary" data-offstyle="secondary"> Включить параллельное выполнение
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!--        ВКЛАДКА - Справочник -->
+        <div id="tabs-manual">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12">
+                        <div class="" id="aboutCompanySoft_name">
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!--        ВКЛАДКА - ЛОГИ -->
+        <div id="tabs-log">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6">
+                        <div class="" id="logsInfo">
+                            <button type="button" class="btn btn-info buttLogs" id="buttonLogsInfo">Показать Info логи</button>
+                        </div>
+                        <div class="" id="logsError">
+                            <button type="button" class="btn btn-info buttLogs" id="buttonLogsError">Показать ERROR логи</button>
+                        </div>
+                        <div class="" id="allLogs">
+                            <button type="button" class="btn btn-info buttLogs" id="buttonAllLogs">Показать ВСЕ логи</button>
+                        </div>
+
+                        <div>
+                            <select id="logPeriod" class="ui-selectmenu-button">
+                                <option value="0"> за сегодня</option>
+                                <option value="1"> за 2 дня</option>
+                                <option value="all" selected> Логи за весь период</option>
+                                <option value="2"> за 3 дня </option>
+                                <option value="7"> за неделю </option>
+                                <option value="30"> за месяц</option>
+                            </select>
+                        </div>
+
+                    </div>
+                    <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6">
+                        <div class="" id="delieteAllLogs">
+                            <button type="button" class="btn btn-danger buttLogs" id="buttonDelLogsAll">Удалить ВСЕ логи</button>
+                        </div>
+                        <div class="" id="saveLogs">
+                            <button type="button" class="btn btn-primary buttLogs" id="buttonSaveLogs">Сохранить изменения</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <div id="testContent">
+    </div>
+
+    <div id="result" class="container">
+    </div>
+
+    <div id="resultVkladka2">
+    </div>
+
+    <script>
+        $(function () {
+            // Переменные
+            //Массив вкладок
+            var tabsArr={"names":["tabs-aboutProject","tabs-dates","tabs-oneStock", "tabs-allStock", "tabs-allMethodsAllStock",
+               "tabs-multiMethodMultiStock", "tabs-signal", "tabs-optimal", "tabs-manual", "tabs-log"], "discriptions":["О программе", "Данные",
+               "Расчет 1 методом для одной бумаги", "Расчет 1 методом для всех бумаг", "Расчет всеми методами для одной бумаги",
+               "Расчет всеми методами для всех бумаг", "Сбор сигналов", "Расчет оптимальных параметров технических индикаторов",
+               "Справочник", "log"]
+            };
+            // Тут будут храниться логи
+            var logs = [];
+
+            // сформирую исходные данные для селект по выбру типа цены
+            var pryceType =  [{pType: "Цена на момент открытия", pTypeVal:"Open" },
+                              {pType: "Максимальная цена", pTypeVal:"High" },
+                              {pType: "Минимальная цена", pTypeVal:"Low" },
+                              {pType: "Средняя цена", pTypeVal:"Average" },
+                              {pType: "Медианная цена", pTypeVal:"Median" },
+                              {pType: "Цена на момент закрытия", pTypeVal:"Close" }];
+
+            // Отобразим все вкладки
+            for (var i = 0; i<tabsArr.names.length; i++){
+                $('#tabsNames').append('<li><a href="#'+tabsArr.names[i]+'">'+tabsArr.discriptions[i]+'</a></li>');
+            }
+            // Создаем вкладки
+            $("#tabs").tabs({
+                collapsible: true
+            });
+            $('.hideDescription').hide();
+            // получили json от контроллера json object
+            var Json = @Html.Raw(Json.Encode(Model));
+
+            $("#aboutCompanySoft_name").append(
+                                   '<span class="titleAboutCompany"> Наименование:&nbsp </span><span class="contentAboutCompany">' + Json.soft_name + '</span><br/><span class="titleAboutCompany"> Версия:&nbsp </span><span class="contentAboutCompany">' +
+                                   Json.version + '</span><br/><span class="titleAboutCompany"> Целевая платформа:&nbsp </span><span class="contentAboutCompany">' + Json.target_platform + '</span><br/><span class="titleAboutCompany"> Протестировано для браузеров:&nbsp </span><span class="contentAboutCompany">' +
+                                   Json.test_result + '</span><br/><span class="titleAboutCompany"> Дата релиза:&nbsp </span><span class="contentAboutCompany">' + Json.realize_date + '</span><br/><span class="titleAboutCompany"> Контактный адрес:&nbsp </span><span class="contentAboutCompany">' +
+                                   Json.e_mail + '</span><br/><span class="titleAboutCompany"> Предупреждение:&nbsp </span><span class="contentAboutCompany">' + Json.warning + '</span><br/><span class="titleAboutCompany"> Общее описание:&nbsp </span><pre class="contentAboutCompany">' + Json.main_description + '</pre><br/>'
+                              )
+
+            // это для тестирования
+            //   var JsonString =JSON.stringify(Json);
+            //      $('#testContent').text(JsonString);
+
+
+            $("#tabsNames > li > a").click(function () {
+                // Чтобы при переключениями между вкладками удалялся выведенный ранее контент
+                $('#result').empty();
+                $('#resultVkladka2').empty();
+                logs.length = 0;
+                var El = this;
+                var thisLi = El.getAttribute("href");
+                // если клик на вкладку О ПРОГРАММЕ
+                if (thisLi === "#tabs-aboutProject") {
+                    $("#aboutCompanySoft_name").empty();
+                    $("#aboutCompanySoft_name").append(
+                                     '<span class="titleAboutCompany"> Наименование:&nbsp </span><span class="contentAboutCompany">' + Json.soft_name + '</span><br/><span class="titleAboutCompany"> Версия:&nbsp </span><span class="contentAboutCompany">' +
+                                     Json.version + '</span><br/><span class="titleAboutCompany"> Целевая платформа:&nbsp </span><span class="contentAboutCompany">' + Json.target_platform + '</span><br/><span class="titleAboutCompany"> Протестировано для браузеров:&nbsp </span><span class="contentAboutCompany">' +
+                                     Json.test_result + '</span><br/><span class="titleAboutCompany"> Дата релиза:&nbsp </span><span class="contentAboutCompany">' + Json.realize_date + '</span><br/><span class="titleAboutCompany"> Контактный адрес:&nbsp </span><span class="contentAboutCompany">' +
+                                     Json.e_mail + '</span><br/><span class="titleAboutCompany"> Предупреждение:&nbsp </span><span class="contentAboutCompany">' + Json.warning + '</span><br/><span class="titleAboutCompany"> Общее описание:&nbsp </span><pre class="contentAboutCompany">' + Json.main_description + '</pre><br/>'
+                                )
+                }
+
+                // если клик на вкладку данные      Вкладка ДАННЫЕ _dates:
+                if (thisLi === "#tabs-dates") {
+
+                }
+                // если клик на вкладку ЛОГИ:
+                if (thisLi === "#tabs-log") {
+                    $.ajax({
+                        url: '@Url.Action("GetLogs", "Main")',
+                        datatype: "json",
+                        type: "GET",
+                        //   contentType: "application/json; charset=utf-8",
+                        // dataFilter: function (data) { return data; },
+                        success: function (data) {                        
+                            for (var j = 0; j < data.length; j++) {
+                                logs.push(data[j]);
+                            }
+                            $('#result').append('<ul id="forLogs"></ul>');
+                            for (var i = 0; i < logs.length - 1; i++) {
+                                if (logs[i].match(/INFO/) == "INFO") {
+                                    $('#forLogs').append('<li class="color-blue">' + parseInt(i + 1) + ') ' + logs[i] + '</li>');
+                                }
+                                else if (logs[i].match(/ERROR/) == "ERROR") {
+                                    $('#forLogs').append('<li class="color-red">' + parseInt(i + 1) + ') ' + logs[i] + '</li>');
+                                }
+                                else {
+                                    $('#forLogs').append('<li>' + parseInt(i + 1) + ') ' + logs[i] + '</li>');
+                                }
+
+                            }
+                        }
+                    });
+                }
+
+            })
+
+            // заполним все select Типами рынка (typeOfMarket)
+            fillSelectTypeOfMarket();
+            // все селекты
+            $("select").selectmenu();
+            $("select").selectmenu({
+                classes: {
+                    "ui-selectmenu-menu": "highlight"
+                }
+            });
+            $("select").selectmenu({ width: 200 });
+            $("select").selectmenu({ height: 33 });
+            // даты
+            var startDataInput = $("input[name='datepickerStart']");
+            var endDataInput = $("input[name='datepickerEnd']");
+            startDataInput.datepicker({
+                changeMonth: true,
+                changeYear: true
+            });
+            startDataInput.datepicker("option", "showAnim", "slideDown");
+            // установим максимальную начальную дату
+            startDataInput.datepicker( "option", "maxDate", "-1" );
+            // конечная дата
+            endDataInput.datepicker({
+                changeMonth: true,
+                changeYear: true,
+            });
+            endDataInput.datepicker("option", "showAnim", "slideDown");
+            // установим дату по умолчанию
+            endDataInput.datepicker("setDate", new Date());
+            startDataInput.attr("style", "width: 200px");
+            endDataInput.attr("style", "width: 200px");
+
+            // Добавим описание разделов:
+            appendDiscriptionContent("div[name='descriptionContent']","Тут будет текст")
+            //  $('div[name ="descriptionContent"]').append('<pre>'+ 'Тут будет описание' + '</pre>');
+
+
+            // Заносим тип цены в селекты
+            $.map(pryceType, function (item, index) {
+                if (item.pTypeVal != "Open"){
+                    $('select[name="typeOfPrice"]').append('<option value = '+ item.pTypeVal + '>' + item.pType + '</option>');
+                    // $(selectTypeOfPaper).selectmenu( "refresh" );
+                }
+            });
+            // выберем все объекты селект с наименованиями ценных бумаг
+            var allSelectTypeOfMarket = $("select[name='typeOfMarket']");
+            // заполним селекты наименованиями ценных бумаг
+            for (let i = 0; i<allSelectTypeOfMarket.length; i++){
+                appendStrTickers(allSelectTypeOfMarket[i]);
+            }
+
+
+
+
+            // --------------- С О Б Ы Т И Я -----------------------//
+
+            // событие выбор рынка ценных бумаг (по умолчанию Мосбиржа) и заполнение селекта наименованиями ценных бумаг
+            $("select[name='typeOfMarket']").on( "selectmenuchange", function() {
+                let thisObg = this;
+                appendStrTickers(thisObg);
+            });
+
+            // событие  отметить/ снять все чекбоксы
+            $('input[name="checkBox"]').click(function() {
+                checkboxChecked(this)
+            })
+
+            // событие  показываем / скрываем описание на странице
+            $("div[name='showDescription']").click(function(){
+                showDescription(this);
+            })
+
+            // заполним селекты методами
+            appendMethods();
+
+            // заполним таблицы коэффициентов для метода RSI по умолчанию
+            var allSelectcalculateMethod = $('select[name="calculateMethod"]');
+            for (let i=0; i<allSelectcalculateMethod.length; i++){
+                appendMethodPropertes("RSI", allSelectcalculateMethod[i]);
+            }
+          
+            
+
+            /*--------- Вкладка данные---------------*/
+
+            /* ПОДТВЕРДИТЬ отправку данных на странице ДАННЫЕ*/
+                $("#formChose_dates").submit(function (event) {
+                    event.preventDefault();
+                    let message_stock_name = $('#typeOfPaper_dates').val();
+
+                    $(".error").remove();
+                    if (message_stock_name == "выбрать" || message_stock_name == null || message_stock_name.length < 1){
+                        $('#typeOfPaper_dates').after('<span class="error">Нужно что-то выбрать</span>');
+                        event.stopPropagation();
+                        return false;
+                    }
+                    let $form = $(this),
+                       url = $form.attr('action');
+
+                    let postingValues = { message_stock_name: $('#typeOfPaper_dates').val(),
+                        message_date_begin: $('#datepickerStart_dates').val(),
+                        message_date_end: $('#datepickerEnd_dates').val(),
+                        view_option: $('#showFirst1000_dates').val() };
+                    $.ajax({
+                        type: "POST",
+                        url: url,
+                        data: postingValues,
+                        datatype: "html",
+                        beforeSend: function() {
+                            $('#loaderChoseDates_dates').removeClass('d-none').show();
+                        },
+                        success: function (data) {
+                            if (data != "") {
+                                $('#result').html(data);
+                            } else {
+                                alert("Could not connect to server");
+                            }
+                        }
+                    }).always(function(){
+                        // скрываем спиннер
+                        $('#loaderChoseDates_dates').addClass('d-none');
+                    });
+                });
+
+                // ПОДТВЕРДИТЬ выбранный тип ошибки
+                $("#choseTypeOfMistake_dates").click(function (event) {
+                    event.preventDefault();
+                    let postingValues = { error_type: $('#typeOfMistake_dates').val() }
+                    $.ajax({
+                        type: "POST",
+                        url: 'Url.Action("getError", "Main")',
+                        data: postingValues,
+                        datatype: "html",
+                        beforeSend: function() {
+                            $('#loaderChoseTypeOfMistake_dates').removeClass('d-none').show();
+                        },
+                        success: function (data) {
+                            if (data != "") {
+                                // empty() Очищает содержание выбранных элементов, т.е. удаляет все узлы-потомки (включая тексты) из выбранных элементов, все обработчики событий и внутренние кэш-данные.
+                                $('#result').empty();
+                                $('#result').html(data);
+                            } else {
+                                alert("Could not connect to server");
+                            }
+                        }
+                    }).always(function(){
+                        // скрываем спиннер
+                        $('#loaderChoseTypeOfMistake_dates').addClass('d-none');
+                    });
+                });
+
+            // ПОДТВЕРДИТЬ Вывод таблицы дивидендов
+                $("#choseDividends_dates").click(function (event) {
+                    event.preventDefault();
+                    $.ajax({
+                        type: "GET",
+                        url: '@Url.Action("Get_dividents_table", "Main")',
+                        datatype: "html",
+                        beforeSend: function() {
+                            $('#loaderChoseDividends_dates').removeClass('d-none').show();
+                        },
+                        success: function (data) {
+                            if (data != "") {
+                                // empty() Очищает содержание выбранных элементов, т.е. удаляет все узлы-потомки (включая тексты) из выбранных элементов, все обработчики событий и внутренние кэш-данные.
+                             
+                                $('#result').html(data);
+                            } else {
+                                alert("Could not connect to server");
+                            }
+                        }
+                    }).always(function(){
+                        // скрываем спиннер
+                        $('#loaderChoseDividends_dates').addClass('d-none');
+                    });
+                });
+
+
+                //  ПОДТВЕРДИТЬ выбор "сводные данные о состоянии БД"
+                $("#allDates_dates").click(function (event) {
+                    event.preventDefault();
+                    $.ajax({
+                        type: "GET",
+                        url:  '@Url.Action("getHeadersDBInfo", "Main")',
+                        success:function (data) {
+                            if (data != "") {
+                                $('#result').empty();
+                                var headers = JSON.parse(data);
+                                $('#result').append('<table class="table table-bordered table-hover table-sm"><caption style="caption-side: top">'+
+                   "Таблица 1. Cводные данные о состоянии БД" + '</caption> <thead class="thead-dark"> <tr id="tableDates_dates_header">'+
+                    '</tr></thead><tbody id="tableDates_dates_Content"></tbody></table>');
+                                for (var i = 0; i<headers.length; i++){
+                                    $("#tableDates_dates_header").append('<th scope="col">'+ headers[i] +'</th>')
+                                }
+                            } else {
+                                alert("Could not connect to server");
+                            }
+                        },
+                        dataType: "html"
+                    });
+                    $.ajax({
+                        type: "GET",
+                        url:  '@Url.Action("getDBInfo", "Main")',
+                        beforeSend: function() {
+                            $('#loaderAllDates_dates').removeClass('d-none').show();
+                        },
+                        success:function (data) {
+                            if (data != "") {
+
+                                var content = JSON.parse(data);
+                                for (var j = 0; j<content.length; j++){
+                                    $('#tableDates_dates_Content').append('<tr scope="col"><th>'+content[j].ID +'</th><th>'+content[j].stock_name +'</th>'+
+                                        '<th>'+ get_DD_MM_YYYY_date(content[j].date_start) +'</th><th>'+get_DD_MM_YYYY_date(content[j].date_end) +'</th><th>'+content[j].data_amount +'</th></tr>');
+                                }
+                            } else {
+                                alert("Could not connect to server");
+                            }
+                        },
+                        dataType: "html"
+                    }).always(function(){
+                        // скрываем спиннер
+                        $('#loaderAllDates_dates').addClass('d-none');
+                    });
+                });
+
+
+
+                //  ПОДТВЕРДИТЬ выбор "Обновить БД"
+                $("#updateList_dates").click(function (event) {
+                    event.preventDefault();
+                    $.ajax({
+                        type: "GET",
+                        url:  'Url.Action("DB_upgrade", "Main")',
+                        beforeSend: function() {
+                            $('#loaderUpdate_dates').removeClass('d-none').show();
+                        },
+                        success:function (data) {
+                            if (data != "") {
+                                $('#DBInfo').html(data);
+                            } else {
+                                alert("Could not connect to server");
+                            }
+                        },
+                        dataType: "html"
+                    }).always(function(){
+                        // скрываем спиннер
+                        $('#loaderUpdate_dates').addClass('d-none');
+                    });
+                });
+
+
+            /*-------------  ВКЛАДКА - Расчет 1 методом для ОДНОЙ бумаги -------------*/
+
+            // событие выбора метода расчета
+            $('select[name="calculateMethod"]').on( "selectmenuchange", function() {
+                var thisSelectID = this.getAttribute("id");
+                let thisSelectVal = $('#'+thisSelectID).val();
+                appendMethodPropertes(thisSelectVal, this); 
+            });
+
+            // подтверждем отправку формы на вкладке "Расчет 1 методом для ОДНОЙ бумаги", отправляем исходные данные и возвращаем результаты расчета
+            $("#formChose_OneStock").submit(function (event) {
+                    event.preventDefault();
+                    let message_stock_name = $('#typeOfPaper_OneStock').val();
+
+                    $(".error").remove();
+                    if (message_stock_name == "выбрать" || message_stock_name == null || message_stock_name.length < 1){
+                        $('#typeOfPaper_OneStock').after('<span class="error">Нужно что-то выбрать</span>');
+                        event.stopPropagation();
+                        return false;
+                    }
+
+                    console.log("Отправляемые по аякс данные " + $('#typeOfPaper_OneStock').val() + " " + $('#datepickerStart_OneStock').val() + " " + $('#datepickerEnd_OneStock').val() + "  " +
+                         $('#typeOfPrice_OneStock').val() + " " + $('#calculateMethod_OneStock').val() + "  " + $('#koeff_n_1_calculateMethod_OneStock').val() + " "  +
+                         $('#koeff_n_2_calculateMethod_OneStock').val() + "  " + $('#koeff_n_3_calculateMethod_OneStock').val() + " " +
+                         $('#koeff_K_up_calculateMethod_OneStock').val() + " " + $('#koeff_K_down_calculateMethod_OneStock').val() + "  " + $('#numberOfRecords_OneStock').val()
+                         + $('#koeff_stop_loss_calculateMethod_OneStock').val() + "  " + $('#koeff_take_profit_calculateMethod_OneStock').val()
+                        );
+
+                    var $form = $(this),
+                       url = $form.attr('action');
+                    var postingValues = {
+                        message_stock_name: $('#typeOfPaper_OneStock').val(),
+                        message_date_begin: $('#datepickerStart_OneStock').val(),
+                        message_date_end: $('#datepickerEnd_OneStock').val(),
+                        active_price_choice: $('#typeOfPrice_OneStock').val(),
+                        method_name: $('#calculateMethod_OneStock').val(),
+                        n_1: $('#koeff_n_1_calculateMethod_OneStock').val(),
+                        n_2: $('#koeff_n_2_calculateMethod_OneStock').val(),
+                        n_3: $('#koeff_n_3_calculateMethod_OneStock').val(),
+                        up_criteria: $('#koeff_K_up_calculateMethod_OneStock').val(),
+                        down_criteria: $('#koeff_K_down_calculateMethod_OneStock').val(),
+                        stop_loss:  $('#koeff_stop_loss_calculateMethod_OneStock').val(),
+                        take_profit:  $('#koeff_take_profit_calculateMethod_OneStock').val(),
+                        view_option: $('#numberOfRecords_OneStock').val(),
+                    };
+
+                    $.ajax({
+                        type: "POST",
+                        url: url,
+                        data: postingValues,
+                        datatype: "html",
+                        beforeSend: function() {
+                            //  $('#MethodRecomendtion').addClass('d-none');
+                            $('#loaderChose_OneStock').removeClass('d-none').show();
+                        },
+                        success: function (data) {
+                            if (data != "") {
+                                $('#resultVkladka2').html(data);
+                            } else {
+                                alert("Could not connect to server");
+                            }
+                        }
+                    }).always(function(){
+                        // скрываем спиннер
+                        $('#loaderChose_OneStock').addClass('d-none');
+                    });
+            })
+
+
+            /*------------  ВКЛАДКА - Расчет 1 методом для ВСЕХ бумаг -----------------*/
+
+            // генерировать ли сигнал
+          /*  $("[name='ifSignalGenerate']").click(function () {
+                showIfSignelGenerate(this)
+            });*/
+
+            // подтверждем отправку формы на вкладке "Расчет 1 методом для ВСЕХ бумаг", отправляем исходные данные и возвращаем результаты расчета
+            $("#formChose_AllStock").submit(function (event) {
+                event.preventDefault();
+                var checked_AllStock = [];
+                $('#checkboxTypeOfPaper_AllStock label input:checkbox:checked').each(function() {
+                    checked_AllStock.push($(this).val());
+                });
+
+
+                $(".error").remove();
+                if (checked_AllStock.length < 1){
+                    $('#labelForCheckbox_AllStock').after('<span class="error">Нужно что-то выбрать</span>');
+                    event.stopPropagation();
+                    return false;
+                }
+                /*
+                let ifSignalGenerate = [];
+
+                if ($("#ifSignalGenerate_AllStock").is(':checked')) {
+                    ifSignalGenerate.push($("#fallingPriceKritery_ifSignalGenerate_AllStock").val());
+                    ifSignalGenerate.push($("#fallingIndicatorKritery_ifSignalGenerate_AllStock").val());
+                    ifSignalGenerate.push($("#buyPapersKritery_ifSignalGenerate_AllStock").val());
+                }
+                else {
+                    ifSignalGenerate.push("-1");
+                    ifSignalGenerate.push("-1");
+                    ifSignalGenerate.push("-1");
+                }*/
+
+                var $form = $(this),
+                   url = $form.attr('action');
+                var ifMulti = $('#switch_AllStock').is(':checked') ? true : false;
+                var postingValues = {
+                    message_stock_name: checked_AllStock,
+                    message_date_begin: $('#datepickerStart_AllStock').val(),
+                    message_date_end: $('#datepickerEnd_AllStock').val(),
+                    active_price_choice: $('#typeOfPrice_AllStock').val(),
+                    method_name: $('#calculateMethod_AllStock').val(),
+                    n_1: $('#koeff_n_1_calculateMethod_AllStock').val(),
+                    n_2: $('#koeff_n_2_calculateMethod_AllStock').val(),
+                    n_3: $('#koeff_n_3_calculateMethod_AllStock').val(),
+                    up_criteria: $('#koeff_K_up_calculateMethod_AllStock').val(),
+                    down_criteria: $('#koeff_K_down_calculateMethod_AllStock').val(),
+                    stop_loss:  $('#koeff_stop_loss_calculateMethod_AllStock').val(),
+                    take_profit:  $('#koeff_take_profit_calculateMethod_AllStock').val(),
+                    ifMulti: ifMulti
+                    
+                    //ifSignalGenerate: ifSignalGenerate
+                };
+               
+                console.log(checked_AllStock.length + "  " + $('#datepickerStart_AllStock').val() + " " +$('#calculateMethod_AllStock').val() + " " +
+                   $('#koeff_n_1_calculateMethod_AllStock').val() + "  " + $('#koeff_n_2_calculateMethod_AllStock').val() + " " + 
+                $('#koeff_n_3_calculateMethod_AllStock').val() + "  " + $('#koeff_K_up_calculateMethod_AllStock').val() +"  " +
+              $('#koeff_K_down_calculateMethod_AllStock').val()+ "  " + $('#koeff_stop_loss_calculateMethod_AllStock').val()+
+                $('#koeff_take_profit_calculateMethod_AllStock').val());
+
+                $.ajax({
+                    type: "POST",
+                    url: url,
+                    data: postingValues,
+                    datatype: "html",
+                    beforeSend: function() {
+                        //    $('#MethodRecomendtion').addClass('d-none');
+                        $('#loaderChose_AllStock').removeClass('d-none').show();
+                    },
+                    success: function (data) {
+                        if (data != "") {
+                            $('#resultVkladka2').html(data);
+                        } else {
+                            alert("Could not connect to server");
+                        }
+                    }
+                }).always(function(){
+                    // скрываем спиннер
+                    $('#loaderChose_AllStock').addClass('d-none');
+                });
+            });
+
+
+
+            /* ----------------Расчет всеми методами для 1 бумаги ------------------*/
+
+            $("#formChose_AllMethodsAllStock").submit(function (event) {
+                event.preventDefault();
+
+                // удаляем элемент, содержащий класс .error, который отвечает за отображение ошибки (при валидации формы)
+                $(".error").remove();
+
+             /*   let message_stock_name  = $('#typeOfPaper_AllMethodsAllStock').val();
+                //делаем проверку (валидацию) на обязательные к заполнению поля
+                if (message_stock_name == "выбрать" || message_stock_name == null || message_stock_name.length < 1) {
+                    $('#labelForCheckbox_AllMethodsAllStock').after('<span class="error">Нужно что-то выбрать</span>');
+                    event.stopPropagation();
+                    return false;
+                }*/
+
+                let checked = [];
+                $('#Methods_AllMethodsAllStock label input:checkbox:checked').each(function() {
+                    checked.push($(this).val());
+                });
+                if (checked.length < 1){
+                    $('#labelForCheckbox_AllMethodsAllStock').after('<span class="error">Нужно что-то выбрать</span>');
+                    event.stopPropagation();
+                    return false;
+                }
+
+                // массив с методами. Если метод отмечен (checked), то в массив занесено значение true, если не отмечен, то false;
+                let ifCheckedMethods = [];
+                let metgodNameArr = [];
+                let checkedMetgodNameArr = [];
+                $('#Methods_AllMethodsAllStock label input:checkbox').each(function() {
+                    var buf;
+                    if ($(this).is(':checked')) {
+                        buf = true;
+                        checkedMetgodNameArr.push($(this).val());
+                    }
+                    else{
+                        buf = false;
+                    }
+                    ifCheckedMethods.push(buf);
+                    metgodNameArr.push($(this).val());
+                });
+
+                var n1Array = [];
+                $('#koeff_n_1_calculateMethod_AllMethodsAllStock td input').each(function() {
+                    n1Array.push($(this).val());
+                });
+                var n2Array = [];
+                $('#koeff_n_2_calculateMethod_AllMethodsAllStock td input').each(function() {
+                    n2Array.push($(this).val());
+                });
+
+                var n3Array = [];
+                $('#koeff_n_3_calculateMethod_AllMethodsAllStock td input').each(function() {
+                    n3Array.push($(this).val());
+                });
+                var K_upArray = [];
+                $('#koeff_K_up_calculateMethod_AllMethodsAllStock td input').each(function() {
+                    K_upArray.push($(this).val());
+                });
+                var K_downArray = [];
+                $('#koeff_K_down_calculateMethod_AllMethodsAllStock td input').each(function() {
+                    K_downArray.push($(this).val());
+                });
+                var stop_lossArray = [];
+                $('#koeff_stop_loss_calculateMethod_AllMethodsAllStock td input').each(function() {
+                    stop_lossArray.push($(this).val());
+                });
+                var take_profitArray = [];
+                $('#koeff_take_profit_calculateMethod_AllMethodsAllStock td input').each(function() {
+                    take_profitArray.push($(this).val());
+                });
+
+
+                var postMethodModels = [];
+                for (var j=0; j<ifCheckedMethods.length; j++){
+                    postMethodModels.push({
+                        is_active: ifCheckedMethods[j],
+                        Method_name: metgodNameArr[j],
+                        n_1: n1Array[j],
+                        n_2: n2Array[j],
+                        n_3: n3Array[j],
+                        K_up: K_upArray[j],
+                        K_down: K_downArray[j],
+                        stop_loss: stop_lossArray[j],
+                        take_profit: take_profitArray[j]
+                    });
+                }
+                //проверка
+                 alert("Выбран ли метод(позиция 0) - " + postMethodModels[0].is_active+" Имя метода "+postMethodModels[0].Method_name+"  метод позиция 4 "+ postMethodModels[4].Method_name +" Выбран ли этот метод "+postMethodModels[4].is_active)
+                 let ifMulti = $('#switch_AllMethodsAllStock').is(':checked') ? true : false;
+                 console.log("Передаваемые по аякс значения  - json модель длина  = "  + postMethodModels.length + " Тип бумаги = " +
+                   $('#typeOfPaper_AllMethodsAllStock').val() + " дата начальная = " + $('#datepickerStart_AllMethodsAllStock').val() + " дата окончания = " + 
+                $('#datepickerEnd_AllMethodsAllStock').val() + " active price = " +  $('#typeOfPrice_AllMethodsAllStock').val() +" Выдавать количество записей " +
+             $('#numberOfRecords_AllMethodsAllStock').val()+ " мульти или нет = " + ifMulti);
+
+
+                let $form = $(this),
+                   url = $form.attr('action');
+               
+
+                let ifSignalGenerate = [];
+
+                if ($("#ifSignalGenerate_AllMethodsAllStock").is(':checked')) {
+                    ifSignalGenerate.push($("#fallingPriceKritery_AllMethodsAllStock").val());
+                    ifSignalGenerate.push($("#fallingIndicatorKritery_AllMethodsAllStock").val());
+                    ifSignalGenerate.push($("#buyPapersKritery_AllMethodsAllStock").val());
+
+                }
+                else {
+                    ifSignalGenerate.push("-1");
+                    ifSignalGenerate.push("-1");
+                    ifSignalGenerate.push("-1");
+                }
+
+                let postingValues = {
+                    message_stock_name: $('#typeOfPaper_AllMethodsAllStock').val(),
+                    message_date_begin: $('#datepickerStart_AllMethodsAllStock').val(),
+                    message_date_end: $('#datepickerEnd_AllMethodsAllStock').val(),
+                    active_price_choice: $('#typeOfPrice_AllMethodsAllStock').val(),
+                    view_option:  $('#numberOfRecords_AllMethodsAllStock').val(),
+                    Json_models: postMethodModels,
+                   // ifMulti: ifMulti,
+                   // ifSignalGenerate: ifSignalGenerate
+                };
+
+                $.ajax({
+                    type: "POST",
+                    url: url,
+                    data: postingValues,
+                    // datatype: "html",
+                    beforeSend: function() {
+                        $('#loaderChose_AllMethodsAllStock').removeClass('d-none').show();
+                    },
+                    success: function (data) {
+                        if (data != "") {
+                            $('#resultVkladka2').html(data);
+                        } else {
+                            alert("Could not connect to server");
+                        }
+                    }
+                }).always(function(){
+                    // скрываем спиннер
+                    $('#loaderChose_AllMethodsAllStock').addClass('d-none');
+                });
+            });
+
+
+
+            /*------------- Вкладка ВСЕ методы для ВСЕХ бумаг -------------*/
+    
+            // подтверждем отправку формы, отправляем исходные данные и возвращаем результаты расчета
+            $("#formChoseDatas_multiMethodMultiStock").submit(function (event) {
+                event.preventDefault();
+
+                let checkedTickers = [];
+                $('#checkboxTypeOfPaper_multiMethodMultiStock label input:checkbox:checked').each(function() {
+                    checkedTickers.push($(this).val());
+                });
+
+                // удаляем элемент, содержащий класс .error, который отвечает за отображение ошибки (при валидации формы)
+                $(".error").remove();
+                // проверка на выбор бумаги - должна быть выбрана мин одна
+                if (checkedTickers.length < 1){
+                    $('#labelForCheckbox_TypeOfPaper_multiMethodMultiStock').after('<span class="error">Нужно что-то выбрать</span>');
+                    event.stopPropagation();
+                    return false;
+                }
+
+                // проверка на выбор метода (должен быть выбран минимум один)
+                let checkedMethods = [];
+                $('#Methods_multiMethodMultiStock label input:checkbox:checked').each(function() {
+                    checkedMethods.push($(this).val());
+                });
+                if (checkedMethods.length < 1){
+                    $('#labelForCheckbox_methods_multiMethodMultiStock').after('<span class="error">Нужно что-то выбрать</span>');
+                    event.stopPropagation();
+                    return false;
+                }
+
+                // массив с методами. Если метод отмечен (checked), то в массив занесено значение true, если не отмечен, то false;
+                let ifCheckedMethods = [];
+                let metgodNameArr = [];
+                let checkedMetgodNameArr = [];
+                $('#Methods_multiMethodMultiStock label input:checkbox').each(function() {
+                    var buf;
+                    if ($(this).is(':checked')) {
+                        buf = true;
+                        checkedMetgodNameArr.push($(this).val());
+                    }
+                    else{
+                        buf = false;
+                    }
+                    ifCheckedMethods.push(buf);
+                    metgodNameArr.push($(this).val());
+                });
+
+                var n1Array = [];
+                $('#koeff_n_1_calculateMethod_multiMethodMultiStock td input').each(function() {
+                    n1Array.push($(this).val());
+                });
+                var n2Array = [];
+                $('#koeff_n_2_calculateMethod_multiMethodMultiStock td input').each(function() {
+                    n2Array.push($(this).val());
+                });
+
+                var n3Array = [];
+                $('#koeff_n_3_calculateMethod_multiMethodMultiStock td input').each(function() {
+                    n3Array.push($(this).val());
+                });
+                var K_upArray = [];
+                $('#koeff_K_up_calculateMethod_multiMethodMultiStock td input').each(function() {
+                    K_upArray.push($(this).val());
+                });
+                var K_downArray = [];
+                $('#koeff_K_down_calculateMethod_multiMethodMultiStock td input').each(function() {
+                    K_downArray.push($(this).val());
+                });
+                var stop_lossArray = [];
+                $('#koeff_stop_loss_calculateMethod_multiMethodMultiStock td input').each(function() {
+                    stop_lossArray.push($(this).val());
+                });
+                var take_profitArray = [];
+                $('#koeff_take_profit_calculateMethod_multiMethodMultiStock td input').each(function() {
+                    take_profitArray.push($(this).val());
+                });
+
+
+                var postMethodModels = [];
+                for (var j=0; j<ifCheckedMethods.length; j++){
+                    postMethodModels.push({
+                        is_active: ifCheckedMethods[j],
+                        Method_name: metgodNameArr[j],
+                        n_1: n1Array[j],
+                        n_2: n2Array[j],
+                        n_3: n3Array[j],
+                        K_up: K_upArray[j],
+                        K_down: K_downArray[j],
+                        stop_loss: stop_lossArray[j],
+                        take_profit: take_profitArray[j]
+                    });
+                }
+                //проверка
+                console.log("Передаваемые по аякс значения  - json модель длина  = "  + postMethodModels.length + " Тип бумаги length  = " +
+                  checkedTickers.length + " дата начальная = " + $('#datepickerStart_multiMethodMultiStock').val() + " дата окончания = " + 
+               $('#datepickerEnd_multiMethodMultiStock').val() + " active price = " +  $('#typeOfPrice_multiMethodMultiStock').val());
+
+
+
+                let $form = $(this),
+                   url = $form.attr('action');
+                //let ifMulti = $('#switch_multiMethodMultiStock').is(':checked') ? true : false;
+    
+             
+                let postingValues = {
+                    message_stock_name: checkedTickers,
+                    message_date_begin: $('#datepickerStart_multiMethodMultiStock').val(),
+                    message_date_end: $('#datepickerEnd_multiMethodMultiStock').val(),
+                    active_price_choice: $('#typeOfPrice_multiMethodMultiStock').val(),
+                   // view_option:  $('#numberOfRecords_multiMethodMultiStock').val(),
+                    Json_models: postMethodModels,
+                    // ifMulti: ifMulti,
+                    // ifSignalGenerate: ifSignalGenerate
+                };
+
+                $.ajax({
+                    type: "POST",
+                    url: url,
+                    data: postingValues,
+                    // datatype: "html",
+                    beforeSend: function() {
+                        $('#loaderChose_multiMethodMultiStock').removeClass('d-none').show();
+                    },
+                    success: function (data) {
+                        if (data != "") {
+                            $('#resultVkladka2').html(data);
+                        } else {
+                            alert("Could not connect to server");
+                        }
+                    }
+                }).always(function(){
+                    // скрываем спиннер
+                    $('#loaderChose_multiMethodMultiStock').addClass('d-none');
+                });
+            });
+
+
+
+            /*------------- Вкладка ОПТИМИЗАЦИЯ -------------*/
+
+      
+            // создадим массивы, один из которых бдет хранить id первого значения коэффициента (начала интервала), второй - второго значения коэффициента (то есть конца интервала)
+            var KoeffEndArrayObj = $('input[name="td_end_calculateMethod_optimal"]');
+            var KoeffStartArrayObj = $('input[name="td_start_calculateMethod_optimal"]');
+       
+ 
+            //    <span id="tooltipForMethod6List" class="d-none"  aria-hidden="true"></span>
+
+            // сделаем так, что при заполнении больше, чем двух значений коэффициента (то есть интервала) остальные вторые ячейки станут недоступны
+            $('body').on('mouseover', 'input[name="td_end_calculateMethod_optimal"]', function(){
+                disabledInput();
+                var idKoeffEndArray = $('[name="td_end_calculateMethod_optimal"][disabled!="disabled"]');
+                //   var idKoeffEndArray = $('[name="td_end_calculateMethod_optimal"][disabled="disabled"]');
+               
+                var KoeffStartArray = $('input[name="td_start_calculateMethod_optimal"]');
+                var count = 0;
+                
+                for (var i = 0; i<idKoeffEndArray.length; i++){
+                    var buffer = $(idKoeffEndArray[i]).val();
+                    if (buffer!=0){
+                        count++;
+                    }
+                }
+                if (count<2){
+                    $.map(idKoeffEndArray, function (item, index) {
+                        $(item).attr( "disabled", false );
+                    })
+                }
+                if (count >=2){
+                    for (var k = 0; k<idKoeffEndArray.length; k++){
+                        var ifNull = $(idKoeffEndArray[k]).val();
+                        if(ifNull==0){
+                            $(idKoeffEndArray[k]).attr( "disabled", true );
+                        }
+                    }
+                }
+            })
+
+     // сделаем так, что при выборе более 2 интервалов, остальные ячейки блокировались
+            $('body').on('change', 'input[name="td_end_calculateMethod_optimal"]', function(){
+                 var idKoeffEndArray = $('[name="td_end_calculateMethod_optimal"][disabled!="disabled"]');
+              //   var idKoeffEndArray = $('[name="td_end_calculateMethod_optimal"][disabled="disabled"]');
+               
+                var KoeffStartArray = $('input[name="td_start_calculateMethod_optimal"]');
+                var count = 0;
+                
+                for (var i = 0; i<idKoeffEndArray.length; i++){
+                    var buffer = $(idKoeffEndArray[i]).val();
+                    if (buffer!=0){
+                        count++;
+                    }
+                }
+                if (count<2){
+                    $.map(idKoeffEndArray, function (item, index) {
+                        $(item).attr( "disabled", false );
+                    })
+                }
+                if (count >=2){
+                    for (var k = 0; k<idKoeffEndArray.length; k++){
+                        var ifNull = $(idKoeffEndArray[k]).val();
+                        if(ifNull==0){
+                            $(idKoeffEndArray[k]).attr( "disabled", true );
+                        }
+                    }
+                }
+
+             })
+
+          // функция делает неактивными некоторые инпут с коэффициентами 
+            function disabledInput(){
+                var idKoeffEndArray1 = $('input[name="td_end_calculateMethod_optimal"]');
+                var KoeffStartArray1 = $('input[name="td_start_calculateMethod_optimal"]');
+                for(var h=0;h<idKoeffEndArray1.length; h++){
+                    $(idKoeffEndArray1[h]).attr( "disabled", false );
+                }
+                for(var k=0;k<idKoeffEndArray1.length; k++){
+                    for (var w=0; w<KoeffStartArray1.length; w++){
+                        if(k==w){
+                            if($(KoeffStartArray1[w]).val()==0)
+                            {
+                                $(idKoeffEndArray1[k]).attr( "disabled", true );
+                                 $(idKoeffEndArray1[k]).attr( "value", "0" );
+                                   $(idKoeffEndArray1[k]).val( "0" );
+                            }
+                        }
+                    }
+                }
+            }
+
+
+            $("[type='number']").attr('class','form-control');
+        
+            // подтверждаем отправку формы на ОПТИМИЗАЦИЯ
+            $("#formChose_optimal").submit(function (event) {
+                event.preventDefault();
+
+                let checkedTickers = [];
+                $('#checkboxTypeOfPaper_optimal label input:checkbox:checked').each(function() {
+                    checkedTickers.push($(this).val());
+                });
+
+                // удаляем элемент, содержащий класс .error, который отвечает за отображение ошибки (при валидации формы)
+                $(".error").remove();
+                // проверка на выбор бумаги - должна быть выбрана мин одна
+                if (checkedTickers.length < 1){
+                    $('#labelForCheckboxTypeOfPaper_optimal').after('<span class="error">Нужно что-то выбрать</span>');
+                    event.stopPropagation();
+                    return false;
+                }
+
+                // функция наполнения массива значениями коэффициентов
+                // startVal - значение коэффициента из 1 (левого) инпут - то есть начало интервала
+                // endVal значение коэффициента из 2(правого) инпут - то есть конец интервала,
+                // idEnd - id 2-го инпут (конец интервала)
+                function getKoeffArray (startVal, endVal, idEnd){
+                    var arr = [];
+                    if (endVal == 0){
+                        arr.push(startVal);
+                    }
+                    if (endVal != 0){
+                        if(parseInt(endVal)<=parseInt(startVal)){
+                            $("#"+idEnd).after('<span class="error">окончание интервала должно быть больше начала</span>');
+                            event.stopPropagation();
+                            return false;
+                        }
+                        for (var i =parseInt(startVal); i<=parseInt(endVal); i++){
+                            arr.push(i);
+                        }
+                    }
+                    return arr;
+                }
+
+                var n1Arr = getKoeffArray($(KoeffStartArrayObj[0]).val(),$(KoeffEndArrayObj[0]).val(), $(KoeffEndArrayObj[0]).attr("id"));
+                var n2Arr = getKoeffArray($(KoeffStartArrayObj[1]).val(),$(KoeffEndArrayObj[1]).val(), $(KoeffEndArrayObj[1]).attr("id"));
+                var n3Arr = getKoeffArray($(KoeffStartArrayObj[2]).val(),$(KoeffEndArrayObj[2]).val(), $(KoeffEndArrayObj[2]).attr("id"));
+                var k_upArr = getKoeffArray($(KoeffStartArrayObj[3]).val(),$(KoeffEndArrayObj[3]).val(), $(KoeffEndArrayObj[3]).attr("id"));
+                var k_downArr = getKoeffArray($(KoeffStartArrayObj[4]).val(),$(KoeffEndArrayObj[4]).val(), $(KoeffEndArrayObj[4]).attr("id"));
+                var stop_lossArr = getKoeffArray($(KoeffStartArrayObj[5]).val(),$(KoeffEndArrayObj[5]).val(), $(KoeffEndArrayObj[5]).attr("id"));
+                var take_profitArr = getKoeffArray($(KoeffStartArrayObj[6]).val(),$(KoeffEndArrayObj[6]).val(), $(KoeffEndArrayObj[6]).attr("id"));
+
+                var chosedCoeffArr = [];
+
+                // сформируем массив выбранных коэффициентов
+                for(var h = 0; h < KoeffEndArrayObj.length; h++){
+                    if( $(KoeffEndArrayObj[h]).val()!=0){
+                        switch (h){
+                            case 0:
+                                chosedCoeffArr.push("N_1");
+                                break;
+                            case 1:
+                                chosedCoeffArr.push("N_2");
+                                break;
+                            case 2:
+                                chosedCoeffArr.push("N_3");
+                                break;
+                            case 3:
+                                chosedCoeffArr.push("Up_criteria");
+                                break;
+                            case 4:
+                                chosedCoeffArr.push("Down_criteria");
+                                break;
+                            case 5:
+                                chosedCoeffArr.push("stop_loss");
+                                break;
+                            case 6:
+                                chosedCoeffArr.push("take_profit");
+                                break;
+                        }
+                    }
+                }
+
+                //если выбран только один или ни одного диапазона
+                if(chosedCoeffArr.length < 2){
+                    if(chosedCoeffArr.length == 1){
+                        chosedCoeffArr.push("secondParametrNotSelected");
+                    }
+                    else if(chosedCoeffArr.length == 0){
+                        chosedCoeffArr.push("ferstParametrNotSelected");
+                        chosedCoeffArr.push("secondParametrNotSelected");
+                    }
+                }
+
+/*
+                var ifSignalGenerate6 = [];
+
+                if ($("#ifSignalGenerate6").is(':checked')) {
+                    ifSignalGenerate6.push($("#fallingPriceKritery6").val());
+                    ifSignalGenerate6.push($("#fallingIndicatorKritery6").val());
+                    ifSignalGenerate6.push($("#buyPapersKritery6").val());
+
+                }
+                else {
+                    ifSignalGenerate6.push("-1");
+                    ifSignalGenerate6.push("-1");
+                    ifSignalGenerate6.push("-1");
+                }*/
+
+                let $form = $(this),
+                  url = $form.attr('action');
+
+              //  let ifMulti = $('#switch_optimal').is(':checked') ? true : false;
+
+                let method_name =  $('#calculateMethod_optimal').val();
+                var postMethodModel = {Method_name: method_name,
+                    n_1: n1Arr,
+                    n_2: n2Arr,
+                    n_3: n3Arr,
+                    K_up: k_upArr,
+                    K_down: k_downArr,
+                    stop_loss: stop_lossArr,
+                    take_profit: take_profitArr
+                };
+
+                let postingValues = {
+                    message_stock_name: checkedTickers,
+                    active_price_choice: $('#typeOfPrice_optimal').val(),
+                    message_date_begin: $('#datepickerStart_optimal').val(),
+                    message_date_end: $('#datepickerEnd_optimal').val(),
+                    Json_models: postMethodModel,
+                    chosedCoeff: chosedCoeffArr
+                  //  ifMulti: ifMulti6,
+                  //  ifSignalGenerate: ifSignalGenerate6
+                };
+                console.log("Отправляемые данные: Количество выбранных бумаг - " + checkedTickers.length + " Бумага №1 в списке - " + checkedTickers[0] +
+                      " Тип цены  - "+ $('#typeOfPrice_optimal').val() +  " Дата начальная - " + $('#datepickerStart_optimal').val() + " Дата окончания - " + $('#datepickerEnd_optimal').val() +
+                      " Модель, созданная на основе таблицы  - выбранный метод - " + postMethodModel.Method_name  + " массив N1 значение позиции [0] - " + postMethodModel.n_1[0] +
+                       " Длина массива n 1 -" + postMethodModel.n_1.length + " Длина массива n_2 - " + postMethodModel.n_2.length+" Длина массива n_3 -" + postMethodModel.n_3.length+
+                       " Длина массива k_up -" + postMethodModel.K_up.length+" Длина массива k_down -" + postMethodModel.K_down.length + 
+                       " Длина массива stop_loss -" + postMethodModel.stop_loss.length +
+                       " Длина массива take_profit -" + postMethodModel.take_profit.length +
+                       " Наименование первого выбранного коэффициента - " +  chosedCoeffArr[0]+
+                       " Наименование второго выбранного коэффициента - " +  chosedCoeffArr[1]);
+
+
+                $.ajax({
+                    type: "POST",
+                    url: url,
+                    datatype: "html",
+                    data: postingValues,
+                    beforeSend: function() {
+                        $('#loaderChose_optimal').removeClass('d-none').show();
+                    },
+                    success: function (data) {
+                        if (data != "") {
+                            $('#resultVkladka2').html(data);
+                        } else {
+                            alert("Could not connect to server");
+                        }
+                    }
+                }).always(function(){
+                    // скрываем спиннер
+                    $('#loaderChose_optimal').addClass('d-none');
+                });
+
+            });
+
+
+
+            
+
+
+            /*          ВКЛАДКА 5   Сбор сигналов     */
+
+            /*
+                        $("#ifSignalGenerate5").click(function () {
+                            if ($(this).is(':checked')) {
+                                $("#headerSignalForSellKriteryList5, #divFallingPriceKritery5, #divFallingIndicatorKritery5, #divBuyPapersKritery5").show();
+                            }
+                            else {
+                                $("#headerSignalForSellKriteryList5, #divFallingPriceKritery5, #divFallingIndicatorKritery5, #divBuyPapersKritery5").hide();
+                                $("#divFallingPriceKritery5").attr("value","10");
+                                $("#divFallingIndicatorKritery5").attr("value","10");
+                                $("#divFallingPriceKritery5,#divFallingIndicatorKritery5").val("10");
+                                $("#divBuyPapersKritery5").attr("value","100");
+                                $("#divBuyPapersKritery5").val("100");
+                            }
+                        });*/
+
+          
+            $("[type='number']").attr('class','form-control');
+            
+
+            // подтверждем отправку формы на вкладке 5, отправляем исходные данные и возвращаем результаты расчета
+            $("#formChose_signal").submit(function (event) {
+             
+                event.preventDefault();
+
+                let checkedTickers = [];
+                $('#checkboxTypeOfPaper_signal label input:checkbox:checked').each(function() {
+                    checkedTickers.push($(this).val());
+                });
+
+                // удаляем элемент, содержащий класс .error, который отвечает за отображение ошибки (при валидации формы)
+                $(".error").remove();
+                // проверка на выбор бумаги - должна быть выбрана мин одна
+                if (checkedTickers.length < 1){
+                    $('#labelForCheckboxTypeOfPaper_signal').after('<span class="error">Нужно что-то выбрать</span>');
+                    event.stopPropagation();
+                    return false;
+                }
+
+                // проверка на выбор метода (должен быть выбран минимум один)
+                let checkedMethods = [];
+                $('#Methods_signal label input:checkbox:checked').each(function() {
+                    checkedMethods.push($(this).val());
+                });
+                if (checkedMethods.length < 1){
+                    $('#labelForCheckbox_methods_signal').after('<span class="error">Нужно что-то выбрать</span>');
+                    event.stopPropagation();
+                    return false;
+                }
+
+                // массив с методами. Если метод отмечен (checked), то в массив занесено значение true, если не отмечен, то false;
+                let ifCheckedMethods = [];
+                let methodNameArr = [];
+                let checkedMethodNameArr = [];
+                $('#Methods_signal label input:checkbox').each(function() {
+                    var buf;
+                    if ($(this).is(':checked')) {
+                        buf = true;
+                        checkedMethodNameArr.push($(this).val());
+                    }
+                    else{
+                        buf = false;
+                    }
+                    ifCheckedMethods.push(buf);
+                    methodNameArr.push($(this).val());
+                });
+
+                var n1Array = [];
+                $('#koeff_n_1_calculateMethod_signal td input').each(function() {
+                    n1Array.push($(this).val());
+                });
+                var n2Array = [];
+                $('#koeff_n_2_calculateMethod_signal td input').each(function() {
+                    n2Array.push($(this).val());
+                });
+
+                var n3Array = [];
+                $('#koeff_n_3_calculateMethod_signal td input').each(function() {
+                    n3Array.push($(this).val());
+                });
+                var K_upArray = [];
+                $('#koeff_K_up_calculateMethod_signal td input').each(function() {
+                    K_upArray.push($(this).val());
+                });
+                var K_downArray = [];
+                $('#koeff_K_down_calculateMethod_signal td input').each(function() {
+                    K_downArray.push($(this).val());
+                });
+                var stop_lossArray = [];
+                $('#koeff_stop_loss_calculateMethod_signal td input').each(function() {
+                    stop_lossArray.push($(this).val());
+                });
+                var take_profitArray = [];
+                $('#koeff_take_profit_calculateMethod_signal td input').each(function() {
+                    take_profitArray.push($(this).val());
+                });
+
+                let postMethodModels = [];
+                for (let j=0; j<ifCheckedMethods.length; j++){
+                    postMethodModels.push({
+                        is_active: ifCheckedMethods[j],
+                        Method_name: methodNameArr[j],
+                        n_1: n1Array[j],
+                        n_2: n2Array[j],
+                        n_3: n3Array[j],
+                        K_up: K_upArray[j],
+                        K_down: K_downArray[j],
+                        stop_lossArray: stop_lossArray[j],
+                        take_profitArray: take_profitArray[j]
+                    });
+                }
+
+              /*  let ifSignalGenerate = [];
+
+                if ($("#ifSignalGenerate").is(':checked')) {
+                    ifSignalGenerate5.push($("#fallingPriceKritery").val());
+                    ifSignalGenerate5.push($("#fallingIndicatorKritery").val());
+                    ifSignalGenerate5.push($("#buyPapersKritery").val());
+
+                }
+                else {
+                    ifSignalGenerate.push("-1");
+                    ifSignalGenerate.push("-1");
+                    ifSignalGenerate.push("-1");
+                }*/
+
+                let $form = $(this),
+                   url = $form.attr('action');
+                //   var ifMulti = $('#switch_signal').is(':checked') ? true : false;
+                var postingValues = {
+                    message_stock_name: checkedTickers,
+                    active_price_choice: $('#typeOfPrice_signal').val(),
+                    message_date_begin: $('#datepickerStart_signal').val(),
+                    message_date_end: $('#datepickerEnd_signal').val(),
+                    view_option: $('#signalPeriod_signal').val(),
+                    Json_models: postMethodModels
+                  //  ifMulti: ifMulti5,
+                   // ifSignalGenerate: ifSignalGenerate5
+                };
+
+                console.log("Передаваемые по аякс значения  - json модель длина  = "  + postMethodModels.length +
+                    " значение is_active[0] =  " + postMethodModels[0].is_active + " значение Method_name[0] =  " + postMethodModels[0].Method_name + " значение n_1 =  " + postMethodModels[0].n_1 + " Тип бумаги length  = " +
+             checkedTickers.length + " дата начальная = " + $('#datepickerStart_signal').val() + " дата окончания = " + 
+           $('#datepickerEnd_signal').val() + " active price = " +  $('#typeOfPrice_signal').val());
+
+                $.ajax({
+                    type: "POST",
+                    url: url,
+                    data: postingValues,
+                    datatype: "html",
+                    beforeSend: function() {
+                        $('#loaderChose_signal').removeClass('d-none').show();
+                    },
+                    success: function (data) {
+                        if (data != "") {
+                            $('#resultVkladka2').html(data);
+                        } else {
+                            alert("Could not connect to server");
+                        }
+                    }
+                }).always(function(){
+                    // скрываем спиннер
+                    $('#loaderChose_signal').addClass('d-none');
+                });
+            });
+
+
+
+
+           
+
+            /*------------- Вкладка ЛОГИ -------------*/
+            // а событие нажатия, добавляем и отображаем на странице логи
+            $('.buttLogs').click(function () {
+                var thisButton = this;
+                thisButtonId = thisButton.getAttribute("id")
+                // учитывеем период, за который будут показаны логи
+                let today = new Date();
+                let currPeriod = $('#logPeriod').val();
+                let currDay = new Date();
+                currDay.setDate(today.getDate() - currPeriod)
+                var LogsForPeriod = getLogsForPeriod(currPeriod);
+                $('#result').empty();
+                appendLogs(thisButtonId, LogsForPeriod);
+            })
+
+            // выбор за какой период будут показаны логи
+            $('#logPeriod').on( "selectmenuchange", function() {
+                let today = new Date();
+                let currPeriod = $('#logPeriod').val();
+                var currDay = new Date();
+                currDay.setDate(today.getDate() - currPeriod)
+                // передаем логи за требуемый период
+                let logsPeriod = getLogsForPeriod(currPeriod);
+                // далее надо проверить какая баттон нажата и вывести соответствующую инфу
+
+            });
+
+            // все селекты
+            $("select").selectmenu();
+            $("select").selectmenu({
+                classes: {
+                    "ui-selectmenu-menu": "highlight"
+                }
+            });
+            $("select").selectmenu({ width: 200 });
+            $("select").selectmenu({ height: 33 });
+
+            // даты
+            var startDataInput = $("input[name='datepickerStart']");
+            var endDataInput = $("input[name='datepickerEnd']");
+            startDataInput.datepicker({
+                changeMonth: true,
+                changeYear: true
+            });
+            startDataInput.datepicker("option", "showAnim", "slideDown");
+            // установим максимальную начальную дату
+            startDataInput.datepicker( "option", "maxDate", "-1" );
+            // конечная дата
+            endDataInput.datepicker({
+                changeMonth: true,
+                changeYear: true,
+            });
+            endDataInput.datepicker("option", "showAnim", "slideDown");
+            // установим дату по умолчанию
+            endDataInput.datepicker("setDate", new Date());
+            startDataInput.attr("style", "width: 200px");
+            endDataInput.attr("style", "width: 200px");
+
+
+
+
+
+// ---------------------- Ф У Н К Ц И И ---------------------------------//
+
+            // функция чтобы отметить/ снять все чекбоксы
+
+            function checkboxChecked(selector){
+                thisSelectorID = selector.getAttribute("id");
+                thisSelectorClass = selector.getAttribute("class");
+                if ($('#'+thisSelectorID).is(':checked')) {
+                    if (thisSelectorClass=='tableMeth'){
+                        $('.metCheckbox_'+thisSelectorID +' label input:checkbox').prop('checked', true);
+                    }
+                    else if (thisSelectorClass==null){
+                        $('.fieldCheckbox_'+thisSelectorID +' label input:checkbox').prop('checked', true);
+                    }
+                }
+                else {
+                    if (thisSelectorClass=='tableMeth'){
+                        $('.metCheckbox_'+thisSelectorID+' label input:checkbox').prop('checked', false);
+                    }
+                    else if (thisSelectorClass==null){
+                        $('.fieldCheckbox_'+thisSelectorID +' label input:checkbox').prop('checked', false);
+                    }
+                }
+            }
+
+            // функция, добавляет контент в выбранный элемент - используем для заполнения описания раздела
+            function appendDiscriptionContent(yourSelector, addedContent){
+                $(yourSelector).append('<pre>'+ addedContent + '</pre>');
+            }
+
+            // функция отображения описания раздела вкладки
+            function showDescription(thisDescriptionClicked){
+                var thisDescriptionClicked = thisDescriptionClicked;
+                var thisID = thisDescriptionClicked.getAttribute("id");
+                var showSpan = "#showSpan"+ thisID;
+                var hideSpan = "#hideSpan"+ thisID;
+                $(showSpan).toggle();
+                $(hideSpan).toggle();
+            }
+
+            // функция заполнения SELECT значениями Типа рынка (typeOfMarket)
+            function fillSelectTypeOfMarket(){
+                var allObjSelectTypeOfMarket = $("select[name='typeOfMarket']");
+                var allIDSelectTypeOfMarket = [];
+                for (let OneObj = 0; OneObj<allObjSelectTypeOfMarket.length; OneObj++){
+                    var buf_id = $(allObjSelectTypeOfMarket[OneObj]).attr("id");
+                    allIDSelectTypeOfMarket.push("#"+buf_id);
+                }
+                $.ajax({
+                    url: '@Url.Action("Get_headers_list_stock_info", "Main")',
+                    datatype: "json",
+                    type: "GET",
+                    //   contentType: "application/json; charset=utf-8",
+                    // dataFilter: function (data) { return data; },
+                    success: function (data) {
+                        const arr = data.map(x => x);
+                        for (var j =5; j<arr.length; j++) {
+                            var name = arr[j];
+                            for (var i = 0; i<allIDSelectTypeOfMarket.length; i++){
+                                $(allIDSelectTypeOfMarket[i]).append('<option value="' + name + '">' + name + '</option>');
+                            }
+                        }
+                    }
+                });
+            }
+
+            // функция заполнения селекта или чекбокс наименованиями ценных бумаг
+            function appendStrTickers(obj){
+                var thisSelectID = obj.getAttribute("id");
+                let current_typeMarket=$("#"+thisSelectID).val();
+                var selectTypeOfPaper = "select[name='selectTypeOfPaper_"+thisSelectID+"']";
+                var checkboxTypeOfPaper = "fieldset[name='checkboxTypeOfPaper_"+thisSelectID+"']";
+                var forRemoveselect = $(selectTypeOfPaper+' > option').remove();
+                var forRemovecheckbox = $(checkboxTypeOfPaper+' > label').remove();
+                $.ajax({
+                    url: '@Url.Action("Get_types_of_papers", "Main")',
+                    datatype: "json",
+                    type: "POST",
+                    data: {marketName: current_typeMarket},
+                    success: function (data) {
+                        for (let j = 5; j < data.length; j++) {
+                            if (selectTypeOfPaper.length>0){
+                                $(selectTypeOfPaper).append('<option value ="'+data[j]+'">'+data[j]+'</option>');
+                                $(selectTypeOfPaper).selectmenu( "refresh" );
+                            }
+                            if (checkboxTypeOfPaper.length>0){
+                                $(checkboxTypeOfPaper).append('<label for="'+data[j]+"_"+thisSelectID+'">' + data[j] +
+                        '<input type="checkbox" name="checkBox" id="'+ data[j] +"_"+thisSelectID+'" value="'+data[j]+'"></label>')
+                            }
+                        }
+                    }
+                });
+            }
+
+
+
+
+            // Функция устанавливает значения коэффициентов  для различных выбранных методов при изменении селект
+            function appendMethodPropertes(methodName, thisObj){
+                let thisID = thisObj.getAttribute("id");
+                $("input[name='koeff_"+thisID+"']").attr( "disabled", false );
+                var thisname = methodName;
+                getKoeff(thisname, thisID);
+            }
+
+            // функция получение коэффициентов для различных выбранных методов
+            function getKoeff(methodName, thisID){
+                $.ajax({
+                    type: "GET",
+                    url:  '@Url.Action("get_method_propertes", "Main")',
+                    datatype: "json",
+                    success: function (data) {
+                        if (data != "") {
+                            var ifmethod_name_true = false;
+                            for (let j = 0; j < data.length; j++) {
+                                if (data[j].method_name == methodName){
+                                    ifmethod_name_true = true;
+                                    let n_1=data[j].n_1!=null?data[j].n_1:0;
+                                    let n_2=data[j].n_2!=null?data[j].n_2:0;
+                                    let n_3=data[j].n_3!=null?data[j].n_3:0;
+                                    let K_up=data[j].K_up!=null?data[j].K_up:0;
+                                    let K_down=data[j].K_down!=null?data[j].K_down:0;
+                                    let stop_loss=data[j].stop_loss!=null?data[j].stop_loss:0;
+                                    let take_profit=data[j].take_profit!=null?data[j].take_profit:0;
+
+                                    appendMethodProp("n_1", n_1, thisID);
+                                    appendMethodProp("n_2", n_2, thisID);
+                                    appendMethodProp("n_3", n_3, thisID);
+                                    appendMethodProp("K_up", K_up, thisID);
+                                    appendMethodProp("K_down", K_down, thisID);
+                                    appendMethodProp("stop_loss", stop_loss, thisID);
+                                    appendMethodProp("take_profit", take_profit, thisID);
+                                }
+                            }
+                            if (ifmethod_name_true == false) {
+                                appendMethodProp("n_1", 0, thisID);
+                                appendMethodProp("n_2", 0, thisID);
+                                appendMethodProp("n_3", 0, thisID);
+                                appendMethodProp("K_up", 0, thisID);
+                                appendMethodProp("K_down", 0, thisID);
+                                appendMethodProp("stop_loss", 0, thisID);
+                                appendMethodProp("take_profit", 0, thisID);
+                                alert("для выбранного метода данных нет")
+                            }
+                        }
+                        else {
+                            alert("Could not connect to server");
+                        }
+                    }
+                });
+            }
+
+            // функция заполнения коэффициентов
+            function appendMethodProp(koeffName, koeffValue, ID){
+                $("#koeff_"+ koeffName +"_"+ID).attr( "disabled", false);
+                $("#koeff_"+ koeffName +"_"+ID).attr("value", koeffValue);
+                if (koeffValue==0){
+                    $("#koeff_"+ koeffName +"_"+ID).attr( "disabled", true);
+                }
+            }
+
+            // функция заполнения селектов или чекбокс методами. Значение по умолчанию  берем для RSI
+            function appendMethods(){
+                $.ajax({
+                    type: "GET",
+                    url:  '@Url.Action("get_method_propertes", "Main")',
+                    datatype: "json",
+                    success: function (data) {
+                        if (data != "") {
+                            $('#testContent').html(data);
+                            $('tr[name="methodsCheckbox"]').append('<td class = "Otstup0">Методы</td>');
+
+                            appendKoeffTable(["n_1", "n_2", "n_3", "K_up", "K_down", "stop_loss", "take_profit"]);
+                            for (let j = 0; j < data.length; j++) {
+                                if (data[j].method_name != "RSI"){
+                                    $('select[name="calculateMethod"]').append('<option value = '+ data[j].method_name + '>' + data[j].method_name + '</option>');
+                                }
+                                var rows =  $('tr[name="methodsCheckbox"]');
+                                for (let r =0; r<rows.length; r++){
+                                    let ID = $(rows[r]).attr("id");
+                                    $(rows[r]).append('<td><label  for="' + data[j].method_name+"_" + ID+
+                                  '" class="btn btn-secondary"> <input type="checkbox" class ="btn-group"  id="' + data[j].method_name+"_" + ID+
+                                  '" value="'+ data[j].method_name+'">'+  data[j].method_name +'</label></td>');
+                                }
+                                // 
+                              
+
+                   // добавляем  столбцы с коэффициентами
+                                appendKoeffInCheckbox("n_1", data[j]);
+                                appendKoeffInCheckbox("n_2", data[j]);
+                                appendKoeffInCheckbox("n_3", data[j]);
+                                appendKoeffInCheckbox("K_up", data[j]);
+                                appendKoeffInCheckbox("K_down", data[j]);
+                                appendKoeffInCheckbox("stop_loss", data[j]);
+                                appendKoeffInCheckbox("take_profit", data[j]);
+                            }
+                        }
+                        else {
+                            alert("Could not connect to server");
+                        }
+                    }
+                });
+            }
+// функция добавляет к таблице столбцы с коэффициентами в таблицы коэффициентов
+            function appendKoeffInCheckbox(attr, data){
+                var isDisable = data[attr] == null  ? "disabled" : "enabled";
+                $('table.methodsTable tr[name="koeff_'+attr+'"]').append('<td><input name ="'+data[attr]+'" style = "height: 30px;"'+isDisable+
+                    ' type="number" value="'+  data[attr] +'" /></td>')
+            }
+
+// функция добавляет к таблице столбец с наименованиями коэффициентов
+            function appendKoeffTable (attributs){
+                attributs.forEach(function(item, index){
+                    $('tr[name="koeff_'+ item +'"]').append('<td class = "Otstup0">'+item+'</td>');
+             //       $('tbody.optimize tr[name="koeff_'+item+'"]').append('<td><input class="'+item+'"  name = "td_start_calculateMethod_optimal" id="koeff_'+item+'_calculateMethod_optimal" style = "height: 30px; "type="number" value="0" /></td>');
+             //       $('tbody.optimize tr[name="koeff_'+item+'"]').append('<td><input  class="'+item+'" name = "td_end_calculateMethod_optimal" id="td_end_'+item+'_calculateMethod_optimal" style = "height: 30px; "type="number" value="0" /></td>');
+                })
+            }
+
+
+
+            // функция показывает / скрывает поля при выборе необходимости генерировать сигнал
+            function showIfSignelGenerate(obj){
+                let thisID = obj.getAttribute("id");
+                if (obj.checked) {
+                    $("#headerSignalForSellKritery_"+thisID+", #divFallingPriceKritery_"+thisID+", #divFallingIndicatorKritery_"+thisID+", #divBuyPapersKritery_"+thisID).show();
+                }
+                else {
+                    $("#headerSignalForSellKritery_"+thisID+", #divFallingPriceKritery_"+thisID+", #divFallingIndicatorKritery_"+thisID+", #divBuyPapersKritery_"+thisID).hide();
+                    $("#divFallingPriceKritery_"+thisID).attr("value","10");
+                    $("#divFallingIndicatorKritery_"+thisID).attr("value","10");
+                    $("#divFallingPriceKritery_"+thisID+",#divFallingIndicatorKritery_"+thisID).val("10");
+                    $("#divBuyPapersKritery_"+thisID).attr("value","100");
+                    $("#divBuyPapersKritery_"+thisID).val("100");
+                }
+            }
+
+            // функция перевода даты в вид DD/MM/YYYY
+            function get_DD_MM_YYYY_date(date){
+                var newDate = new Date(date);
+                var dd = String(newDate.getDate());
+                var mm = Number(newDate.getMonth())+1;
+                var myDate =  addNull(dd) + "/"+ addNull(String(mm)) + "/"+ newDate.getFullYear();
+                return myDate;
+            }
+            // функция добавления 0 к дате
+            function addNull(val){
+                if (val.length==1){
+                    val="0"+val;
+                }
+                return val;
+            }
+
+
+
+
+            // -----------Функции для логов-------------//
+            // функция отображения логов на странице
+            function appendLogs(buttonId, logsForPeriod) {
+                if (logsForPeriod.length > 0) {
+                    if (thisButtonId == 'buttonLogsInfo') {
+                        let LogsArr = getInfoLogs(logsForPeriod);
+                        if (LogsArr.length > 0) {
+                            $('#result').append('<ul id="forLogs"></ul>');
+                            for (let i = 0; i < LogsArr.length; i++) {
+                                $('#forLogs').append('<li class="color-blue">' + parseInt(i + 1) + ') ' + LogsArr[i] + '</li>');
+                            }
+                        }
+                        else {
+                            $('#result').append('<ul id="forLogs"></ul>');
+                            $('#forLogs').append('<li> Для указанного периода выбранных типов логов нет </li>');
+                        }
+                    }
+                    else if (thisButtonId == 'buttonLogsError') {
+                        let LogsArr = getErrorLogs(logsForPeriod);
+                        if (LogsArr.length > 0) {
+                            $('#result').append('<ul id="forLogs"></ul>');
+                            for (let i = 0; i < LogsArr.length; i++) {
+                                $('#forLogs').append('<li class="color-red">' + parseInt(i + 1) + ') ' + LogsArr[i] + '</li>');
+                            }
+                        }
+                        else {
+                            $('#result').append('<ul id="forLogs"></ul>');
+                            $('#forLogs').append('<li> Для указанного периода выбранных типов логов нет </li>');
+                        }
+                    }
+                    else if (thisButtonId == 'buttonAllLogs') {
+                        $('#result').append('<ul id="forLogs"></ul>');
+                        for (let i = 0; i < logsForPeriod.length; i++) {
+                            if (logsForPeriod[i].match(/INFO/) == "INFO") {
+                                $('#forLogs').append('<li class="color-blue">' + parseInt(i + 1) + ') ' + logsForPeriod[i] + '</li>');
+                            }
+                            else if (logsForPeriod[i].match(/ERROR/) == "ERROR") {
+                                $('#forLogs').append('<li class="color-red">' + parseInt(i + 1) + ') ' + logsForPeriod[i] + '</li>');
+                            }
+                            else {
+                                $('#forLogs').append('<li>' + parseInt(i + 1) + ') ' + logsForPeriod[i] + '</li>');
+                            }
+                        }
+                    }
+                    else if (thisButtonId == 'buttonDelLogsAll') {
+                        $('#result').append('<ul id="forLogs"></ul>');
+                        logs.length = 0;
+                        $('#forLogs').append('<li> Логи удалены </li>');
+                    }
+                }
+                else {
+                    $('#result').append('<ul id="forLogs"></ul>');
+                    $('#forLogs').append('<li> Для указанного периода выбранных типов логов нет </li>');
+                }
+            }
+
+            // функция получения логов типа INFO
+            function getInfoLogs(allLogs) {
+                var infoLogsArr = [];
+                for (var i = 0; i < allLogs.length; i++) {
+                    let infoLog = allLogs[i].match(/INFO/);
+                    if (infoLog == "INFO") {
+                        infoLogsArr.push(allLogs[i]);
+                    }
+                }
+                return infoLogsArr;
+            }
+
+            // функция получения логов типа ERROR
+            function getErrorLogs(allLogs) {
+                var errorLogsArr = [];
+                for (var i = 0; i < allLogs.length; i++) {
+                    let errorLog = allLogs[i].match(/ERROR/);
+                    if (errorLog == "ERROR") {
+                        errorLogsArr.push(allLogs[i]);
+                    }
+                }
+                return errorLogsArr;
+            }
+
+            // функция получения логов за выбранный период
+            function getLogsForPeriod(date) {
+                var periodLogsArr = [];
+                if (date == "all") {
+                    for (let u = 0; u < logs.length - 1; u++) {
+                        periodLogsArr.push(logs[u]);
+                    }
+                }
+                else {
+                    var dateToday = new Date();
+                    for (let u = 0; u < logs.length - 1; u++) {
+                        let regLogDate = logs[u].match(/^\d\d\d\d-\d\d-\d\d\s\d\d:\d\d:\d\d.\d\d\d\d/);
+                        // let buf = regLogDate.replace( /\s/, "T" )
+                        let LogDate = new Date(regLogDate);
+                        var daysBetween = getDaysBetween(dateToday, LogDate);
+                        if (daysBetween == 0 && date == 0) {
+                            periodLogsArr.push(logs[u]);
+                        }
+                        else if (daysBetween <= 1 && date == 1) {
+                            periodLogsArr.push(logs[u]);
+                        }
+                        else if (daysBetween <= 2 && date == 2) {
+                            periodLogsArr.push(logs[u]);
+                        }
+                        else if (daysBetween <= 7 && date == 7) {
+                            periodLogsArr.push(logs[u]);
+                        }
+                        else if (daysBetween <= 30 && date == 30) {
+                            periodLogsArr.push(logs[u]);
+                        }
+                    }
+                }
+                return periodLogsArr;
+            }
+
+            // функция получения количества дней между текущей датой и датой, выбранной пользователем
+            function getDaysBetween(dateToday, currentDate) {
+                //Get 1 day in milliseconds
+                var oneDay=1000*60*60*24;
+
+                // Convert both dates to milliseconds
+                var dateToday_ms = dateToday.getTime();
+                var currentDate_ms = currentDate.getTime();
+
+                // Calculate the difference in milliseconds
+                var difference_ms = dateToday_ms - currentDate_ms;
+
+                // Convert back to days and return
+                return Math.round(difference_ms / oneDay);
+            }
+
+        })
+    </script>
+
+
+</body>
+</html>
