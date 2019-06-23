@@ -1,0 +1,402 @@
+﻿
+@{
+    Layout = null;
+}
+<!DOCTYPE html>
+<div class="container">
+
+</div>
+<div id="for_Show">
+
+</div>
+<div class="row">
+    <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12">
+        <div id="allResults3">
+            <table class="table table-bordered table-hover table-sm" style="border-spacing: 7px 5px">
+                <caption style="caption-side: top">
+                    Таблица 1. Усредненные по таблице 3 значения
+                </caption>
+                <thead class="thead-dark">
+                    <tr id="headTable3"></tr>
+                </thead>
+                <tbody id="contentTable3"></tbody>
+            </table>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-sm-12 col-md-12 col-lg-4 col-xl-4">
+        <div id="sourceData" style="margin-left: 50px; margin-right: 50px">
+            <table class="table table-bordered table-hover table-sm">
+                <caption style="caption-side: top">
+                    Таблица 2. Принятые исходные данные
+                </caption>
+                <thead class="thead-dark">
+                    <tr>
+                        <th scope="col"> Параметр </th>
+                        <th scope="col">Значение </th>
+                    </tr>
+                </thead>
+                <tbody id="contentTable1"></tbody>
+            </table>
+        </div>
+    </div>
+    <div class="col-sm-12 col-md-12 col-lg-8 col-xl-8">
+        <div id="calculateResult3" style="margin-left: 50px; margin-right: 50px">
+            <table class="table table-bordered table-hover table-sm">
+                <caption style="caption-side: top">
+                    Таблица 3. Результаты расчета
+                </caption>
+                <thead class="thead-dark">
+                    <tr id="headTable2"></tr>
+                </thead>
+                <tbody id="contentTable2"></tbody>
+            </table>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-sm-12 col-md-12 col-lg-9 col-xl-9">
+        <div id="calculateResult3" style="margin-left: 50px; margin-right: 50px">
+            <table class="table table-bordered table-hover table-sm">
+                <caption style="caption-side: top">
+                    Таблица 4. Характеристики прибыльных и убыточных сигналов
+                </caption>
+                <thead class="thead-dark">
+                    <tr>
+                        <th scope="col">Среднее значение индикатора для прибыльных сигналов </th>
+                        <th scope="col">Среднее значение времени на сделку для прибыльных сигналов </th>
+                        <th scope="col">Скорость изменения индикатора для прибыльных сигналов </th>
+                        <th scope="col">Среднее значение индикатора для убыточных сигналов </th>
+                        <th scope="col">Среднее значение времени на сделку для убыточных сигналов </th>
+                        <th scope="col">Скорость изменения индикатора для убыточных сигналов </th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+                <tr id="contentTable4"></tr>
+            </table>
+        </div>
+    </div>
+</div>
+
+
+<div class="row">
+    <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12">
+
+        <div id="drawing">
+
+        </div>
+
+    </div>
+</div>
+
+
+
+<script>
+
+        var Json = @Html.Raw(Json.Encode(Model)); // json object
+        //alert(JSON.stringify(Json[0].StrTicker)); // converting it to string representation
+        //alert(JSON.stringify(Json[1].DOpen)); // converting it to string representation
+       var str = JSON.stringify(Json);
+        $('#for_Show').text(str);
+
+        // Сформируем массив заголовков для левого столбца для таблицы 1
+        var Table1List = ["Метод расчета", "Дата начала", "Дата окончания", "Период сглаживания N", "Затрачено времени, мс", "Примечание"];
+
+        // Сформируем лист с данными для заполнения таблицы 2
+        var table1ContentList = [Json.input_params.calculate_method_name,
+                                 //  Json.input_params.stock_name,
+                                   Json.input_params.date_start,
+                                   Json.input_params.date_end,
+                                   Json.input_params.N,
+                                  // Json.input_params.signal_amount,
+                                   Json.input_params.spend_time,
+                                   Json.input_params.server_note];
+
+       // заполняем таблицу заголовками и данными
+        for(var i = 0; i<Table1List.length; i++){
+            $('#contentTable1').append('<tr> <th>'+ Table1List[i] +'</th><td>' + table1ContentList[i] + '</td></tr>');
+        }
+
+        // Сформируем массив заголовков  для таблицы 3
+      /*  var Table2HeadList = ["Обозначение бумаги",
+                             "Среднее значение прибыли по сигналам, %", "Медианное среднее значение прибыли по сигналам, %",
+                             "% попаданий", "Дисперсия",
+                             "Число сигналов",
+                             "Среднее время жизни сигнала",
+                             "Прибыль по сигналам",
+                             "Прибыль по рынку"];*/
+
+        // заполним заголовок таблицы 2
+        for (var i = 0; i < Json.Results_headers.length; i++) {
+            $("#headTable2").append('<th scope="col">' + Json.Results_headers[i] + '</th>')
+        }
+
+
+
+        $('#contentTable2').append(' <tr class="table-secondary"><td colspan="11" class="align-middle text-center">Усредненные значения </td></tr><tr class="table-secondary" id="averageValues"><td>'
+                                            + Json.results_sum.Stock_name +'</td><td>'
+                                            + Json.results_sum.Parameter + '</td><td>'
+                                            + Json.results_sum.Signal_type + '</td><td>'
+                                            + Json.results_sum.Average.toFixed(2) + '</td><td>'
+                                            + Json.results_sum.Median.toFixed(2) + '</td><td>'
+                                            + Json.results_sum.Dispersion.toFixed(2) + '</td><td>'
+                                            + Json.results_sum.Procent_success.toFixed(2) + '</td><td>'
+                                            + Json.results_sum.MyCountSignal.toFixed(2) + '</td><td>'
+                                            + Json.results_sum.SignalLifeTime.toFixed(2) + '</td><td>'
+                                            + Json.results_sum.SumProfitSignal.toFixed(2) + '</td> <td>'
+                                            + Json.results_sum.MarketProfit.toFixed(2) + '</td></tr>');
+        
+
+        // Заполним таблицу 2 контентом
+        for (var i = 0; i<Json.results.length; i++){
+
+            // var thisIndicator_value = Json.results[i].Indicator_value==null  ? "0" : Json.results[i].Indicator_value;
+
+            // var thisSignal = Json.results[i].Signal==null  ? "0" : Json.results[i].Signal ||
+            //     Json.results[i].Signal==true  ? "true" : Json.results[i].Signal ||
+            //      Json.results[i].Signal==false  ? "false" : Json.results[i].Signal;
+
+            //     var thisProfit_plus_signal = Json.results[i].Profit_plus_signal==null ? "0" : Json.results[i].Profit_plus_signal;
+            //    var thisNotes = Json.results[i].Notes==null ? "0" : Json.results[i].Notes;
+
+        $('#contentTable2').append('<tr> <td>'+ Json.results[i].Stock_name +'</td><td>'
+                                         + Json.results[i].Parameter + '</td><td>'
+                                         + Json.results[i].Signal_type + '</td><td>'
+                                         + Json.results[i].Average.toFixed(2) + '</td><td>'
+                                         + Json.results[i].Median.toFixed(2) + '</td><td>'
+                                         + Json.results[i].Dispersion.toFixed(2) + '</td><td>'
+                                         + Json.results[i].Procent_success.toFixed(2) + '</td><td>'
+                                         + Json.results[i].MyCountSignal.toFixed(2) + '</td><td>'
+                                         + Json.results[i].SignalLifeTime.toFixed(2) + '</td><td>'
+                                         + Json.results[i].SumProfitSignal.toFixed(2) + '</td> <td>'
+                                         + Json.results[i].MarketProfit.toFixed(2) + '</td></tr>');
+        }
+
+     
+        // заполним заголовок таблицы 1
+      /*  var Table3HeadList = ["Среднее значение прибыли по сигналам, %",
+                              "Медианное среднее значение прибыли по сигналам, %",
+                              "% попаданий",
+                              "Время жизни сигнала",
+                              "Прибыль по сигналам",
+                              "Прибыль по рынку"];*/
+
+        for (var i = 0; i < Json.Signal_characteristic_headers.length; i++) {
+            $("#headTable3").append('<th scope="col">' +  Json.Signal_characteristic_headers[i] + '</th>')
+        }
+    
+   // Заполним таблицу 3 контентом Signal_characteristic_summary_positive
+        $('#contentTable3').append('<tr> <td style="color:#b50707">'+ Json.Signal_characteristic_summary_positive.stock_name +'</td><td style="color:#b50707">'
+                                         + Json.Signal_characteristic_summary_positive.signal_duration.toFixed(2) + '</td><td style="color:#b50707">'
+                                         + Json.Signal_characteristic_summary_positive.open_price.toFixed(2) + '</td><td style="color:#b50707">'
+                                         + Json.Signal_characteristic_summary_positive.close_price.toFixed(2) + '</td><td style="color:#b50707">'
+                                          + Json.Signal_characteristic_summary_positive.max_high_price.toFixed(2) + '</td> <td style="color:#b50707">'
+                                          + Json.Signal_characteristic_summary_positive.min_low_price.toFixed(2) + '</td> <td style="color:#b50707">'
+                                          + Json.Signal_characteristic_summary_positive.max_relative_open.toFixed(2) + '</td> <td style="color:#b50707">'
+                                          + Json.Signal_characteristic_summary_positive.min_relative_open.toFixed(2) + '</td> <td style="color:#b50707">'
+                                          + Json.Signal_characteristic_summary_positive.max_relative_close.toFixed(2) + '</td> <td style="color:#b50707">'
+                                          + Json.Signal_characteristic_summary_positive.min_relative_close.toFixed(2) + '</td> <td style="color:#b50707">'
+                                          + Json.Signal_characteristic_summary_positive.signal_type + '</td></tr>');
+
+    // Заполним таблицу 3 контентом Signal_characteristic_summary_negative
+        $('#contentTable3').append('<tr> <td style="color:#0045bd">'+ Json.Signal_characteristic_summary_negative.stock_name +'</td><td style="color:#0045bd">'
+                                             + Json.Signal_characteristic_summary_negative.signal_duration.toFixed(2) + '</td><td style="color:#0045bd">'
+                                             + Json.Signal_characteristic_summary_negative.open_price.toFixed(2) + '</td><td style="color:#0045bd">'
+                                             + Json.Signal_characteristic_summary_negative.close_price.toFixed(2) + '</td><td style="color:#0045bd">'
+                                              + Json.Signal_characteristic_summary_negative.max_high_price.toFixed(2) + '</td> <td style="color:#0045bd">'
+                                              + Json.Signal_characteristic_summary_negative.min_low_price.toFixed(2) + '</td> <td style="color:#0045bd">'
+                                              + Json.Signal_characteristic_summary_negative.max_relative_open.toFixed(2) + '</td> <td style="color:#0045bd">'
+                                              + Json.Signal_characteristic_summary_negative.min_relative_open.toFixed(2) + '</td> <td style="color:#0045bd">'
+                                              + Json.Signal_characteristic_summary_negative.max_relative_close.toFixed(2) + '</td> <td style="color:#0045bd">'
+                                              + Json.Signal_characteristic_summary_negative.min_relative_close.toFixed(2) + '</td> <td style="color:#0045bd">'
+                                              + Json.Signal_characteristic_summary_negative.signal_type + '</td></tr>');
+
+
+
+        /*// Сформируем лист с данными для заполнения таблицы 4
+        var table4ContentList = [Json.signal_params.ind_val_signal_plus,
+                                   Json.signal_params.life_time_signal_plus,
+                                   Json.signal_params.ind_speed_signal_plus,
+                                   Json.signal_params.ind_val_signal_minus,
+                                   Json.signal_params.life_time_signal_minus,
+                                   Json.signal_params.ind_speed_signal_minus
+                                 ];
+
+        // заполняем таблицу 4  данными
+        for(var i = 0; i<table4ContentList.length; i++){
+            $('#contentTable4').append('<td>' + table4ContentList[i] + '</td>');
+        }
+        
+        */
+
+        //   ГРАФИК   SVG  !!!! //
+
+        // параметры графика
+        //1) Поле для рисования
+        var drawWidth = 1200;
+        var drawHight = 800;
+        //2) Непосредственные размеры графика
+        var chartWidth = 1000;
+        var chartHight = 600;
+        // 3)  исходные точки, которые берем за 0 (чтобы немного сдвинуть график)
+        var x0 = 50;
+        var y0 = 50;
+        // 4) цвета сетки, точек, кривых
+        var gridLines = { color: '#A9A9A9', width: 1};
+        var axisLabel = {family: 'Inconsolata', size: 16, color: "#444444"};
+        var axisSign = { family: 'Inconsolata', size: 13 };
+    //    var tooltipSignalTrie = {family: 'Inconsolata', size: 9};
+        var tooltipSignalTrieHover ={family: 'Inconsolata', weight: 'bold', size: 22};
+   //     var tooltipSignalFalse = {family: 'Inconsolata', size: 9};
+   //     var tooltipSignalFalseHover ={family: 'Inconsolata', size: 22, color: '#FF0000'};
+
+
+        // сформируем объект с исходными данными для построения графика
+        var myModel  = [];
+        for (var i=0; i< Json.list_gause.length; i++){
+            console.log("Json.list_gause[i].name_range - " + Json.list_gause[i].name_range);
+
+        
+           //var bufstartInt = Json.list_gause[i].name_range.match(/\/[-]?[0-9]+[.,]?[0-9]*\//);
+         //   var startInt = (bufstartInt.join()).match(/[-]?[0-9]+[.,]?[0-9]*/);
+  
+         //   var bufendInt= Json.list_gause[i].name_range.match(/[-]+\/[-]?[0-9]+[.,]?[0-9]*\//);
+            //     var endInt= (bufendInt.join()).match(/[-]?[0-9]+[.,]?[0-9]*/);
+            var bufstartInt = Json.list_gause[i].name_range.match(/[-]?[0-9]+[.,]?[0-9]*\//);
+            var startInt = (bufstartInt.join()).match(/[-]?[0-9]+[.,]?[0-9]*/);
+       
+            var bufendInt= Json.list_gause[i].name_range.match(/\/[-]+\/[-]?[0-9]+[.,]?[0-9]*/);
+            var endInt= (bufendInt.join()).match(/[-]?[0-9]+[.,]?[0-9]*/);
+         
+           
+
+            myModel.push({startInterval: startInt, endInterval: endInt, value_range: Json.list_gause[i].value_range, result: Json.list_gause[i].result })
+            console.log("startInterval = " + startInt + " endInterval  = " + endInt);
+        }
+
+        for(var i in myModel){
+            console.log("startInterval = " + myModel[i].startInterval);
+            console.log(" endInterval = " + myModel[i].endInterval);
+
+        }
+
+
+
+        // функция поиска максимальных и минимальных значений всех параметров и коэффициентов модели
+        function getMaxMin(cmp, arr, attr) {
+                var val = arr[0][attr];
+                for(var i=1;i<arr.length;i++) {
+                    val = cmp(val, arr[i][attr]);
+
+            }
+            return val;
+        }
+
+    // функция находит разницу
+        function getDifference(start, end){
+            return Math.abs(start-end);
+
+        }
+    // Найдем минимальное и максимальное значение интервала
+        var minValueStartInterval = getMaxMin(Math.min, myModel, "startInterval");
+        var maxValueEndInterval = getMaxMin(Math.max, myModel, "endInterval");
+        console.log("minValueStartInterval = " + minValueStartInterval + " maxValueEndInterval = " + maxValueEndInterval);
+        var differentX = Math.abs(minValueStartInterval - maxValueEndInterval)
+       // var differentX = getDifference(minValueStartInterval,maxValueEndInterval);
+        console.log("differentX = " + differentX);
+        // коэффициент (шаг) для оси х
+        var koeffX = chartWidth / differentX;
+        console.log("koeffX = " + koeffX);
+
+        // максимальное и минимальное значения по оси у)
+        var maxY = getMaxMin(Math.max, myModel, "result");
+        var minY = 0;
+        var differentY = maxY - minY;
+        console.log("maxY = " + maxY + " minY = " + minY);
+        console.log("differentY = " + differentY);
+        console.log("myModel.length = "  + myModel.length);
+
+
+
+        // СТРОИМ ГРАФИК
+            var draw = SVG('drawing').size(drawWidth, drawHight);
+            draw.viewbox(0, 0, drawWidth, drawHight);
+
+            var rect = draw.rect(chartWidth, chartHight).fill("white").stroke({ width: 3 }).move(x0, y0);
+
+            // наносим на график сетку и разметку по оси у
+            // число горизонтальных линий шаг между ними
+
+            var horizontalLines = 13;
+            var lineHorizontalStep = chartHight/horizontalLines;
+            var extraMaxY = maxY + (differentY * 0.1);
+            var differentextraY = extraMaxY-minY;
+            var koeffY = chartHight / differentextraY;
+            console.log(" koeffY " + koeffY);
+
+            var YStep = differentextraY/horizontalLines;
+            console.log(" YStep " + YStep);
+            var countYStep = YStep;
+
+            for (var i = lineHorizontalStep; i < (lineHorizontalStep*(horizontalLines)); i+=lineHorizontalStep) {
+                var lineHorizontal = draw.line(x0, y0 + i, chartWidth+x0, y0 + i).stroke(gridLines);
+                var bufY = (extraMaxY-countYStep).toFixed(1);
+                var textY = draw.text(bufY.toString()).move(22, y0-10 + i).font(axisSign);
+                countYStep+=YStep;
+            }
+            // подпись по оси х
+            var textX = draw.text("Интервалы").move(chartWidth/2, chartHight+y0+25);
+            // подпись по оси y
+            var textYAsix = draw.text("Количество повторений").move(10, chartHight/2).font(axisLabel);
+            textYAsix.rotate(270, 0, chartHight/2)
+    // рисуем график
+
+            var lengthMyModel = myModel.length - 1;
+            var stepX= 50;
+            for (var i in myModel) {
+                if (i==0){
+
+                    var diff = Math.abs(myModel[i].startInterval- myModel[i].endInterval);
+                    var oneSideRect =koeffX*diff;
+                    var secondSideRect = koeffY * myModel[i].result;
+                    var rect = draw.rect(oneSideRect,secondSideRect).fill('#1E90FF').move(x0, y0 +(chartHight-secondSideRect));
+                    var textAsixX = draw.text(myModel[i].startInterval.toString()).font(axisSign).move(x0-10, y0 +(chartHight+5));
+                    if(myModel[i].result!=0){
+                        var textValue = draw.text(myModel[i].result.toString()).fill('#3A3A3A')
+                                               .font(tooltipSignalTrieHover).move(x0+(oneSideRect*0,35), y0 +(chartHight-secondSideRect-22));
+                    }
+
+                }
+                else{
+                    stepX += koeffX*(Math.abs(myModel[i].startInterval-myModel[i].endInterval));
+                    console.log(" stepX " + stepX);
+                    // stepX_circle += koeffX * (ArrX[i] - ArrX[i-1]);
+                    var diff = Math.abs(myModel[i].startInterval- myModel[i].endInterval);
+                    var oneSideRect =koeffX*diff;
+                    var lineVertical = draw.line(stepX, y0, stepX, y0 + chartHight).stroke(gridLines);
+                    var secondSideRect = koeffY * myModel[i].result;
+                    var rect = draw.rect(oneSideRect,secondSideRect).fill('#1E90FF').move(stepX, y0 +(chartHight-secondSideRect));
+
+                    if(myModel[i].result!=0){
+                        var textValue = draw.text(myModel[i].result.toString()).fill('#03A3A3A')
+                            .font(tooltipSignalTrieHover).move(stepX+(oneSideRect*0,35), y0 +(chartHight-secondSideRect-22));
+                    }
+                    if (i==lengthMyModel){
+                        var textAsixX = draw.text( myModel[i].startInterval.toString()).font(axisSign).move(stepX -(oneSideRect*0.2), y0 +(chartHight+5));
+                        var textAsixXEnd = draw.text( myModel[i].endInterval.toString()).font(axisSign).move(stepX+(oneSideRect*0.8), y0 +(chartHight+5));
+                    }
+                    else {
+                        var textAsixX = draw.text(myModel[i].startInterval.toString()).font(axisSign).move(stepX-(oneSideRect*0.2), y0 +(chartHight+5));
+                    }
+
+                }
+            }
+
+
+        $("td").addClass("align-middle");
+        $("th").addClass("align-middle");
+
+</script>
+
+

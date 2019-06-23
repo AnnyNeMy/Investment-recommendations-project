@@ -1,0 +1,363 @@
+﻿
+@{
+    Layout = null;
+}
+<!DOCTYPE html>
+<div>
+
+</div>
+<div id="for_Show">
+
+
+</div>
+<div id="test">
+
+
+</div>
+
+<div class="container-fluid">
+
+    <div class="row">
+        <div class="col-sm-12 col-md-12 col-lg-4 col-xl-4">
+            <div id="sourceData">
+                <table class="table table-bordered table-hover table-sm">
+                    <caption style="caption-side: top">
+                        Таблица 1. Данные по прибыли для "@ViewBag.message_stock_name"
+                    </caption>
+                    <thead class="thead-dark">
+                        <tr id="headTable1_1">
+                            <th class="text-center align-middle" scope="col">Прибыль (среднее)</th>
+                            <th class="text-center align-middle" scope="col">Прибыль (среднее медианое)</th>
+                            <th class="text-center align-middle" scope="col">Процент успешных индикаций</th>
+                        </tr>
+                    </thead>
+                    <tbody id="contentTable1_1"></tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="col-sm-12 col-md-12 col-lg-8 col-xl-8">
+            <div id="sourceData">
+                <table class="table table-bordered table-hover table-sm">
+                    <caption style="caption-side: top">
+                        Таблица 2. Результаты расчета для "@ViewBag.message_stock_name"
+                    </caption>
+                    <thead class="thead-dark">
+                        <tr id="headTable1"></tr>
+                    </thead>
+                    <tbody id="contentTable1"></tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+        var Json = @Html.Raw(Json.Encode(Model)); // json object
+        // Проверка что пришло
+           var str = JSON.stringify(Json);
+            $('#for_Show').text(str);
+
+    $("#contentTable1_1").append('<tr><td class="text-center align-middle">'+ parseFloat(Json.profit_average).toFixed(2) + '</td><td class="text-center align-middle">'+parseFloat(Json.profit_median_mid).toFixed(2)+ '</td><td class="text-center align-middle">'+ parseFloat(Json.profit_procent_success).toFixed(2)+ '</td></tr>');
+
+        //var myDate = new Date(1546030800000);
+        //alert(myDate);
+            var Table1List = ["Дата", "Цена"];
+            for (var i =0; i<Json.title.length; i++){
+                if(Json.title[i] != "date" && Json.title[i] != "Price"){
+                    if(i == (Json.title.length-1)){
+                        Table1List.push("Сумма");
+                        Table1List.push("Прибыль");
+                    }
+                    else{
+                        Table1List.push(Json.title[i]);
+                    }
+                }
+            }
+
+            for (var i =0; i<Table1List.length; i++){
+                console.log(Table1List[i]);
+                $("#headTable1").append('<th scope="col" class="text-center align-middle" id = "'+Table1List[i]+'">'+Table1List[i]+'</th>')
+            }
+
+            // при помощи регулярных выражений вытаскиваем из строки даты циферную часть и приводим к дате в формате MM.DD.YYYY
+            function getDate(date){
+                var find=date;
+                var result = find.match(/\d+/);
+                var res = parseInt(result);
+                var myDate = new Date(res);
+                myDate.setMilliseconds(3 * 60 * 60 * 1000);
+                var myDate1 = myDate.toISOString().replace(/^([^T]+)T(.+)$/,'$1').replace(/^(\d+)-(\d+)-(\d+)$/,'$3.$2.$1');
+                return myDate1;
+            }
+
+            var rowIdArr = [];
+    // создаем строки
+            for (var i =0; i<Json.date.length; i++){
+                var tableRowId = "rowIdMultiSingle"+i;
+              //  console.log(tableRowId);
+                rowIdArr.push("#"+tableRowId);
+                $("#contentTable1").append('<tr id="'+tableRowId+'"></tr>');
+            }
+
+    // заполняем таблицу
+            var colorGreen = "background: #4CC552";
+            for (var i =0; i<rowIdArr.length; i++){
+                console.log(rowIdArr[i]);
+                $(rowIdArr[i]).append('<td class="text-center align-middle">' +getDate(Json.date[i])+'</td>');
+                $(rowIdArr[i]).append('<td class="text-center align-middle">'+ Json.active_price[i] +'</td>');
+                for (var j =0; j<Json.is_signal.length; j++){
+                    if (Json.is_signal[j][i] == "+"){
+                        $(rowIdArr[i]).append('<td class="text-center align-middle" style="'+ colorGreen+'">'+"&nbsp"+'</td>');
+                    }
+                    else {
+                        $(rowIdArr[i]).append('<td class="text-center align-middle" >'+"&nbsp"+'</td>');
+                    }
+                }
+                $(rowIdArr[i]).append('<td class="text-center align-middle">'+ Json.profit[i] +'</td>');
+            }
+
+
+
+    /*
+
+
+
+
+        // при помощи регулярных выражений вытаскиваем из строки даты циферную часть и приводим к даье в формате MM.DD.YYYY
+        function getDate(date){
+            var find=date;
+            var result = find.match(/\d+/);
+            var res = parseInt(result);
+            var myDate = new Date(res);
+            var dateStringFormat = addZeroz(myDate.getDate()) + "." +  addZeroz((parseInt(myDate.getMonth())+1)) + "." + addZeroz(myDate.getFullYear());
+            return dateStringFormat;
+        }
+        function addZeroz(number) {
+            return ('0' + number).slice(-2);
+        }
+        //Проверка
+        // $("#resultDate").text(myDate1);
+        // $("#resultDate1").text(dateStringFormat);
+        var choseTicker =  'ViewBag.checkedTickers';
+        var input_paramsInArray =   [choseTicker,
+                                     Json.input_params.stock_name,
+                                     Json.input_params.date_start,
+                                     Json.input_params.date_end,
+                                      Json.input_params.N,
+                                     Json.input_params.signal_amount,
+                                     Json.input_params.spend_time,
+                                     Json.input_params.server_note];
+
+
+        for(var i = 0; i<Table1List.length; i++){
+            // var date = getDate(Json[i].DTDate);
+            $('#tableSourceData').append('<tr> <th>'+ Table1List[i] +'</th><td>' + input_paramsInArray[i] + '</td></tr>');
+        }
+
+        // массив заголовков для таблицы 2
+        var headForTable2 = ["ID",
+                             "Наименование акции",
+                             "Дата",
+                             "Цена на момент открытия",
+                             "Максимальная за день цена",
+                             "Минимальная за день цена",
+                             "Цена на момент закрытия",
+                             "Объем продаж",
+                             "Выбранная цена (Active price)",
+                             "MA",
+                             "EMA",
+                             "MACD",
+                             "DM",
+                             "MFI",
+                             "RSI",
+                             "STOCH_1",
+                             "STOCH_2",
+                             "STOCH_3",
+                             "WILL_R",
+                             "CCI",
+                             "UOSC",
+                             "OBV",
+                             "STOCH_RSI"];
+
+        // выведем заголовки таблицы на экран
+        for (var i =0; i<headForTable2.length; i++){
+            $("#headTable2").append('<th scope="col">'+ headForTable2[i] + '</th>' )
+        }
+
+        // значения методов, не равные null, для них  выбираем цвет для заливки - красный если Method- и зеленый,  если Method+
+        function getColorForMethods(method){
+            var color;
+            if(method==null){
+                color=" ";
+            }
+            else{
+                var reg = method.match(/-/);
+                color = reg=="-" ? "#FF6347" : "#90EE90";
+            }
+            return color;
+        }
+
+        // заполним первые 10 строк таблицы (без цвета)
+        for (var i = 0; i<9; i++){
+            date = getDate(Json.result_model[i].DTDate);
+            var MA = Json.result_model[i].signal_proection_string[0]==null ? "" : Json.result_model[i].signal_proection_string[0];
+            var EMA = Json.result_model[i].signal_proection_string[1]==null ? "" : Json.result_model[i].signal_proection_string[1];
+            var MACD = Json.result_model[i].signal_proection_string[2]==null ? "" : Json.result_model[i].signal_proection_string[2];
+            var DM = Json.result_model[i].signal_proection_string[3]==null ? "" : Json.result_model[i].signal_proection_string[3];
+            var MFI = Json.result_model[i].signal_proection_string[4]==null ? "" : Json.result_model[i].signal_proection_string[4];
+            var RSI = Json.result_model[i].signal_proection_string[5]==null ? "" : Json.result_model[i].signal_proection_string[5];
+            var STOCH_1 = Json.result_model[i].signal_proection_string[6]==null ? "" : Json.result_model[i].signal_proection_string[6];
+            var STOCH_2 = Json.result_model[i].signal_proection_string[7]==null ? "" : Json.result_model[i].signal_proection_string[7];
+            var STOCH_3 = Json.result_model[i].signal_proection_string[8]==null ? "" : Json.result_model[i].signal_proection_string[8];
+            var WILL_R = Json.result_model[i].signal_proection_string[9]==null ? "" : Json.result_model[i].signal_proection_string[9];
+            var CCI = Json.result_model[i].signal_proection_string[10]==null ? "" : Json.result_model[i].signal_proection_string[10];
+            var UOSC = Json.result_model[i].signal_proection_string[11]==null ? "" : Json.result_model[i].signal_proection_string[11];
+            var OBV = Json.result_model[i].signal_proection_string[12]==null ? "" : Json.result_model[i].signal_proection_string[12];
+            var STOCH_RSI =  Json.result_model[i].signal_proection_string[13]==null ? "" : Json.result_model[i].signal_proection_string[13];
+
+            $('#contentTable2').append ('<tr><td>'+ Json.result_model[i].ID +'</td><td>'
+                                        + Json.result_model[i].StrTicker + '</td><td>'
+                                        + date + '</td><td>'
+                                        + Json.result_model[i].DOpen + '</td><td>'
+                                        + Json.result_model[i].DHigh + '</td><td>'
+                                        + Json.result_model[i].DLow + '</td><td>'
+                                        + Json.result_model[i].DClose + '</td><td>'
+                                        + Json.result_model[i].DVol + '</td><td>'
+                                        + Json.result_model[i].ActivePrice +
+                                        '</td><td style="background:' + getColorForMethods(Json.result_model[i].signal_proection_string[0]) + '">'+ MA +
+                                        '</td><td style="background:' + getColorForMethods(Json.result_model[i].signal_proection_string[1]) + '">' + EMA +
+                                        '</td><td style="background:' + getColorForMethods(Json.result_model[i].signal_proection_string[2]) +'">'+ MACD +
+                                        '</td><td style="background:' + getColorForMethods(Json.result_model[i].signal_proection_string[3]) + '">' + DM +
+                                        '</td><td style="background:' + getColorForMethods(Json.result_model[i].signal_proection_string[4]) + '">' + MFI +
+                                        '</td><td style="background:' + getColorForMethods(Json.result_model[i].signal_proection_string[5]) + '">' + RSI +
+                                        '</td><td style="background:' + getColorForMethods(Json.result_model[i].signal_proection_string[6]) + '">' + STOCH_1 +
+                                        '</td><td style="background:' + getColorForMethods(Json.result_model[i].signal_proection_string[7]) + '">' + STOCH_2 +
+                                        '</td><td style="background:' + getColorForMethods(Json.result_model[i].signal_proection_string[8]) + '">' + STOCH_3 +
+                                        '</td><td style="background:' + getColorForMethods(Json.result_model[i].signal_proection_string[9])  +'">' + WILL_R +
+                                        '</td><td style="background:' + getColorForMethods(Json.result_model[i].signal_proection_string[10]) + '">' +  CCI  +
+                                        '</td><td style="background:' + getColorForMethods(Json.result_model[i].signal_proection_string[11]) + '">' +  UOSC +
+                                        '</td><td style="background:' + getColorForMethods(Json.result_model[i].signal_proection_string[12]) + '">' +  OBV  +
+                                        '</td><td style="background:' + getColorForMethods(Json.result_model[i].signal_proection_string[13]) + '">' + STOCH_RSI + '</td></tr>'
+                                        )
+
+        }
+
+        var colors = ["#ff0000","#ff4300","#ff7b00","#ffb600","#faff00","#00bfff","#008cff","#0065ff","#003fff","#0400ff"];
+        // обработаем остальное с учетом градации  по цвету
+        for (var i = 9; i<Json.result_model.length; i++){
+
+            var bufArrDOpen =[];
+            var bufArrDHigh =[];
+            var bufArrDLow =[];
+            var bufArrDClose =[];
+            var bufArrDVol =[];
+            var bufArrActivePrice =[];
+
+
+            var bufColors = {colorDOpen: "", colorDHigh: "", colorDLow: "", colorDClose: "", colorDVol: "", colorActivePrice: ""};
+            for (var j=(i-9); j<(i+1);j++){
+                bufArrDOpen.push(Json.result_model[j].DOpen);
+                bufArrDHigh.push(Json.result_model[j].DHigh);
+                bufArrDLow.push(Json.result_model[j].DLow);
+                bufArrDClose.push(Json.result_model[j].DClose);
+                bufArrDVol.push(Json.result_model[j].DVol);
+                bufArrActivePrice.push(Json.result_model[j].ActivePrice);
+            }
+
+            bufArrDOpen.sort((a,b)=>a-b);
+            bufArrDHigh.sort((a,b)=>a-b);
+            bufArrDLow.sort((a,b)=>a-b);
+            bufArrDClose.sort((a,b)=>a-b);
+            bufArrDVol.sort((a,b)=>a-b);
+            bufArrActivePrice.sort((a,b)=>a-b);
+
+            //  $('#for_Show').text(bufArrDOpen);
+
+            for(var k = 0; k<10; k++){
+
+                if(Json.result_model[i].DOpen == bufArrDOpen[k]){
+                    bufColors.colorDOpen = colors[k];
+                }
+                if(Json.result_model[i].DHigh == bufArrDHigh[k]){
+                    bufColors.colorDHigh = colors[k];
+                }
+                if(Json.result_model[i].DLow == bufArrDLow[k]){
+                    bufColors.colorDLow = colors[k];
+                }
+                if(Json.result_model[i].DClose == bufArrDClose[k]){
+                    bufColors.colorDClose = colors[k];
+                }
+                if(Json.result_model[i].DVol == bufArrDVol[k]){
+                    bufColors.colorDVol = colors[k];
+                }
+                if(Json.result_model[i].ActivePrice == bufArrActivePrice[k]){
+                    bufColors.colorActivePrice = colors[k];
+                }
+            }
+
+            //   $('#test').text(bufColors.colorDOpen + " " + bufColors.colorDHigh)
+
+            date = getDate(Json.result_model[i].DTDate);
+            var MA = Json.result_model[i].signal_proection_string[0]==null ? "" : Json.result_model[i].signal_proection_string[0];
+            var EMA = Json.result_model[i].signal_proection_string[1]==null ? "" : Json.result_model[i].signal_proection_string[1];
+            var MACD = Json.result_model[i].signal_proection_string[2]==null ? "" : Json.result_model[i].signal_proection_string[2];
+            var DM = Json.result_model[i].signal_proection_string[3]==null ? "" : Json.result_model[i].signal_proection_string[3];
+            var MFI = Json.result_model[i].signal_proection_string[4]==null ? "" : Json.result_model[i].signal_proection_string[4];
+            var RSI = Json.result_model[i].signal_proection_string[5]==null ? "" : Json.result_model[i].signal_proection_string[5];
+            var STOCH_1 = Json.result_model[i].signal_proection_string[6]==null ? "" : Json.result_model[i].signal_proection_string[6];
+            var STOCH_2 = Json.result_model[i].signal_proection_string[7]==null ? "" : Json.result_model[i].signal_proection_string[7];
+            var STOCH_3 = Json.result_model[i].signal_proection_string[8]==null ? "" : Json.result_model[i].signal_proection_string[8];
+            var WILL_R = Json.result_model[i].signal_proection_string[9]==null ? "" : Json.result_model[i].signal_proection_string[9];
+            var CCI = Json.result_model[i].signal_proection_string[10]==null ? "" : Json.result_model[i].signal_proection_string[10];
+            var UOSC = Json.result_model[i].signal_proection_string[11]==null ? "" : Json.result_model[i].signal_proection_string[11];
+            var OBV = Json.result_model[i].signal_proection_string[12]==null ? "" : Json.result_model[i].signal_proection_string[12];
+            var STOCH_RSI =  Json.result_model[i].signal_proection_string[13]==null ? "" : Json.result_model[i].signal_proection_string[13];
+
+
+            // метод, который изменяет цвет текста с черного на белый в случае, если ячейка темно-синяя
+            function getColor(bufColors){
+                var color;
+                if (bufColors == "#0400ff"){
+                    color = "#FFFFFF";
+                }
+                else{
+                    color = "#222222";
+                }
+                return color;
+            }
+
+            $('#contentTable2').append('<tr> <td>'+ Json.result_model[i].ID +
+                                       '</td><td>' + Json.result_model[i].StrTicker +
+                                       '</td><td>' + date +
+                                       '</td><td style="background:' + bufColors.colorDOpen + ';color:' + getColor(bufColors.colorDOpen) + '">' + Json.result_model[i].DOpen +
+                                       '</td><td style="background:' + bufColors.colorDHigh + ';color:' + getColor(bufColors.colorDHigh) + '">'  + Json.result_model[i].DHigh +
+                                       '</td><td style="background:' + bufColors.colorDLow + ';color:' + getColor(bufColors.colorDLow) + '">'  + Json.result_model[i].DLow +
+                                       '</td><td style="background:' + bufColors.colorDClose + ';color:' + getColor(bufColors.colorDClose) + '">'  + Json.result_model[i].DClose +
+                                       '</td><td style="background:' + bufColors.colorDVol + ';color:' + getColor(bufColors.colorDVol) + '">' + Json.result_model[i].DVol +
+                                       '</td><td style="background:' + bufColors.colorActivePrice + ';color:' + getColor(bufColors.colorActivePrice) +'">'+ Json.result_model[i].ActivePrice +
+                                       '</td><td style="background:' + getColorForMethods(Json.result_model[i].signal_proection_string[0]) + '">' + MA +
+                                       '</td><td style="background:' + getColorForMethods(Json.result_model[i].signal_proection_string[1]) + '" >' + EMA +
+                                       '</td><td style="background:' + getColorForMethods(Json.result_model[i].signal_proection_string[2]) +'">' + MACD +
+                                       '</td><td style="background:' + getColorForMethods(Json.result_model[i].signal_proection_string[3]) + '">' + DM +
+                                       '</td><td style="background:' + getColorForMethods(Json.result_model[i].signal_proection_string[4]) + '">' + MFI +
+                                       '</td><td style="background:' + getColorForMethods(Json.result_model[i].signal_proection_string[5]) + '">' + RSI +
+                                       '</td><td style="background:' + getColorForMethods(Json.result_model[i].signal_proection_string[6]) + '">' + STOCH_1 +
+                                       '</td><td style="background:' + getColorForMethods(Json.result_model[i].signal_proection_string[7]) + '">' + STOCH_2 +
+                                       '</td><td style="background:' + getColorForMethods(Json.result_model[i].signal_proection_string[8]) + '">' + STOCH_3 +
+                                       '</td><td style="background:' + getColorForMethods(Json.result_model[i].signal_proection_string[9])  + '">' + WILL_R +
+                                       '</td><td style="background:' + getColorForMethods(Json.result_model[i].signal_proection_string[10])  + '">' +  CCI  +
+                                       '</td><td style="background:' + getColorForMethods(Json.result_model[i].signal_proection_string[11])  + '">' +  UOSC +
+                                       '</td><td style="background:' + getColorForMethods(Json.result_model[i].signal_proection_string[12])  + '">' +  OBV  +
+                                       '</td><td style="background:' + getColorForMethods(Json.result_model[i].signal_proection_string[13]) + '">' + STOCH_RSI + '</td></tr>'
+                                     );
+
+
+        }
+        $("td").addClass("align-middle");
+        $("th").addClass("align-middle");
+        */
+
+</script>
+
+
+

@@ -1,0 +1,85 @@
+﻿
+@{
+    Layout = null;
+}
+<!DOCTYPE html>
+<div>
+
+</div>
+<div id="for_Show">
+
+
+</div>
+<div id="test">
+
+
+</div>
+
+<div class="container-fluid">
+
+    <div class="row">
+        <div class="col-sm-12 col-md-12 col-lg-7 col-xl-7">
+            <div id="sourceData">
+                <table class="table table-bordered table-hover table-sm">
+                    <caption style="caption-side: top">
+                        Таблица 1. Данные по прибыли
+                    </caption>
+                    <thead class="thead-dark">
+                        <tr id="headTable1">
+                            <th class="text-center align-middle" scope="col">Обозначение бумаги</th>
+                            <th class="text-center align-middle" scope="col">Прибыль (среднее)</th>
+                            <th class="text-center align-middle" scope="col">Прибыль (среднее медианое)</th>
+                            <th class="text-center align-middle" scope="col">Процент успешных индикаций</th>
+                        </tr>
+                    </thead>
+                    <tbody id="contentTable1"></tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="col-sm-12 col-md-12 col-lg-5 col-xl-5">
+            <div id="sourceData">
+                <table class="table table-bordered table-hover table-sm">
+                    <caption style="caption-side: top">
+                        Таблица 2. Результаты расчета
+                    </caption>
+                    <thead class="thead-dark">
+                        <tr id="headTable2">
+                            <th class="text-center align-middle" scope="col">Прибыль (среднее)</th>
+                            <th class="text-center align-middle" scope="col">Прибыль (среднее медианое)</th>
+                            <th class="text-center align-middle" scope="col">Процент успешных индикаций</th>
+                        </tr>
+                    </thead>
+                    <tbody id="contentTable2"></tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+        var Json = @Html.Raw(Json.Encode(Model)); // json object
+        // Проверка что пришло
+           var str = JSON.stringify(Json);
+           $('#for_Show').text(str);
+
+    // заполняем первую таблицу
+           for (var i = 0; i<Json.results.length; i++){
+
+
+               $("#contentTable1").append('<tr><td class="text-center align-middle">'+ Json.results[i].Name + '</td><td class="text-center align-middle">'+ parseFloat(Json.results[i].profit_average).toFixed(2) + '</td><td class="text-center align-middle">'+parseFloat(Json.results[i].profit_median_mid).toFixed(2)+ '</td><td class="text-center align-middle">'+ parseFloat(Json.results[i].profit_procent_success).toFixed(2)+ '</td></tr>');
+           }
+
+    // заполняем вторую таблицу
+
+    // функция проверки на NaN
+           var ifIsNan = function (value){
+               let val = isNaN(value)?(value).replace(/,/, '.'):value;
+               return val;
+           }
+
+         //  let average = isNaN(Json.average)?(Json.average).replace(/,/, '.'):Json.average;
+           $("#contentTable2").append('<tr><td class="text-center align-middle">'+ parseFloat(ifIsNan(Json.average)).toFixed(2) + '</td><td class="text-center align-middle">'+ parseFloat(ifIsNan(Json.median)).toFixed(2) + '</td><td class="text-center align-middle">'+parseFloat(ifIsNan(Json.procent_success)).toFixed(2)+ '</td></tr>');
+
+
+
+</script>

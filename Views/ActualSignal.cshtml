@@ -1,0 +1,68 @@
+﻿
+@{
+    Layout = null;
+}
+<!DOCTYPE html>
+<div>
+   
+</div>
+<div id="for_Show">
+
+
+</div>
+<div id="test">
+
+
+</div>
+
+<div class="row">
+    <div class="col-sm-12 col-md-7 col-lg-6 col-xl-6">
+        <div id="calculateResult2" style="margin-left: 50px; margin-right: 50px">
+            <table class="table table-bordered table-hover table-sm">
+                <caption style="caption-side: top">
+                    Таблица 1. Результаты 
+                </caption>
+                <thead class="thead-dark">
+                    <tr id="headTable1"></tr>
+                </thead>
+                <tbody id="contentTable1"></tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<script>
+        var Json = @Html.Raw(Json.Encode(Model)); // json object
+    // проверка
+      //    var str = JSON.stringify(Json);
+    //        $('#for_Show').text(str);
+ 
+            var Table1List = ["Дата",
+                              "Сигнал покупки",
+                              "Сигнал продажи"];
+
+           function getDate(date){
+                var find=date;
+                var result = find.match(/\d+/);
+                var res = parseInt(result);
+                var myDate = new Date(res);
+                myDate.setMilliseconds(3 * 60 * 60 * 1000);
+                var myDate1 = myDate.toISOString().replace(/^([^T]+)T(.+)$/,'$1').replace(/^(\d+)-(\d+)-(\d+)$/,'$3.$2.$1');
+                return myDate1;
+            }
+
+            for(var i = 0; i<Table1List.length; i++){
+                $('#headTable1').append('<th>'+ Table1List[i] +'</th>');
+            }
+
+            for(var i = 0; i<Json.length; i++){
+                var date = getDate(Json[i].date);
+                $('#contentTable1').append('<tr><td>'+ date +'</td><td>'+ Json[i].signal_plus +'</td><td>'+ Json[i].signal_minus +'</td></tr>');
+            }
+
+            $("td").addClass("align-middle");
+            $("th").addClass("align-middle");
+
+</script>
+
+

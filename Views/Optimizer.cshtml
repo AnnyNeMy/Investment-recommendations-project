@@ -1,0 +1,574 @@
+﻿
+@{
+    Layout = null;
+}
+<!DOCTYPE html>
+<div>
+
+</div>
+<div id="for_Show">
+
+
+</div>
+<div id="test">
+    <a id="save" href="#">
+        Download Tables
+    </a>
+</div>
+
+
+<div class="row">
+    <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12">
+        <div id="sourceData" style="margin-left: 50px; margin-right: 50px">
+            <table class="table table-bordered table-hover table-responsive table-sm">
+                <caption style="caption-side: top">
+                    Таблица 1. Средние значения
+                </caption>
+                <thead>
+                    <tr id="headTable1"></tr>
+                </thead>
+                <tbody id="contentTable1"></tbody>
+            </table>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12">
+        <div id="calculateResult2" style="margin-left: 50px; margin-right: 50px">
+            <table class="table table-bordered table-responsive table-hover table-sm">
+                <caption style="caption-side: top">
+                    Таблица 2. Медиана
+                </caption>
+                <thead>
+                    <tr id="headTable2"></tr>
+                </thead>
+                <tbody id="contentTable2"></tbody>
+            </table>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12">
+        <div id="calculateResult3" style="margin-left: 50px; margin-right: 50px">
+            <table class="table table-bordered table-hover table-responsive table-sm">
+                <caption style="caption-side: top">
+                    Таблица 3. Процент успешных индикаций
+                </caption>
+                <thead>
+                    <tr id="headTable3"></tr>
+                </thead>
+                <tbody id="contentTable3"></tbody>
+            </table>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12">
+        <div id="calculateResult4" style="margin-left: 50px; margin-right: 50px">
+            <table class="table table-bordered table-hover table-responsive table-sm">
+                <caption style="caption-side: top">
+                    Таблица 4. Время жизни сигнала
+                </caption>
+                <thead>
+                    <tr id="headTable4"></tr>
+                </thead>
+                <tbody id="contentTable4"></tbody>
+            </table>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12">
+        <div id="calculateResult5" style="margin-left: 50px; margin-right: 50px">
+            <table class="table table-bordered table-hover table-responsive table-sm">
+                <caption style="caption-side: top">
+                    Таблица 5. Прибыль (профит)
+                </caption>
+                <thead>
+                    <tr id="headTable5"></tr>
+                </thead>
+                <tbody id="contentTable5"></tbody>
+            </table>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12">
+        <div id="calculateResult6" style="margin-left: 50px; margin-right: 50px">
+            <table class="table table-bordered table-hover table-responsive table-sm">
+                <caption style="caption-side: top">
+                    Таблица 6. Эффективность (в месяц)
+                </caption>
+                <thead>
+                    <tr id="headTable6"></tr>
+                </thead>
+                <tbody id="contentTable6"></tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+
+<script>
+    var Json = @Html.Raw(Json.Encode(Model)); // json object
+
+    // проверка
+       //   var str = JSON.stringify(Json);
+       //   $('#for_Show').text(str);
+
+          var firstParam = @Html.Raw(Json.Encode(ViewBag.firstParam));
+          var secondParam = @Html.Raw(Json.Encode(ViewBag.secondParam));
+
+          console.log("firstParam  " + firstParam);
+          console.log("secondParam " + secondParam);
+          console.log("Json.length " + Json.length);
+
+    // выполним сортировку если вдруг значения перемешаны
+          Json.sort(function(a, b) {
+              return (b.properties.N_1<a.properties.N_1) - (a.properties.N_1<b.properties.N_1) || (b.properties.Up_criteria<a.properties.Up_criteria) -
+              (a.properties.Up_criteria<b.properties.Up_criteria);
+          })
+
+    // функция сформирует новый объект с учетом выбраннов параметров
+          function getMyModel(firstParam, secondParam){
+              var  bufMyModel= [];
+              if(firstParam == "N_1"){
+                  if(secondParam == "N_2"){
+                      for (var i = 0; i<Json.length; i++){
+                          bufMyModel.push({"firstParam": Json[i].properties.N_1, "secondParam": Json[i].properties.N_2, "average": Json[i].average,
+                              "median": Json[i].median, "procent_success": Json[i].procent_success, "life_time_signal": Json[i].life_time_signal,
+                              "profit": Json[i].profit, "effective_month": Json[i].effective_month });
+                      }
+                  }
+                  else if(secondParam == "N_3"){
+                      for (var i = 0; i<Json.length; i++){
+                          bufMyModel.push({"firstParam": Json[i].properties.N_1, "secondParam": Json[i].properties.N_3, "average": Json[i].average,
+                              "median": Json[i].median, "procent_success": Json[i].procent_success, "life_time_signal": Json[i].life_time_signal,
+                              "profit": Json[i].profit, "effective_month": Json[i].effective_month });
+                      }
+                  }
+                  else if(secondParam == "Up_criteria"){
+                      for (var i = 0; i<Json.length; i++){
+                          bufMyModel.push({"firstParam": Json[i].properties.N_1, "secondParam": Json[i].properties.Up_criteria, "average": Json[i].average,
+                              "median": Json[i].median, "procent_success": Json[i].procent_success, "life_time_signal": Json[i].life_time_signal,
+                              "profit": Json[i].profit, "effective_month": Json[i].effective_month });
+                      }
+                  }
+                  else if(secondParam == "Down_criteria"){
+                      for (var i = 0; i<Json.length; i++){
+                          bufMyModel.push({"firstParam": Json[i].properties.N_1, "secondParam": Json[i].properties.Down_criteria, "average": Json[i].average,
+                              "median": Json[i].median, "procent_success": Json[i].procent_success, "life_time_signal": Json[i].life_time_signal,
+                              "profit": Json[i].profit, "effective_month": Json[i].effective_month });
+                      }
+                  }
+                  else if(secondParam == "secondParametrNotSelected"){
+                      for (var i = 0; i<Json.length; i++){
+                          bufMyModel.push({"firstParam": Json[i].properties.N_1, "secondParam": "secondParametrNotSelected", "average": Json[i].average,
+                              "median": Json[i].median, "procent_success": Json[i].procent_success, "life_time_signal": Json[i].life_time_signal,
+                              "profit": Json[i].profit, "effective_month": Json[i].effective_month });
+                      }
+                  }
+              }
+              else if(firstParam == "N_2"){
+                   if(secondParam == "N_3"){
+                      for (var i = 0; i<Json.length; i++){
+                          bufMyModel.push({"firstParam": Json[i].properties.N_2, "secondParam": Json[i].properties.N_3, "average": Json[i].average,
+                              "median": Json[i].median, "procent_success": Json[i].procent_success, "life_time_signal": Json[i].life_time_signal,
+                              "profit": Json[i].profit, "effective_month": Json[i].effective_month });
+                      }
+                  }
+                   else if(secondParam == "Up_criteria"){
+                      for (var i = 0; i<Json.length; i++){
+                          bufMyModel.push({"firstParam": Json[i].properties.N_2, "secondParam": Json[i].properties.Up_criteria, "average": Json[i].average,
+                              "median": Json[i].median, "procent_success": Json[i].procent_success, "life_time_signal": Json[i].life_time_signal,
+                              "profit": Json[i].profit, "effective_month": Json[i].effective_month });
+                      }
+                  }
+                  else if(secondParam == "Down_criteria"){
+                      for (var i = 0; i<Json.length; i++){
+                          bufMyModel.push({"firstParam": Json[i].properties.N_2, "secondParam": Json[i].properties.Down_criteria, "average": Json[i].average,
+                              "median": Json[i].median, "procent_success": Json[i].procent_success, "life_time_signal": Json[i].life_time_signal,
+                              "profit": Json[i].profit, "effective_month": Json[i].effective_month });
+                      }
+                  }
+                  else if(secondParam == "secondParametrNotSelected"){
+                      for (var i = 0; i<Json.length; i++){
+                          bufMyModel.push({"firstParam": Json[i].properties.N_2, "secondParam": "secondParametrNotSelected", "average": Json[i].average,
+                              "median": Json[i].median, "procent_success": Json[i].procent_success, "life_time_signal": Json[i].life_time_signal,
+                              "profit": Json[i].profit, "effective_month": Json[i].effective_month });
+                      }
+                  }
+              }
+              else if(firstParam == "N_3"){
+                  if(secondParam == "Up_criteria"){
+                      for (var i = 0; i<Json.length; i++){
+                          MyModel.push({"firstParam": Json[i].properties.N_3, "secondParam": Json[i].properties.Up_criteria, "average": Json[i].average,
+                              "median": Json[i].median, "procent_success": Json[i].procent_success, "life_time_signal": Json[i].life_time_signal,
+                              "profit": Json[i].profit, "effective_month": Json[i].effective_month });
+                      }
+                  }
+                  else if(secondParam == "Down_criteria"){
+                      for (var i = 0; i<Json.length; i++){
+                          bufMyModel.push({"firstParam": Json[i].properties.N_3, "secondParam": Json[i].properties.Down_criteria, "average": Json[i].average,
+                              "median": Json[i].median, "procent_success": Json[i].procent_success, "life_time_signal": Json[i].life_time_signal,
+                              "profit": Json[i].profit, "effective_month": Json[i].effective_month });
+                      }
+                  }
+                  else if(secondParam == "secondParametrNotSelected"){
+                      for (var i = 0; i<Json.length; i++){
+                          bufMyModel.push({"firstParam": Json[i].properties.N_3, "secondParam": "secondParametrNotSelected", "average": Json[i].average,
+                              "median": Json[i].median, "procent_success": Json[i].procent_success, "life_time_signal": Json[i].life_time_signal,
+                              "profit": Json[i].profit, "effective_month": Json[i].effective_month });
+                      }
+                  }
+              }
+              else if(firstParam == "Up_criteria"){
+                  if (secondParam == "Down_criteria"){
+                      for (var i = 0; i<Json.length; i++){
+                          bufMyModel.push({"firstParam": Json[i].properties.Up_criteria, "secondParam": Json[i].properties.Down_criteria, "average": Json[i].average,
+                              "median": Json[i].median, "procent_success": Json[i].procent_success, "life_time_signal": Json[i].life_time_signal,
+                              "profit": Json[i].profit, "effective_month": Json[i].effective_month });
+                      }
+                  }
+                  else if(secondParam == "secondParametrNotSelected"){
+                      for (var i = 0; i<Json.length; i++){
+                          bufMyModel.push({"firstParam": Json[i].properties.Up_criteria, "secondParam": "secondParametrNotSelected", "average": Json[i].average,
+                              "median": Json[i].median, "procent_success": Json[i].procent_success, "life_time_signal": Json[i].life_time_signal,
+                              "profit": Json[i].profit, "effective_month": Json[i].effective_month });
+                      }
+                  }
+              }
+              else if(firstParam == "Down_criteria"){
+                   if(secondParam == "secondParametrNotSelected"){
+                      for (var i = 0; i<Json.length; i++){
+                          bufMyModel.push({"firstParam": Json[i].properties.Down_criteria, "secondParam": "secondParametrNotSelected", "average": Json[i].average,
+                              "median": Json[i].median, "procent_success": Json[i].procent_success, "life_time_signal": Json[i].life_time_signal,
+                              "profit": Json[i].profit, "effective_month": Json[i].effective_month });
+                      }
+                  }
+              }
+              else if(firstParam == "ferstParametrNotSelected"){
+                  if(secondParam == "secondParametrNotSelected"){
+                      for (var i = 0; i<Json.length; i++){
+                          bufMyModel.push({"firstParam": "ferstParametrNotSelected", "secondParam": "secondParametrNotSelected", "average": Json[i].average,
+                              "median": Json[i].median, "procent_success": Json[i].procent_success, "life_time_signal": Json[i].life_time_signal,
+                              "profit": Json[i].profit, "effective_month": Json[i].effective_month });
+                      }
+                  }
+              }
+              return bufMyModel;
+          }
+
+    // сформируем объект из выбранных параметров
+          var MyModel = getMyModel(firstParam, secondParam);
+
+    // функция поиска максимальных и минимальных значений всех параметров и коэффициентов модели
+          function getMaxMin(cmp, arr, attr) {
+              if(arr[0][attr]=="ferstParametrNotSelected"){
+                  var val = "ferstParametrNotSelected";
+              }
+              else if(arr[0][attr]=="secondParametrNotSelected"){
+                  var val = "secondParametrNotSelected";
+              }
+              else{
+                  var val = arr[0][attr];
+                  for(var i=1;i<arr.length;i++) {
+                      val = cmp(val, arr[i][attr]);
+                  }
+              }
+              return val;
+          }
+
+
+    // найдем максимальные и минимальные значения
+          var maxValueFirstParam = getMaxMin(Math.max, MyModel, "firstParam");
+          var minValueFirstParam = getMaxMin(Math.min, MyModel, "firstParam");
+          console.log("maxValueFirstParam " + maxValueFirstParam);
+          console.log("minValueFirstParam " + minValueFirstParam);
+
+          var maxValueSecondParam = getMaxMin(Math.max, MyModel, "secondParam");
+          var minValueSecondParam = getMaxMin(Math.min, MyModel, "secondParam");
+          console.log("maxValueSecondParam " + maxValueSecondParam);
+          console.log("minValueSecondParam " + minValueSecondParam);
+
+          var maxValueAverage = getMaxMin(Math.max, MyModel, "average");
+          var minValueAverage = getMaxMin(Math.min, MyModel, "average");
+          console.log("maxValueAverage " + maxValueAverage);
+          console.log("minValueAverage " + minValueAverage);
+
+          var maxValueMedian = getMaxMin(Math.max, MyModel, "median");
+          var minValueMedian = getMaxMin(Math.min, MyModel, "median");
+          console.log("maxValueMedian " + maxValueMedian);
+          console.log("minValueMedian " + minValueMedian);
+
+          var maxValueProcent_success = getMaxMin(Math.max, MyModel, "procent_success");
+          var minValueProcent_success = getMaxMin(Math.min, MyModel, "procent_success");
+          console.log("maxValueProcent_success " + maxValueProcent_success);
+          console.log("minValueProcent_success " + minValueProcent_success);
+
+          var maxValueLife_time_signal = getMaxMin(Math.max, MyModel, "life_time_signal");
+          var minValueLife_time_signal = getMaxMin(Math.min, MyModel, "life_time_signal");
+          console.log("maxValueLife_time_signal " + maxValueLife_time_signal);
+          console.log("minValueLife_time_signal " + minValueLife_time_signal);
+
+          var maxValueProfit = getMaxMin(Math.max, MyModel, "profit");
+          var minValueProfit = getMaxMin(Math.min, MyModel, "profit");
+          console.log("maxValueProfit " + maxValueProfit);
+          console.log("minValueProfit " + minValueProfit);
+
+          var maxValueEffective_month = getMaxMin(Math.max, MyModel, "effective_month");
+          var minValueEffective_month = getMaxMin(Math.min, MyModel, "effective_month");
+          console.log("maxValueEffective_month " + maxValueEffective_month );
+          console.log("minValueEffective_month " + minValueEffective_month );
+
+
+    // Заполним заголовок для всех трех таблиц
+          if(minValueSecondParam == "secondParametrNotSelected"){
+              if(minValueFirstParam == "ferstParametrNotSelected"){
+                  //     $("#headTable1").append('<th scope="col"></th>')
+                  $("#headTable1").append('<th scope="col"> average </th>')
+
+                  //      $("#headTable2").append('<th scope="col"></th>')
+                  $("#headTable2").append('<th scope="col"> median </th>')
+
+                  //      $("#headTable3").append('<th scope="col"></th>')
+                  $("#headTable3").append('<th scope="col"> procent_success </th>')
+
+                  $("#headTable4").append('<th scope="col"> life_time_signal </th>')
+                  $("#headTable5").append('<th scope="col"> profit </th>')
+                  $("#headTable6").append('<th scope="col"> effective_month </th>')
+              }
+              else{
+                  $("#headTable1").append('<th scope="row">' + firstParam + '</th>')
+                  $("#headTable1").append('<th scope="row" colspan="'+ MyModel.length +' ">  average </th>')
+
+                  $("#headTable2").append('<th scope="col">' + firstParam +  '</th>')
+                  $("#headTable2").append('<th scope="col"  colspan="'+ MyModel.length+' ">median</th>')
+
+                  $("#headTable3").append('<th scope="col">' + firstParam + '</th>')
+                  $("#headTable3").append('<th scope="col"  colspan="'+MyModel.length +' ">procent_success</th>')
+
+                  $("#headTable4").append('<th scope="col">' + firstParam + '</th>')
+                  $("#headTable4").append('<th scope="col"  colspan="'+MyModel.length +' ">life_time_signal</th>')
+
+                  $("#headTable5").append('<th scope="col">' + firstParam + '</th>')
+                  $("#headTable5").append('<th scope="col"  colspan="'+MyModel.length +' ">profit</th>')
+
+                  $("#headTable6").append('<th scope="col">' + firstParam + '</th>')
+                  $("#headTable6").append('<th scope="col"  colspan="'+MyModel.length +' ">effective_month</th>')
+              }
+          }
+          else{
+              for(var i = minValueSecondParam; i<=maxValueSecondParam; i++){
+                  if(i==minValueSecondParam){
+                      $("#headTable1").append('<th scope="col">' + firstParam + "\\" + secondParam + '</th>')
+                      $("#headTable1").append('<th scope="col">' + i + '</th>')
+
+                      $("#headTable2").append('<th scope="col">' + firstParam + "\\" + secondParam + '</th>')
+                      $("#headTable2").append('<th scope="col">' + i + '</th>')
+
+                      $("#headTable3").append('<th scope="col">' + firstParam + "\\" + secondParam + '</th>')
+                      $("#headTable3").append('<th scope="col">' + i + '</th>')
+
+                      $("#headTable4").append('<th scope="col">' + firstParam + "\\" + secondParam + '</th>')
+                      $("#headTable4").append('<th scope="col">' + i + '</th>')
+
+                      $("#headTable5").append('<th scope="col">' + firstParam + "\\" + secondParam + '</th>')
+                      $("#headTable5").append('<th scope="col">' + i + '</th>')
+
+                      $("#headTable6").append('<th scope="col">' + firstParam + "\\" + secondParam + '</th>')
+                      $("#headTable6").append('<th scope="col">' + i + '</th>')
+                  }
+                  else{
+                      $("#headTable1").append('<th scope="col">' + i + '</th>');
+                      $("#headTable2").append('<th scope="col">' + i + '</th>');
+                      $("#headTable3").append('<th scope="col">' + i + '</th>');
+                      $("#headTable4").append('<th scope="col">' + i + '</th>');
+                      $("#headTable5").append('<th scope="col">' + i + '</th>');
+                      $("#headTable6").append('<th scope="col">' + i + '</th>');
+                  }
+              }
+          }
+
+          var colorsRed = ["#FF4500","#FF6347","#FF9933","#FFCC00","#fff380"];
+          //var colorsGreen =["#24C417","#3CB371","#9ACD32","#ADFF2F","#98FB98"];
+          var colorsGreen =["#00D11A","#2BFD5C","#70FF92","#A4FFBA","#D7FFD7"];
+
+          // заполним таблицу 1
+    // функция заполнения таблицы
+          function getTable (parametr, parametrMaxValue, parametrMinValue, idcontentTable){
+              if(minValueFirstParam == "ferstParametrNotSelected"){
+                  $(idcontentTable).append('<tr> <th>'+ MyModel[0][parametr]  +'</th></tr>');
+              }
+              else{
+                  if(parametrMaxValue>0){
+                      var stepPlus = parametrMaxValue/4;
+                  }
+                  if(parametrMinValue<=0){
+                      var stepMinus = parametrMinValue/4;
+                      console.log("stepMinus " + stepMinus);
+                  }
+                  for(var i = minValueFirstParam; i<=maxValueFirstParam; i++){
+
+                      var bufIdRow = "row_" + i + "_"+parametr;
+                      // сначала добавляем ряд по каждому коэффициенту, присваеваем ему уникальное id
+                      $(idcontentTable).append('<tr id ='+ bufIdRow + '> <th>'+ i  +'</th></tr>');
+                      for (var j = 0; j < MyModel.length; j++){
+                          if (MyModel[j].firstParam == i){
+                              console.log("MyModel[j] currentValue " + MyModel[j][parametr]);
+                              console.log("maxValue " + parametrMaxValue);
+                              var color1 = "";
+                              if (MyModel[j][parametr]>0){
+                                  if (MyModel[j][parametr] == parametrMaxValue){
+                                      color1 = colorsGreen[0];
+                                      console.log("colorsGreen[0] " + color1);
+                                  }
+                                  else if (MyModel[j][parametr]>0&&MyModel[j][parametr]<stepPlus){
+                                      var color1 =  colorsGreen[4];
+                                      console.log("colorsGreen[4] " + color1);
+                                  }
+                                  else if (MyModel[j][parametr]>=stepPlus&&MyModel[j][parametr]<stepPlus*2){
+                                      var color1 =  colorsGreen[3];
+                                      console.log("colorsGreen[3] " + color1);
+                                  }
+                                  else if (MyModel[j][parametr]>=stepPlus*2&&MyModel[j][parametr]<stepPlus*3){
+                                      var color1 =  colorsGreen[2];
+                                      console.log("colorsGreen[2] " + color1);
+                                  }
+                                  else if (MyModel[j][parametr]>=stepPlus*3&&MyModel[j][parametr]<stepPlus*4){
+                                      var color1 = colorsGreen[1];
+                                      console.log("colorsGreen[1] " + color1);
+                                  }
+                              }
+                              else if (MyModel[j][parametr]<=0){
+                                  if (MyModel[j][parametr]==parametrMinValue){
+                                      if(parametrMinValue == 0){
+                                          color1 = colorsRed[4];
+                                          console.log("parametrMinValue=0  colorsRed[0] " + color1);
+                                      }
+                                      else{
+                                          color1 = colorsRed[0];
+                                          console.log("colorsRed[0] " + color1);
+                                      }
+                                  }
+                                  else if (MyModel[j][parametr]==0&&MyModel[j][parametr]!=parametrMinValue){
+                                      var color1 =  colorsRed[4];
+                                      console.log("colorsRed[4] " + color1);
+                                  }
+                                  else if (MyModel[j][parametr]<0&&MyModel[j][parametr]>stepMinus){
+                                      var color1 =  colorsRed[4];
+                                      console.log("colorsRed[4] " + color1);
+                                  }
+                                  else if (MyModel[j][parametr]<=stepMinus&&MyModel[j][parametr]>stepMinus*2){
+                                      var color1 =  colorsRed[3];
+                                      console.log("colorsRed[3] " + color1);
+                                  }
+                                  else if ((MyModel[j][parametr]<=stepMinus*2)&&MyModel[j][parametr]>stepMinus*3){
+                                      var color1 =  colorsRed[2];
+                                      console.log("colorsRed[2] " + color1);
+                                  }
+                                  else if (MyModel[j][parametr]<=stepMinus*3&&MyModel[j][parametr]>stepMinus*4){
+                                      var color1 =  colorsRed[1];
+                                      console.log("colorsRed[1] " + color1);
+                                  }
+                              }
+                              // заполняем ряд средними (average) значениями
+                              $('#' +bufIdRow +'').append('<td style="background:' + color1 +'">' + MyModel[j][parametr].toFixed(2) + '</td>');
+                              console.log("Примененный цвет " + color1);
+                          }
+                      }
+                  }
+              }
+          }
+
+    // Заполняем таблицу 1 - средние значения
+          getTable("average", maxValueAverage, minValueAverage, '#contentTable1');
+    // Заполняем таблицу 2 - Медиана
+          getTable("median", maxValueMedian, minValueMedian, '#contentTable2');
+    // заполняем таблицу 3 - положительные индикации
+          getTable("procent_success", maxValueProcent_success, minValueProcent_success, '#contentTable3');
+    // Заполняем остальные 3 таблицы
+          getTable("life_time_signal", maxValueLife_time_signal, minValueLife_time_signal, '#contentTable4');
+          getTable("profit", maxValueProfit, minValueProfit, '#contentTable5');
+          getTable("effective_month", maxValueEffective_month, minValueEffective_month, '#contentTable6');
+
+
+    // сохраним полученные данные
+
+          $('#save').click(function (){
+              savedTables ='Выбранные параметры: ' + firstParam + ", " + secondParam + ", выбранный метод: " + Json[0].properties.Method_name+"\r\n";
+              savedTables+="Таблица 1. Средние значения \r\n";
+              var detail='(';
+              $("#headTable1").find('th').each(function(){
+                  detail+=$(this).html()+',';
+              });
+              detail+=')';
+              savedTables+=detail+"\r\n";
+              $('#contentTable1 tr').each(function(){
+                  var detail='(';
+                  $(this).find('th, td').each(function(){
+                      detail+=$(this).html()+',';
+                  });
+                  detail=detail.substring(0,detail.length-1);
+                  detail+=')';
+                  savedTables+=detail+"\r\n";
+              });
+              savedTables+="Таблица 2. Медиана \r\n";
+              $('#contentTable2 tr').each(function(){
+                  var detail='(';
+                  $(this).find('th, td').each(function(){
+                      detail+=$(this).html()+',';
+                  });
+                  detail=detail.substring(0,detail.length-1);
+                  detail+=')';
+                  savedTables+=detail+"\r\n";
+              });
+              savedTables+="Таблица 3. Процент успешных индикаций \r\n";
+              $('#contentTable3 tr').each(function(){
+                  var detail='(';
+                  $(this).find('th, td').each(function(){
+                      detail+=$(this).html()+',';
+                  });
+                  detail=detail.substring(0,detail.length-1);
+                  detail+=')';
+                  savedTables+=detail+"\r\n";
+              });
+              savedTables+="Таблица 4. Время жизни сигнала \r\n";
+              $('#contentTable4 tr').each(function(){
+                  var detail='(';
+                  $(this).find('th, td').each(function(){
+                      detail+=$(this).html()+',';
+                  });
+                  detail=detail.substring(0,detail.length-1);
+                  detail+=')';
+                  savedTables+=detail+"\r\n";
+              });
+              savedTables+="Таблица 5. Прибыль \r\n";
+              $('#contentTable5 tr').each(function(){
+                  var detail='(';
+                  $(this).find('th, td').each(function(){
+                      detail+=$(this).html()+',';
+                  });
+                  detail=detail.substring(0,detail.length-1);
+                  detail+=')';
+                  savedTables+=detail+"\r\n";
+              });
+              savedTables+="Таблица 6. Эффективность (в месяц) \r\n";
+              $('#contentTable6 tr').each(function(){
+                  var detail='(';
+                  $(this).find('th, td').each(function(){
+                      detail+=$(this).html()+',';
+                  });
+                  detail=detail.substring(0,detail.length-1);
+                  detail+=')';
+                  savedTables+=detail+"\r\n";
+              });
+              var file = new Blob([savedTables], {type: 'text/plain'});
+              var btn = $('#save');
+              btn.attr("href", URL.createObjectURL(file));
+              btn.prop("download", "data.txt");
+          });
+
+
+</script>
+

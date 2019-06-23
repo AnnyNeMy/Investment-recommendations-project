@@ -1,0 +1,1068 @@
+﻿
+@{
+    Layout = null;
+}
+<!DOCTYPE html>
+<div>
+</div>
+<div id="for_Show">
+
+
+</div>
+<div id="test">
+
+
+</div>
+
+
+<div class="row">
+    <div class="col-sm-12 col-md-12 col-lg-6 col-xl-6">
+        <div id="sourceData" style="margin-left: 50px; margin-right: 50px">
+            <table class="table table-bordered table-hover table-sm">
+                <caption style="caption-side: top">
+                    Таблица 1. Принятые исходные данные
+                </caption>
+                <thead class="thead-dark">
+                    <tr>
+                        <th scope="col"> Параметр </th>
+                        <th scope="col">Значение </th>
+                    </tr>
+                </thead>
+                <tbody id="tableSourceData"></tbody>
+            </table>
+        </div>
+    </div>
+    <div class="col-sm-12 col-md-12 col-lg-6 col-xl-6">
+        <div id="calculateResult2" style="margin-left: 50px; margin-right: 50px">
+            <table class="table table-bordered table-hover table-sm">
+                <caption style="caption-side: top">
+                    Таблица 2. Результаты расчета
+                </caption>
+                <thead class="thead-dark">
+                    <tr>
+                        <th scope="col"> Параметр </th>
+                        <th scope="col">Значение </th>
+                    </tr>
+                </thead>
+                <tbody id="tableCalculateResult2"></tbody>
+            </table>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12">
+        <div id="chart2">
+
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12">
+        <div id="tooltip" display="none" style="position: absolute; display: none;"></div>
+        <div id="drawing" style="position: relative;">
+            <div id="controls" style="position: absolute; left: 30px; top: 15px;">
+                <span class="btn btn-dark" id="resetZoom" href="#" aria-label="reset">
+                    <i class="fas fa-undo-alt" aria-hidden="true"></i>
+                </span>
+                <span class="btn btn-dark" id="plusZoom" href="#" aria-label="reset">
+                    <i class="fas fa-plus-square" aria-hidden="true"></i>
+                </span>
+                <span class="btn btn-dark" id="minusZoom" href="#" aria-label="reset">
+                    <i class="fas fa-minus-square" aria-hidden="true"></i>
+                </span>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12">
+        <div id="allResults2">
+            <table class="table table-bordered table-hover table-sm" style="border-spacing: 7px 5px">
+                <caption style="caption-side: top">
+                    Таблица 3. Подробные результаты
+                </caption>
+                <thead class="thead-dark">
+                    <tr id="headTable3"></tr>
+                </thead>
+                <tbody id="contentTable3"></tbody>
+            </table>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12">
+        <div id="allResults2">
+            <table class="table table-bordered table-hover table-sm" style="border-spacing: 7px 5px">
+                <caption style="caption-side: top">
+                    Таблица 4. Характеистики сигнала
+                </caption>
+                <thead class="thead-dark">
+                    <tr id="headTable4"></tr>
+                </thead>
+                <tbody id="contentTable4"></tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+
+<script>
+        var Json = @Html.Raw(Json.Encode(Model)); // json object
+        //alert(JSON.stringify(Json[0].StrTicker)); // converting it to string representation
+        //alert(JSON.stringify(Json[1].DOpen)); // converting it to string representation
+        // var str = JSON.stringify(Json);
+        //    $('#for_Show').text(str);
+
+    
+        //var myDate = new Date(1546030800000);
+        //alert(myDate);
+        var Table1List = ["Метод расчета", "Обозначение бумаги", "Дата начала", "Дата окончания", "Период сглаживания N", "Количество значений", "Затрачено времени, мс", "Примечание"];
+    
+        function getDate(date){
+            var find=date;
+            var result = find.match(/\d+/);
+            var res = parseInt(result);
+            var myDate = new Date(res);
+            myDate.setMilliseconds(3 * 60 * 60 * 1000);
+            var myDate1 = myDate.toISOString().replace(/^([^T]+)T(.+)$/,'$1').replace(/^(\d+)-(\d+)-(\d+)$/,'$3.$2.$1');
+          //  var myDate = new Date(res).setMilliseconds(3 * 60 * 60 * 1000).toISOString().replace(/^([^T]+)T(.+)$/,'$1').replace(/^(\d+)-(\d+)-(\d+)$/,'$3.$2.$1');
+         //   var dateStringFormat = addZeroz(myDate.getDate()) + "." +  addZeroz((parseInt(myDate.getMonth())+1)) + "." + addZeroz(myDate.getFullYear());
+            //   return dateStringFormat;
+            return myDate1;
+        }
+    /*
+        function addZeroz(number) {
+            return ('0' + number).slice(-2);
+        }*/
+
+        // $("#resultDate").text(myDate1);
+       //  $("#resultDate1").text(dateStringFormat);
+
+        var input_paramsInArray = [Json.input_params.calculate_method_name,
+                                     Json.input_params.stock_name,
+                                     Json.input_params.date_start,
+                                     Json.input_params.date_end,
+                                     Json.input_params.N,
+                                     Json.input_params.signal_amount,
+                                     Json.input_params.spend_time,
+                                     Json.input_params.server_note];
+
+
+        for(var i = 0; i<Table1List.length; i++){
+            // var date = getDate(Json[i].DTDate);
+            $('#tableSourceData').append('<tr> <th>'+ Table1List[i] +'</th><td>' + input_paramsInArray[i] + '</td></tr>');
+        }
+
+        var Table2List = ["Среднее значение прибыли по сигналам, %", "Медианное среднее значение прибыли по сигналам, %", "% попаданий", "Дисперсия", "Всего сигналов", "Суммарная прибыль по сигналам, %", "Прибыль по рынку, %"];
+        var resultInArray = [Json.result.Average.toFixed(2),
+                             Json.result.Median.toFixed(2),
+                             Json.result.Procent_success.toFixed(2),
+                             Json.result.Dispersion.toFixed(2),
+                             Json.result.MyCountSignal,
+                             Json.result.SumProfitSignal.toFixed(2),
+                             Json.result.MarketProfit.toFixed(2)];
+
+
+        for(var i = 0; i<Table2List.length; i++){
+            if (Table2List[i] == "Суммарная прибыль по сигналам, %"){
+                if(resultInArray[i] > resultInArray[i+1]){
+                    $('#tableCalculateResult2').append('<tr> <th>'+ Table2List[i] +'</th><th style="color: green">' + resultInArray[i] + '</th></tr>');
+                }
+                else
+                {
+                    $('#tableCalculateResult2').append('<tr> <th>'+ Table2List[i] +'</th><th style="color: red">' + resultInArray[i] + '</th></tr>');
+                }
+            }
+            else
+            {
+                $('#tableCalculateResult2').append('<tr> <th>'+ Table2List[i] +'</th><td>' + resultInArray[i] + '</td></tr>');
+            }
+
+        }
+
+       /* var headForTable3 = ["ID",
+                             "Обозначение бумаги",
+                             "Дата",
+                             "Цена открытия",
+                             "Максимальная цена",
+                             "Минимальная цена",
+                             "Цена закрытия",
+                             "Объем продаж",
+                             "Выбранная цена (Active price)",
+                             "Расчетное значение индикатора",
+                             "Сигнал",
+                             "Значение прибыли для положительных сигналов",
+                             "Примечание"];*/
+
+        for (var i =0; i<Json.Stock_headers.length; i++){
+            $("#headTable3").append('<th scope="col">'+ Json.Stock_headers[i] + '</th>' )
+        }
+   /*     for (let j =0; j<Json.results_sum.length; j++){
+            $("#contentTable3").append('<tr> <td>'+ Json.results_sum[j] + '</td></tr>' )
+        }*/
+
+
+
+
+
+
+    
+
+        /*
+                 for (var i = 0; i<Json.result_model.length; i++){
+                  date = getDate(Json.result_model[i].DTDate);
+                  $('#contentTable4').append('<tr> <td>'+ Json.result_model[i].ID +'</td><td>'
+                                              + Json.result_model[i].StrTicker + '</td><td>'
+                                              + date + '</td><td>'
+                                              + Json.result_model[i].DOpen + '</td><td>'
+                                              + Json.result_model[i].DHigh + '</td><td>'
+                                              + Json.result_model[i].DLow + '</td><td>'
+                                              + Json.result_model[i].DClose + '</td><td>'
+                                              + Json.result_model[i].DVol + '</td><td>'
+                                              + Json.result_model[i].ActivePrice + '</td> <td>'
+                                              + Json.result_model[i].Indicator_value + '</td><td>'
+                                              + Json.result_model[i].Signal + '</td><td>'
+                                              + Json.result_model[i].Profit_plus_signal + '</td><td>'
+                                              + Json.result_model[i].Notes + '</td></tr>');
+                      }
+      */
+    
+        // обработаем первые 10 значений и выведем их без цвета
+        for (let i = 0; i<9; i++){
+            date = getDate(Json.result_model[i].DTDate);
+            let thisIndicator_value = Json.result_model[i].Indicator_value==null  ? "0" : Json.result_model[i].Indicator_value.toFixed(2);
+
+            let thisSignal = Json.result_model[i].Signal==null  ? "0" : Json.result_model[i].Signal ||
+                Json.result_model[i].Signal==true  ? "true" : Json.result_model[i].Signal ||
+                Json.result_model[i].Signal==false  ? "false" : Json.result_model[i].Signal;
+
+            let thisProfit_plus_signal = Json.result_model[i].Profit_plus_signal==null ? "0" : Json.result_model[i].Profit_plus_signal;
+            let thisProfit_minus_signal = Json.result_model[i].Profit_minus_signal==null ? "0" : Json.result_model[i].Profit_plus_signal;
+            let thisIs_positive_trend = Json.result_model[i].Is_positive_trend==null ? "0" : Json.result_model[i].Is_positive_trend;
+            let thisNotes = Json.result_model[i].Notes==null ? "0" : Json.result_model[i].Notes;
+
+
+            $('#contentTable3').append('<tr> <td>'+ Json.result_model[i].is_div_date +'</td><td>'
+                                         + Json.result_model[i].ID + '</td><td>'
+                                         + Json.result_model[i].StrTicker + '</td><td>'
+                                         + date + '</td><td>'
+                                         + Json.result_model[i].DOpen + '</td><td>'
+                                         + Json.result_model[i].DHigh + '</td><td>'
+                                         + Json.result_model[i].DLow + '</td><td>'
+                                         + Json.result_model[i].DClose + '</td><td>'
+                                         + Json.result_model[i].DVol + '</td><td>'
+                                         + Json.result_model[i].ActivePrice + '</td><td>'
+                                         + thisIndicator_value + '</td><td>'
+                                         + thisSignal + '</td><td>'
+                                         + thisProfit_plus_signal + '</td><td>'
+                                         + thisProfit_minus_signal + '</td><td>'
+                                         + Json.result_model[i].Sellprice + '</td><td>'
+                                         + Json.result_model[i].Boundary_up + '</td><td>'
+                                         + Json.result_model[i].Boundary_down + '</td><td>'
+                                         + thisNotes +'</td><td>'
+                                         + thisIs_positive_trend+ '</td></tr>');
+        }
+
+
+
+        var colors = ["#FF4500","#FF6347","#FF9933","#FFCC00","#fff380","#00D11A","#2BFD5C","#70FF92","#A4FFBA","#D7FFD7"];
+        // обработаем остальное с учетом градации  по цвету
+        for (var i = 9; i<Json.result_model.length; i++){
+
+            var bufArrDOpen =[];
+            var bufArrDHigh =[];
+            var bufArrDLow =[];
+            var bufArrDClose =[];
+            var bufArrDVol =[];
+            var bufArrActivePrice =[];
+
+            // delete bufArr;
+            var bufColors = {colorDOpen: "", colorDHigh: "", colorDLow: "", colorDClose: "", colorDVol: "", colorActivePrice: ""};
+            for (var j=(i-9); j<(i+1);j++){
+                bufArrDOpen.push(Json.result_model[j].DOpen);
+                bufArrDHigh.push(Json.result_model[j].DHigh);
+                bufArrDLow.push(Json.result_model[j].DLow);
+                bufArrDClose.push(Json.result_model[j].DClose);
+                bufArrDVol.push(Json.result_model[j].DVol);
+                bufArrActivePrice.push(Json.result_model[j].ActivePrice);
+            }
+
+            bufArrDOpen.sort((a,b)=>a-b);
+            bufArrDHigh.sort((a,b)=>a-b);
+            bufArrDLow.sort((a,b)=>a-b);
+            bufArrDClose.sort((a,b)=>a-b);
+            bufArrDVol.sort((a,b)=>a-b);
+            bufArrActivePrice.sort((a,b)=>a-b);
+
+            //  $('#for_Show').text(bufArrDOpen);
+
+            for(var k = 0; k<10; k++){
+
+                if(Json.result_model[i].DOpen == bufArrDOpen[k]){
+                    bufColors.colorDOpen = colors[k];
+                }
+                if(Json.result_model[i].DHigh == bufArrDHigh[k]){
+                    bufColors.colorDHigh = colors[k];
+                }
+                if(Json.result_model[i].DLow == bufArrDLow[k]){
+                    bufColors.colorDLow = colors[k];
+                }
+                if(Json.result_model[i].DClose == bufArrDClose[k]){
+                    bufColors.colorDClose = colors[k];
+                }
+                if(Json.result_model[i].DVol == bufArrDVol[k]){
+                    bufColors.colorDVol = colors[k];
+                }
+                if(Json.result_model[i].ActivePrice == bufArrActivePrice[k]){
+                    bufColors.colorActivePrice = colors[k];
+                }
+            }
+
+            //   $('#test').text(bufColors.colorDOpen + " " + bufColors.colorDHigh)
+
+            date = getDate(Json.result_model[i].DTDate);
+            let thisIndicator_value = Json.result_model[i].Indicator_value==null  ? "0" : Json.result_model[i].Indicator_value.toFixed(2);
+
+            let thisSignal = (Json.result_model[i].Signal==null  ? "0" : Json.result_model[i].Signal) || (Json.result_model[i].Signal==true  ? "true" : Json.result_model[i].Signal) || (Json.result_model[i].Signal==false  ? "false" : Json.result_model[i].Signal);
+
+            let thisProfit_plus_signal = Json.result_model[i].Profit_plus_signal==null ? "0" : Json.result_model[i].Profit_plus_signal;
+            let thisNotes = Json.result_model[i].Notes==null ? "0" : Json.result_model[i].Notes;
+            let thisProfit_minus_signal = Json.result_model[i].Profit_minus_signal==null ? "0" : Json.result_model[i].Profit_plus_signal;
+            let thisIs_positive_trend = Json.result_model[i].Is_positive_trend==null ? "0" : Json.result_model[i].Is_positive_trend;
+
+            function getColor(bufColors){
+                var color;
+                if (bufColors == "#0400ff"){
+                    color = "#FFFFFF";
+                }
+                else{
+                    color = "#222222";
+                }
+                return color;
+            }
+
+
+            $('#contentTable3').append('<tr> <td>'+ Json.result_model[i].is_div_date +'</td><td>'+ Json.result_model[i].ID +
+                                       '</td><td>' + Json.result_model[i].StrTicker +
+                                       '</td><td>' + date +
+                                       '</td><td style="background:' + bufColors.colorDOpen + ';color:' + getColor(bufColors.colorDOpen) + '">' + Json.result_model[i].DOpen +
+                                       '</td><td style="background:' + bufColors.colorDHigh + ';color:' + getColor(bufColors.colorDHigh) + '">'  + Json.result_model[i].DHigh +
+                                       '</td><td style="background:' + bufColors.colorDLow + ';color:' + getColor(bufColors.colorDLow) + '">'  + Json.result_model[i].DLow +
+                                       '</td><td style="background:' + bufColors.colorDClose + ';color:' + getColor(bufColors.colorDClose) + '">'  + Json.result_model[i].DClose +
+                                       '</td><td style="background:' + bufColors.colorDVol + ';color:' + getColor(bufColors.colorDVol) + '">' + Json.result_model[i].DVol +
+                                       '</td><td style="background:' + bufColors.colorActivePrice + ';color:' + getColor(bufColors.colorActivePrice) +'">'+ Json.result_model[i].ActivePrice +
+                                       '</td> <td>'  + thisIndicator_value +
+                                       '</td><td>' + thisSignal +
+                                       '</td><td>' + thisProfit_plus_signal +'</td><td>'+ thisProfit_minus_signal + '</td><td>'
+                                         + Json.result_model[i].Sellprice + '</td><td>'
+                                         + Json.result_model[i].Boundary_up + '</td><td>'
+                                         + Json.result_model[i].Boundary_down + '</td><td>'
+                                         + thisNotes +'</td><td>'
+                                         + thisIs_positive_trend+ '</td></tr>');
+        }
+
+
+
+
+
+           
+        for (let i =0; i<Json.Signal_characteristic_headers.length; i++){
+            $("#headTable4").append('<th scope="col">'+ Json.Signal_characteristic_headers[i] + '</th>' )
+        }
+
+        for (let i = 0; i<Json.Signal_characteristic.length; i++){
+            //    date = getDate(Json.Signal_characteristic[i].DTDate);
+            $('#contentTable4').append('<tr> <td>'+ Json.Signal_characteristic[i].stock_name +'</td><td>'
+                                        + Json.Signal_characteristic[i].signal_duration + '</td><td>'
+                                        + Json.Signal_characteristic[i].open_price + '</td><td>'
+                                        + Json.Signal_characteristic[i].close_price + '</td><td>'
+                                        + Json.Signal_characteristic[i].max_high_price + '</td><td>'
+                                        + Json.Signal_characteristic[i].min_low_price + '</td><td>'
+                                        + Json.Signal_characteristic[i].max_relative_open + '</td><td>'
+                                        + Json.Signal_characteristic[i].min_relative_open + '</td> <td>'
+                                        + Json.Signal_characteristic[i].max_relative_close + '</td><td>'
+                                        + Json.Signal_characteristic[i].min_relative_close + '</td><td>'
+                                        + Json.Signal_characteristic[i].signal_type + '</td></tr>');
+        }
+
+
+        for (let i = 0; i<Json.Signal_characteristic_summary_positive.length; i++){
+            //    date = getDate(Json.Signal_characteristic[i].DTDate);
+            $('#contentTable4').append('<tr> <td>'+ Json.Signal_characteristic_summary_positive[i].stock_name +'</td><td>'
+                                        + Json.Signal_characteristic_summary_positive[i].signal_duration + '</td><td>'
+                                        + Json.Signal_characteristic_summary_positive[i].open_price + '</td><td>'
+                                        + Json.Signal_characteristic_summary_positive[i].close_price + '</td><td>'
+                                        + Json.Signal_characteristic_summary_positive[i].max_high_price + '</td><td>'
+                                        + Json.Signal_characteristic_summary_positive[i].min_low_price + '</td><td>'
+                                        + Json.Signal_characteristic_summary_positive[i].max_relative_open + '</td><td>'
+                                        + Json.Signal_characteristic_summary_positive[i].min_relative_open + '</td> <td>'
+                                        + Json.Signal_characteristic_summary_positive[i].max_relative_close + '</td><td>'
+                                        + Json.Signal_characteristic_summary_positive[i].min_relative_close + '</td><td>'
+                                        + Json.Signal_characteristic_summary_positive[i].signal_type + '</td></tr>');
+        }
+
+        for (let i = 0; i<Json.Signal_characteristic_summary_negative.length; i++){
+            //    date = getDate(Json.Signal_characteristic[i].DTDate);
+            $('#contentTable4').append('<tr> <td>'+ Json.Signal_characteristic_summary_negative[i].stock_name +'</td><td>'
+                                        + Json.Signal_characteristic_summary_negative[i].signal_duration + '</td><td>'
+                                        + Json.Signal_characteristic_summary_negative[i].open_price + '</td><td>'
+                                        + Json.Signal_characteristic_summary_negative[i].close_price + '</td><td>'
+                                        + Json.Signal_characteristic_summary_negative[i].max_high_price + '</td><td>'
+                                        + Json.Signal_characteristic_summary_negative[i].min_low_price + '</td><td>'
+                                        + Json.Signal_characteristic_summary_negative[i].max_relative_open + '</td><td>'
+                                        + Json.Signal_characteristic_summary_negative[i].min_relative_open + '</td> <td>'
+                                        + Json.Signal_characteristic_summary_negative[i].max_relative_close + '</td><td>'
+                                        + Json.Signal_characteristic_summary_negative[i].min_relative_close + '</td><td>'
+                                        + Json.Signal_characteristic_summary_negative[i].signal_type + '</td></tr>');
+        }
+
+
+
+
+
+
+        //   ГРАФИК   SVG  !!!! //
+        // метод для получения количества дней из даты
+        function getDateForChartDays(date){
+            var find=date;
+            var result = find.match(/\d+/);
+            var res = parseInt(result);
+            var days = res*1.15740740740741/100000000;
+            return days;
+        }
+
+        // метод для получения из даты в днях дату вида ДД/ММ/ГГГГ
+        function getDateFromDays(date){
+            var dateStringFormat;
+            var millisec = date*86400000;
+            var myDate = new Date(millisec);
+            var dateStringFormat = addZeroz(myDate.getDate()) + "." +  addZeroz((parseInt(myDate.getMonth())+1)) + "." + addZeroz(myDate.getFullYear());
+            return dateStringFormat;
+        }
+        function addZeroz(number) {
+            return ('0' + number).slice(-2);
+        }
+
+        // параметры графика
+        //1) Поле для рисования
+       // var drawWidth = 1600;
+       // var drawHight = 950;
+
+        var drawWidth = 1300;
+        var drawHight = 800;
+        //2) Непосредственные размеры графика
+        var chartWidth = 1100;
+        var chartHight = 600;
+        // 3)  исходные точки, которые берем за 0 (чтобы немного сдвинуть график)
+        var x0 = 50;
+        var y0 = 50;
+        // 4) цвета сетки, точек, кривых
+        var gridLines = { color: '#A9A9A9', width: 1};
+        var axisLabel = {family: 'Inconsolata', size: 16, color: "#444444"};
+        var axisSign = { family: 'Inconsolata', size: 13 };
+        var tooltipSignalTrie = {family: 'Inconsolata', size: 9};
+        var tooltipSignalTrieHover ={family: 'Inconsolata', weight: 'bold', size: 22};
+        var tooltipSignalFalse = {family: 'Inconsolata', size: 9};
+        var tooltipSignalFalseHover ={family: 'Inconsolata', size: 22, color: '#FF0000'};
+
+        // сформируем массивы с исходными данными для построения графика
+        var datesArr = [];
+        var activePriceArr = [];
+        var signalArr =[];
+        var is_div_dateArr = [];
+        // для второй оси - расчетное значение индикатора
+        var IndicatorValArr =[];
+        for (var i in Json.result_model){
+            activePriceArr.push(Json.result_model[i].ActivePrice);
+            datesArr.push(getDateForChartDays(Json.result_model[i].DTDate));
+            signalArr.push(Json.result_model[i].Signal);
+            is_div_dateArr.push(Json.result_model[i].is_div_date);
+           // var thisIndicator_value = Json.result_model[i].Indicator_value==null  ? "0" : Json.result_model[i].Indicator_value;
+            IndicatorValArr.push(Json.result_model[i].Indicator_value);
+         //   console.log("thisIndicator_value - " + thisIndicator_value + "i = " + i);
+        }
+        console.log("IndicatorValArr - " + IndicatorValArr[2] + " i = 2");
+        console.log("IndicatorValArr - " + IndicatorValArr[15] + " i = 15");
+
+        // максимальное и минимальное значения дат - я их считаю  в днях (по оси х)
+        var maxArrX = Math.max.apply(null, datesArr);
+        var minArrX = Math.min.apply(null, datesArr);
+        var differentX = maxArrX - minArrX;
+        // коэффициент (шаг) для оси х
+        var koeffX = chartWidth / differentX;
+
+        // максимальное и минимальное значения activePrice (ось у)
+        var maxY_activePrice = Math.max.apply(null, activePriceArr);
+        var minY_activePrice = Math.min.apply(null, activePriceArr);
+        var differentY = maxY_activePrice - minY_activePrice;
+        // // коэффициент (шаг) для оси у
+      //  var koeffY = chartHight / (differentY);
+        /* сумма значений массива. Надо ли?
+        const reducer = (accumulator, currentValue) => accumulator + currentValue;
+        var summArrX = ArrX.reduce(reducer);
+        var summArrY = ArrY.reduce(reducer); */
+
+        var extraMinY = minY_activePrice - (differentY * 0.05);
+        var extraMaxY = maxY_activePrice + (differentY * 0.05);
+        var differentextraY = extraMaxY-extraMinY;
+
+        var koeffY = chartHight / differentextraY;
+
+
+        // функция построения графика
+        function chartDrow(ArrX, ArrY, ArrSignal, ArrIndicator, Arr_is_div_date) {
+            var draw = SVG('drawing').size(drawWidth, drawHight);
+          //  draw.panZoom();
+         //   draw.panZoom({zoomMin: 0.5, zoomMax: 20})
+
+            draw.viewbox(0, 0, drawWidth, drawHight);
+
+           // var zoom = box.zoom;
+
+            var rect = draw.rect(chartWidth, chartHight).fill("white").stroke({ width: 3 }).move(x0, y0);
+
+            // наносим на график сетку и разметку по оси x
+            // число вертикальных линий шаг между ними
+            var verticalLines = 13;
+            var lineVerticalStep = chartWidth/verticalLines;
+            var dateStep = (differentX)/verticalLines;
+            var countDateStep = dateStep;
+
+            for (var i = 0; i < (lineVerticalStep*(verticalLines+1)); i+=lineVerticalStep) {
+                if (i==0){
+                    var textX = draw.text(getDateFromDays(minArrX)).move(x0+i-20, y0+chartHight+10).font(axisSign);
+                }
+                else{
+                    var lineVertical = draw.line(x0+i, y0, x0+i, y0 + chartHight).stroke(gridLines);
+                    var buf = getDateFromDays(countDateStep +minArrX);
+                    console.log(buf);
+                    var textX = draw.text(buf).move(x0+i-20, y0+chartHight+10).font(axisSign);
+                    countDateStep+=dateStep;
+                }
+            }
+
+            // наносим на график сетку и разметку по оси у
+            // число вертикальных линий шаг между ними
+
+            var horizontalLines = 13;
+            var lineHorizontalStep = chartHight/horizontalLines;
+            var extraMinY = minY_activePrice - (differentY * 0.05);
+            var extraMaxY = maxY_activePrice + (differentY * 0.05);
+            var differentextraY = extraMaxY-extraMinY;
+
+            var koeffY = chartHight / differentextraY;
+
+            var activPriceStep = differentextraY/horizontalLines;
+            var countActivePrice = activPriceStep;
+
+            for (var i = lineHorizontalStep; i < (lineHorizontalStep*(horizontalLines)); i+=lineHorizontalStep) {
+                var lineHorizontal = draw.line(x0, y0 + i, chartWidth+x0, y0 + i).stroke(gridLines);
+                if ((extraMaxY-countActivePrice)<1000){
+                    var buf = (extraMaxY-countActivePrice).toFixed(1);
+                }
+                else{
+                    var buf = (extraMaxY-countActivePrice).toFixed(0);
+                }
+
+                var textX = draw.text(buf.toString()).move(14, y0-10 + i).font(axisSign);
+                countActivePrice+=activPriceStep;
+            }
+
+            // наносим на график сетку и разметку по ВТОРОЙ оси у
+            // число вертикальных линий шаг между ними
+
+            var bufIndicatirArr = [];
+            for (var i = 0; i<ArrIndicator.length; i++){
+                if (ArrIndicator[i] != null){
+                    bufIndicatirArr.push(ArrIndicator[i]);
+                    console.log("bufIndicatirArr: " + ArrIndicator[i]);
+                }
+            }
+            console.log("bufIndicatirArr: " + bufIndicatirArr[1]);
+            var maxY_Indicator_value = Math.max.apply(null, bufIndicatirArr);
+            console.log("maxY_Indicator_value: " + maxY_Indicator_value);
+            var minY_Indicator_value = Math.min.apply(null, bufIndicatirArr);
+            console.log("minY_Indicator_value: " + minY_Indicator_value);
+
+            var differentY_Indicator_value = maxY_Indicator_value - minY_Indicator_value;
+            var extraMinY_Indicator_value = minY_Indicator_value - (differentY_Indicator_value * 0.05);
+            var extraMaxY_Indicator_value = maxY_Indicator_value + (differentY_Indicator_value * 0.05);
+            console.log("extraMaxY_Indicator_value: " + extraMaxY_Indicator_value+ "extraMaxY_Indicator_value " +extraMaxY_Indicator_value);
+            var differentextraY_Indicator_value = extraMaxY_Indicator_value-extraMinY_Indicator_value;
+            console.log("differentextraY_Indicator_value: " + differentextraY_Indicator_value);
+            var koeffY_Indicator_value = chartHight / differentextraY_Indicator_value;
+            var Indicator_valueStep = differentextraY_Indicator_value/horizontalLines;
+            var countIndicator_value = Indicator_valueStep;
+            // вторая шкала y - добавляем подписи
+            for (var i = lineHorizontalStep; i < (lineHorizontalStep*(horizontalLines)); i+=lineHorizontalStep) {
+             //   var lineHorizontal = draw.line(x0, y0 + i, chartWidth+x0, y0 + i).stroke(gridLines);
+                var buf = (extraMaxY_Indicator_value-countIndicator_value).toFixed(1);
+                var textY = draw.text(buf.toString()).move(chartWidth+55, y0-10 + i).font(axisSign);
+                countIndicator_value+=Indicator_valueStep;
+            }
+
+            // подпись по оси х
+            var textX = draw.text("Дата").move(chartWidth/2, chartHight+y0+25);
+            // подпись по оси y
+            var textY = draw.text("Цена").move(-10, chartHight/2).transform({ rotation: 270 }).font(axisLabel);
+
+            // подпись по второй оси y
+            var textY1 = draw.text("Значание индикатора").move(chartWidth, chartHight/2).transform({ rotation: 270 }).font(axisLabel);
+
+            // Наименование графига
+            var chartName = draw.text("График изменения цены бумаги ("+ Json.input_params.stock_name + ") и значения индикатора (метод " +Json.input_params.calculate_method_name + ") во времени").move(chartWidth/3, 10).font(axisLabel);
+
+            // график цены выбранной бумаги
+            var lineCharActivePrice = draw.line(chartWidth-300, y0 + 20, chartWidth-250, y0 + 20).stroke({ width: 1 });
+            var chartNameActivePrice = draw.text("График цены "+ Json.input_params.stock_name).move(chartWidth-240, y0 + 10).font(axisLabel);
+
+            // график индикатора, рассчитанный по методу
+            var lineCharActivePrice = draw.line(chartWidth-300, y0 + 40, chartWidth-250, y0 + 40).stroke({ width: 1,  color: "#778899" });
+            var chartNameActivePrice = draw.text("График индикатора (метод  "+ Json.input_params.calculate_method_name+")").move(chartWidth-240, y0 + 30).font(axisLabel);
+
+
+            // учитываем величину радиуса  для построения точек на графике
+            var pointRaius = 8;
+            var x0forCircle = x0-(pointRaius/2);
+            var y0forCircle = y0-(pointRaius/2);
+            var stepX_circle = x0-(pointRaius/2);
+
+            // переменные - шаг для построения кривой
+            var stepX_Before;
+            var stepX= 50;
+
+
+            for (var i = 0; i < activePriceArr.length; i++) {
+                if (i==0){
+                    //var circle = draw.circle(pointRaius).move(x0forCircle, y0forCircle + (500 - (koeffY * (ArrY[i]-minY_activePrice))));
+                    stepX_Before = x0;
+
+                }
+                else{
+                    stepX += koeffX * (ArrX[i] - ArrX[i-1]);
+                    stepX_circle += koeffX * (ArrX[i] - ArrX[i-1]);
+                    var line = draw.line(stepX_Before, y0 + (chartHight - (koeffY * (ArrY[i-1] - extraMinY))), stepX, y0 + (chartHight - (koeffY * (ArrY[i] - extraMinY)))).stroke({ width: 1 });
+                    if (ArrIndicator[i] !=null&& ArrIndicator[i-1] !=null){
+                        var indicatorLine =  draw.line(stepX_Before, y0 + (chartHight - (koeffY_Indicator_value * (ArrIndicator[i-1] - extraMinY_Indicator_value))), stepX, y0 + (chartHight - (koeffY_Indicator_value * (ArrIndicator[i] - extraMinY_Indicator_value)))).stroke({ width: 1,  color: "#778899" });
+                    }
+                    stepX_Before =stepX;
+
+                    if (ArrSignal[i] == true){
+                        var bufStepX_circleTrue = stepX_circle + koeffX * (ArrX[i+1] - ArrX[i]);
+                        var circle = draw.circle(pointRaius).fill('#00FF00').move(bufStepX_circleTrue, y0forCircle + (chartHight - (koeffY * (ArrY[i+1]-extraMinY))));
+                        var tooltip =  draw.text(activePriceArr[i+1].toString() + "; " + getDateFromDays(datesArr[i+1])).fill('#007E29').font(tooltipSignalTrieHover).move(bufStepX_circleTrue-25, y0forCircle-10 + (chartHight - (koeffY * (ArrY[i+1]-extraMinY)))).hide();
+
+                        console.log("idTooltip: "+ tooltip.attr("id"));
+                        console.log("circle: "+ circle.attr("id"));
+                        circle.mouseover (function() {
+                            this.radius(7);
+                            var idTooltip =this.next().show();
+                            console.log("idTooltip from event: "+ idTooltip.attr("id"));
+                        })
+                        circle.mouseout (function() {
+                            this.radius(4);
+                          //  var idTooltip =this.next().hide();
+                        })
+                        tooltip.mouseout(function() {
+                            this.hide();
+                        })
+                    }
+
+                    if (Arr_is_div_date[i] == true){
+                        //   var bufStepX_circleTrue_is_div_date = stepX_circle + koeffX * (ArrX[i+1] - ArrX[i]);
+                        var bufStepX_circleTrue_is_div_date = stepX_circle;
+                        var circle_is_div_date = draw.circle(pointRaius).fill('#0174DF').move(bufStepX_circleTrue_is_div_date, y0forCircle + (chartHight - (koeffY * (ArrY[i]-extraMinY))));
+                        var tooltip_is_div_date =  draw.text(getDateFromDays(datesArr[i])).fill('#0101DF').font(tooltipSignalTrieHover).move(bufStepX_circleTrue_is_div_date-25, y0forCircle-10 + (chartHight - (koeffY * (ArrY[i]-extraMinY)))).hide();
+                        console.log("idTooltip: "+ tooltip_is_div_date.attr("id"));
+                        console.log("circle: "+ circle_is_div_date.attr("id"));
+                        circle_is_div_date.mouseover (function() {
+                            this.radius(7);
+                            var idTooltip_is_div_date =this.next().show();
+                            console.log("idTooltip from event: "+ idTooltip_is_div_date.attr("id"));
+                        })
+                        circle_is_div_date.mouseout (function() {
+                            this.radius(4);
+                            //  var idTooltip =this.next().hide();
+                        })
+                        tooltip_is_div_date.mouseout(function() {
+                            this.hide();
+                        })
+                    }
+
+
+                    if (ArrSignal[i] == false) {
+                        var bufStepX_circleFalse = stepX_circle + koeffX * (ArrX[i+1] - ArrX[i]);
+                        var lastCircleCX = $("circle:last").attr("cx");
+                        var lastCircleCY = $("circle:last").attr("cy");
+                      //  var lastCircleAttr=lastCircle.attr()
+                        console.log("circle:last CX " + lastCircleCX);
+                        console.log("circle:last CY " + lastCircleCY);
+                        var circle = draw.circle(pointRaius).fill('#FF0000').move(bufStepX_circleFalse, y0forCircle + (chartHight - (koeffY * (ArrY[i+1]-extraMinY))));
+                        var tooltip =  draw.text(activePriceArr[i+1].toString() + "; " + getDateFromDays(datesArr[i+1])).fill('#FF0000').font(tooltipSignalFalseHover).move(bufStepX_circleFalse-25, y0forCircle-10 + (chartHight - (koeffY * (ArrY[i+1]-extraMinY)))).hide();
+                        var thisCircleCX = circle.attr("cx");
+                        var thisCircleCY = circle.attr("cy");
+                        console.log("thisCircleCX " + thisCircleCX);
+                        console.log("thisCircleCY " + thisCircleCY);
+
+                        if (lastCircleCX!=undefined){
+                            var line = draw.line(lastCircleCX, lastCircleCY, thisCircleCX, thisCircleCY).stroke({ width: 1, color: '#f06' });
+
+                            var difX =  parseInt(thisCircleCX)- parseInt(lastCircleCX);
+                            console.log("different X " + difX);
+                            var difY =  parseInt(thisCircleCY)- parseInt(lastCircleCY);
+                            console.log("different Y " + difY);
+
+                            var buf = Math.pow(difX,2)+Math.pow(difY,2);
+                            console.log("buf " + buf);
+
+                            var arrowSise1 = 12;
+                            var arrowSise2 = 4;
+                            var different =  Math.sqrt(buf);
+                            console.log("different " + different);
+                            //  var k = (parseInt(different)-arrowSise1)/different;
+                            var k = arrowSise1/different;
+                            console.log("k " + k);
+                            //   var myPointX = parseInt(lastCircleCX) + (parseInt(thisCircleCX) - parseInt(lastCircleCX))*k;
+                            var myPointX = parseInt(thisCircleCX) + (parseInt(lastCircleCX) - parseInt(thisCircleCX))*k;
+                            console.log("myPointX " + myPointX);
+                            // var myPointY = parseInt(lastCircleCY) + (parseInt(thisCircleCY) -parseInt(lastCircleCY))*k;
+                            var myPointY = parseInt(thisCircleCY) + (parseInt(lastCircleCY) -parseInt(thisCircleCY))*k;
+                            console.log("myPointY " + myPointY);
+                            // находим координаты для верхней точки стрелки
+                            var buf1 = Math.pow(arrowSise1,2)+Math.pow(arrowSise2,2)
+                            var arrowLength =  Math.sqrt(buf1);
+                            // точка с одной и с другой стороны от линии, соединяющей точки false и true
+                            // Надо взять вектор arrowSise1 - длину стрелки, повернуть его на 90° (в одну и в другую сторону), и длину разделить на эту длину стрелки и умножить величину отклонения стрелки от линии false / true
+                            var X_ArrowHight = parseInt(myPointX)-arrowSise2*(parseInt(thisCircleCY)-parseInt(myPointY))/arrowSise1;
+                            var Y_ArrowHight = parseInt(myPointY)+arrowSise2*(parseInt(thisCircleCX)-parseInt(myPointX))/arrowSise1;
+                            var X_ArrowLow = parseInt(myPointX)+ arrowSise2*(parseInt(thisCircleCY)-parseInt(myPointY))/arrowSise1;
+                            var Y_ArrowLow = parseInt(myPointY)-arrowSise2*(parseInt(thisCircleCX)-parseInt(myPointX))/arrowSise1;
+
+                            if (difY > 0){
+                                var line = draw.line(lastCircleCX, lastCircleCY, thisCircleCX, thisCircleCY).stroke({ width: 1, color: '#FF0000' });
+                               // var arrowLine1 = draw.line(X_ArrowHight,Y_ArrowHight, thisCircleCX, thisCircleCY).stroke({ color: '#00FF00', width: 1 });
+                               // var arrowLine2 = draw.line(X_ArrowLow,Y_ArrowLow, thisCircleCX, thisCircleCY).stroke({ color: '#00FF00', width: 1 });
+                                var pointsPoli = X_ArrowHight+","+ Y_ArrowHight + " " + thisCircleCX+","+thisCircleCY + " " + X_ArrowLow+","+Y_ArrowLow;
+                                var polygon  = draw.polygon(pointsPoli).fill('#FF0000');
+                                //polygon.stroke({ color: '#FF0000', width: 4, linecap: 'round', linejoin: 'round' })
+                            }
+                            else{
+                                var line = draw.line(lastCircleCX, lastCircleCY, thisCircleCX, thisCircleCY).stroke({ width: 1, color: '#00FF00' });
+                               // var arrowLine1 = draw.line(X_ArrowHight,Y_ArrowHight, thisCircleCX, thisCircleCY).stroke({ color: '#00FF00', width: 1 });
+                                //  var arrowLine2 = draw.line(X_ArrowLow,Y_ArrowLow, thisCircleCX, thisCircleCY).stroke({ color: '#00FF00', width: 1 });
+                                var pointsPoli = X_ArrowHight+","+ Y_ArrowHight + " " + thisCircleCX+","+thisCircleCY + " " + X_ArrowLow+","+Y_ArrowLow;
+                                var polygon  = draw.polygon(pointsPoli).fill('#00FF00');
+                               // polygon.stroke({ color: '#00FF00', width: 4, linecap: 'round', linejoin: 'round' })
+                            }
+
+
+                        }
+
+                        circle.mouseover(function() {
+                            this.radius(6);
+                            var idTooltip =this.next().show();
+                            console.log("idTooltip from event: "+ idTooltip.attr("id"));
+                        })
+                        circle.mouseover(function() {
+                            this.radius(4);
+                        })
+                        tooltip.mouseout(function() {
+                            this.hide();
+                        })
+                    }
+                }
+            }
+
+        }
+        chartDrow(datesArr, activePriceArr, signalArr, IndicatorValArr, is_div_dateArr);
+        "use strict";
+        var myPanZoom = $("svg").svgPanZoom({
+            events: {
+                mouseWheel: false,
+                doubleClick: true,
+                drag: true,
+                dragCursor: "move",
+            },
+
+           animationTime: 300,
+           zoomFactor: 0.25,
+// maximum zoom in, must be a number bigger than 1
+           maxZoom: 3,
+         //  minZoom: 0,
+// how much to move the viewBox when calling .panDirection() methods
+       panFactor: 100,
+       // the initial viewBox, if null or undefined will try to use the viewBox set in the svg tag.
+       // Also accepts string in the format "X Y Width Height"
+       initialViewBox: {
+           // the top-left corner X coordinate
+           x: 0,
+           y: 0,
+           // the width of the viewBox
+           //  width: 1600,
+           width: 1300,
+           // the height of the viewBox
+           //   height: 950
+           height: 800
+
+       },
+
+       // the limits in which the image can be moved.
+       // If null or undefined will use the initialViewBox plus 15% in each direction
+       limits: {
+           x: -50,
+           y: -50,
+           x2: 1600,
+           y2: 1100
+       }
+        });
+     //   myPanZoom.mouseWheel = false
+    /*
+        var callback= function(myzoom) {
+            return function(event) {
+                if ($(event.target).hasClass("fa-plus-square"))
+                    myzoom.zoomIn()
+                if ($(event.target).hasClass("fa-minus-square"))
+                    myzoom.zoomOut()
+            }
+        };
+
+       var chart1= myPanZoom[0];
+      $("div#controls button").click(callback(chart1));*/
+
+        var chartMy =  myPanZoom[0];
+        $("#plusZoom").click(function (){
+            chartMy.zoomIn();
+        });
+
+        $("#minusZoom").click(function(){
+            chartMy.zoomOut();
+        });
+        $("#resetZoom").click(function(){
+            chartMy.reset();
+        });
+
+    /*
+// Float Social block
+        var fixed = $("#plusZoom, #minusZoom");
+  var offset = fixed.offset();
+  var topPadding = 40;
+  $(window).scroll(function() {
+	  if ($(window).scrollTop() > offset.top) {
+	    fixed.stop().animate({marginTop: $(window).scrollTop() - offset.top + topPadding});
+	  } else {
+	    fixed.stop().animate({marginTop: 0});
+	  };
+	});
+
+
+        //   ГРАФИК!!!! canvas //
+
+        // метод для получения количества дней из даты
+        function getDateForChartDays(date){
+            var find=date;
+            var result = find.match(/\d+/);
+            var res = parseInt(result);
+            var days = res*1.15740740740741/100000000;
+            return days;
+        }
+
+        // метод для получения из даты в днях дату вида ДД/ММ/ГГГГ
+        function getDateFromDays(date){
+            var dateStringFormat;
+            var millisec = date*86400000;
+            var myDate = new Date(millisec);
+            var dateStringFormat = addZeroz(myDate.getDate()) + "." +  addZeroz((parseInt(myDate.getMonth())+1)) + "." + addZeroz(myDate.getFullYear());
+            return dateStringFormat;
+        }
+        function addZeroz(number) {
+            return ('0' + number).slice(-2);
+        }
+
+      // var days1 = getDateForChartDays("1537131600000");
+     //  alert ("days1 ="+ days1);
+
+        var colorLine1 = '#0B0B3B';
+        var canvasTest = document.getElementById("draws");
+        // получить контекст холста 2D рендеринга
+        var chartTest = canvasTest.getContext("2d");
+
+        // максимальные и минимальные значения (год) для подписи по оси Х
+        // Для начала сформируем массивы
+        var datesArr = [];
+        var activePriceArr = [];
+        var signalArr =[];
+        for (var i in Json.result_model){
+            activePriceArr.push(Json.result_model[i].ActivePrice);
+            datesArr.push(getDateForChartDays(Json.result_model[i].DTDate));
+            signalArr.push(Json.result_model[i].Signal);
+        }
+
+        // находим максимальное и минимальное значения по оси Y и их разницу
+        var minCountY = Math.min.apply(null, activePriceArr);
+        var maxCountY = Math.max.apply(null, activePriceArr);
+
+        var differentY = maxCountY - minCountY;
+        alert ("maxCountY =" +maxCountY + "minCountY =" +minCountY + "Разница ось Y =" +differentY);
+
+        var x0 = y0 = 30;
+        var width = canvasTest.width - 80;
+        var height = canvasTest.height - 90;
+      //  var stepX = Math.round(width /(differentX+1));
+      //  var stepY = Math.round(height / (maxCountY + minCountY));
+        var stepY = height / (maxCountY + minCountY);
+        // максимальные и минимальные значения даты (в днях)
+        var maxCountXLine1 = datesArr[datesArr.length-1];
+        var minCountXLine1 = datesArr[0];
+        //найдем разницу дней между максимальной и минимальной датой (в днях)
+        var differentXLine1 = (maxCountXLine1 - minCountXLine1);
+        alert (" Для построения шкалы - максимальное значение даты в днях: maxCountXLine1 = "+ maxCountXLine1+
+                "minCountXLine1 = "+ minCountXLine1 + " Разница в днях = " +differentXLine1);
+       // шаги для кривой по оси х
+        var stepXForLine1 =width/(differentXLine1+1);
+        alert ("шаг для построения графика  ось x  =" +stepXForLine1 + "ось У = " + stepY);
+
+
+        chartTest.beginPath();
+        //Вертикальная линия
+        chartTest.moveTo(x0, y0);
+        chartTest.lineTo(x0, height + y0);
+        //горизонтальная линия
+        chartTest.lineTo(width + x0, height + y0);
+
+        var m = minCountXLine1;
+        var x_max = maxCountXLine1;
+        //нижняя разметка и цифры
+        var count = 1;
+        for (var i = x0; m <= x_max; i += stepXForLine1) {
+               chartTest.moveTo(i, height + y0);
+
+               if (differentXLine1>365){
+                   if(count % 365==0){
+                       chartTest.fillText(getDateFromDays(m), i + 3, height + y0 + 15);
+                       chartTest.lineTo(i, height + y0 + 15);
+                   }
+               }
+               if (differentXLine1<365&&differentXLine1>183) {
+                   if(count%60==0){
+                       alert ("count = " + count+ " getDateFromDays(m) = " + getDateFromDays(m))
+                       chartTest.fillText(getDateFromDays(m), i + 3, height + y0 + 15);
+                       chartTest.lineTo(i, height + y0 + 15);
+                   }
+               }
+               if (differentXLine1<365&&differentXLine1<183) {
+                   if(count%30==0){
+                       alert ("count = " + count+ " getDateFromDays(m) = " + getDateFromDays(m))
+                       chartTest.fillText(getDateFromDays(m), i + 3, height + y0 + 15);
+                       chartTest.lineTo(i, height + y0 + 15);
+                   }
+               }
+               if (m==x_max) {
+                       alert ("max count = " + count+ " getDateFromDays(m) = " + getDateFromDays(m))
+                       chartTest.fillText(getDateFromDays(m), i + 3, height + y0 + 15);
+                       chartTest.lineTo(i, height + y0 + 15);
+               }
+               m ++;
+               count++;
+        }
+        chartTest.lineWidth = 2;
+        chartTest.stroke();
+        chartTest.closePath();
+
+
+        var stepY_Line1 = height / (maxCountY + minCountY);
+
+            chartTest.beginPath();
+            //рисуются кривые
+        //   var priraschenieX = x0;
+            var shag = x0;
+            for (var f = 0; f < activePriceArr.length; f++) {
+                if(0==f){
+                    var koeff =1;
+                }
+                else {
+                    var koeff = datesArr[f] - datesArr[f-1];
+               //     alert ("koef =" +koeff);
+                }
+
+     //           var x = x0 + (f * koeff * stepXForLine1);
+                var y = y0 + (height - activePriceArr[f] * stepY_Line1);
+
+                if (f==0)
+                {
+                    shag = x0;
+                    chartTest.moveTo(shag, y);
+                }
+                else
+                {
+                    shag += koeff * stepXForLine1;
+                    chartTest.lineTo(shag, y);
+                }
+                //рисуем точку
+               // chartTest.arc(shag, y, 2, 0, 2 * Math.PI, false);
+                // chartTest.fillText(activePriceArr[i], x-5, y-5);//текст над точками
+               //  chartTest.fillText(activePriceArr[i], x0 - 15, y);//текст у боковой линии
+                chartTest.strokeStyle = colorLine1;
+                chartTest.lineWidth = 1;
+                chartTest.stroke();
+
+            }
+            chartTest.closePath();
+
+            chartTest.beginPath();
+            //рисуются кривые
+            //   var priraschenieX = x0;
+            var shagSignal = x0;
+            for (var f = 0; f < activePriceArr.length; f++) {
+                if(0==f){
+                    var koeff =1;
+                }
+                else {
+                    var koeff = datesArr[f] - datesArr[f-1];
+                    //     alert ("koef =" +koeff);
+                }
+
+                var y = y0 + (height - activePriceArr[f] * stepY_Line1);
+
+                if (f==0)
+                {
+                    shagSignal = x0;
+                    chartTest.moveTo(shagSignal, y);
+                }
+                else
+                {
+                    shagSignal += koeff * stepXForLine1;
+                    chartTest.moveTo(shagSignal, y);
+                }
+                if (signalArr[f] == false){
+                    chartTest.fillStyle = "#FF0000";
+                    chartTest.strokeStyle = "#FF0000";
+                    //рисуем точку
+                    chartTest.arc(shagSignal, y, 2, 0, 2 * Math.PI, false);
+                    chartTest.fillText(activePriceArr[f] + " " + getDateFromDays(datesArr[f]), shagSignal, y-20);//текст над точками
+                    chartTest.fillText(activePriceArr[f], x0 - 30, y);//текст у боковой линии
+                }
+                if (signalArr[f] == true){
+                    chartTest.fillStyle = "#00FF00";
+                    chartTest.strokeStyle = "#00FF00";
+                    //рисуем точку
+                    chartTest.arc(shagSignal, y, 2, 0, 2 * Math.PI, false);
+                    chartTest.fillText(activePriceArr[f] + " " + getDateFromDays(datesArr[f]), shagSignal, y+20);//текст над точками
+                    chartTest.fillText(activePriceArr[f], x0 - 30, y);//текст у боковой линии
+                }
+                //chartTest.lineWidth = 1;
+                chartTest.stroke();
+
+            }
+            chartTest.closePath();
+        */
+
+            $("td").addClass("align-middle");
+            $("th").addClass("align-middle");
+
+
+</script>
+
+
+
+
+

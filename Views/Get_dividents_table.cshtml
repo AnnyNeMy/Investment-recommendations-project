@@ -1,0 +1,89 @@
+﻿
+@{
+    Layout = null;
+}
+<!DOCTYPE html>
+<div>
+</div>
+<div id="for_Show">
+
+
+</div>
+<div id="test">
+
+
+</div>
+
+
+<div class="row">
+    <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12">
+        <div id="sourceData" style="margin-left: 50px; margin-right: 50px">
+            <table class="table table-bordered table-hover table-sm">
+                <caption style="caption-side: top">
+                    Таблица 1. Принятые исходные данные
+                </caption>
+                <thead class="thead-dark">
+                    <tr id="tableHeaderDividends"></tr>
+                </thead>
+                <tbody id="tableContentDividends"></tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+
+
+
+<script>
+        var Json = @Html.Raw(Json.Encode(Model)); // json object
+        //alert(JSON.stringify(Json[0].StrTicker)); // converting it to string representation
+        //alert(JSON.stringify(Json[1].DOpen)); // converting it to string representation
+     //    var str = JSON.stringify(Json);
+    //     $('#for_Show').text(str);
+                    $.ajax({
+                        type: "GET",
+                        url:  '@Url.Action("Get_dividents_headers", "Main")',
+                        success:function (data) {
+                            if (data != "") {
+                                var headers = JSON.parse(data);
+                                for (let j = 0; j<headers.length; j++){
+                                    $("#tableHeaderDividends").append('<th scope="col">'+ headers[j] +'</th>')
+                                }
+                            } else {
+                                alert("Could not connect to server");
+                            }
+                        },
+                        dataType: "html"
+                    });
+
+
+    for (var i = 0; i<Json.length; i++){
+        date = getDate(Json[i].reestr_date);
+        $('#tableContentDividends').append('<tr> <td>'+ Json[i].id +'</td><td>'
+                                    + Json[i].stock_name + '</td><td>'
+                                    + date + '</td><td>'
+                                    + Json[i].profit_rate.toFixed(2) + '</td><td>'
+                                    + Json[i].profit_rate_percent.toFixed(2) + '</td><td>'
+                                    + Json[i].reestr_price.toFixed(2) + '</td><td>'
+                                    + Json[i].delta_date.toFixed(2) + '</td><td>'
+                                    + Json[i].price_plus.toFixed(2) + '</td><td>'
+                                    + Json[i].price_minus.toFixed(2) + '</td> <td>'
+                                    + Json[i].delta_price.toFixed(2) + '</td></tr>');
+    }
+
+    // приводит дату вида "/Date(1513803600000)/" к DD-MM-YYYY
+    function getDate(date){
+        var find=date;
+        var result = find.match(/\d+/);
+        var res = parseInt(result);
+        var myDate = new Date(res);
+        myDate.setMilliseconds(3 * 60 * 60 * 1000);
+        var myDate1 = myDate.toISOString().replace(/^([^T]+)T(.+)$/,'$1').replace(/^(\d+)-(\d+)-(\d+)$/,'$3.$2.$1');
+        //  var myDate = new Date(res).setMilliseconds(3 * 60 * 60 * 1000).toISOString().replace(/^([^T]+)T(.+)$/,'$1').replace(/^(\d+)-(\d+)-(\d+)$/,'$3.$2.$1');
+        //   var dateStringFormat = addZeroz(myDate.getDate()) + "." +  addZeroz((parseInt(myDate.getMonth())+1)) + "." + addZeroz(myDate.getFullYear());
+        //   return dateStringFormat;
+        return myDate1;
+    }
+
+
+</script>
