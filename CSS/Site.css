@@ -1,0 +1,224 @@
+﻿body {
+    padding-top: 0px;
+   /*padding-bottom: 20px;*/ 
+}
+li{
+    list-style-type: none;
+}
+/*Стили кнопок на вкладке ЛОГИ*/
+.buttLogs{
+    width: 250px !important;
+    margin: 5px 0px 5px 0px;
+}
+/*Стили для select*/
+span#logPeriod-button{
+     min-height: 36px !important;
+     padding-top: 5px;
+     width: 250px !important;
+     font-size: 15px !important;
+     font-family: "Verdana", Sans-Serif !important;
+     margin: auto !important;
+     color: #0097A5 !important;
+}
+span#logPeriod-button:hover {
+     color: #026C7C !important;
+}
+.color-red{
+   color: red; 
+}
+.color-blue{
+   color: blue;
+}
+/*Блок с описанием на каждой странице*/
+div.discription{
+cursor: pointer;
+}
+span.showDescription{
+     color: #0080FF; 
+}
+span.hideDescription{
+     color: #B40404; 
+}
+div.updateBottom{
+position:absolute;
+bottom:0;
+}
+/* наименование заголовка  на вкладке 0 - описание программы*/
+div#aboutCompanySoft_name span.titleAboutCompany{
+    display: inline-block;
+    margin-bottom: 10px;
+    color: #0D3682; 
+    font-size: 16px;
+    font-weight: bold;   
+}
+span.ui-selectmenu-button{
+   min-height: 30px !important;
+   padding-top: 4px!important;
+    width: 200px !important;
+}
+span.ui-selectmenu-button span.ui-selectmenu-text{
+ font-size: 13px!important;
+}
+/*Стили для текста описания программы на вкладке "О программе"*/
+div#aboutCompanySoft_name span.contentAboutCompany{
+    display: inline-block;
+    margin-bottom: 10px;
+    color: #2B2B2B; 
+    font-size: 16px;
+}
+div#aboutCompanySoft_name pre.contentAboutCompany{
+    display: inline-block;
+    margin-bottom: 10px;
+    color: #2B2B2B; 
+    font-size: 16px;
+}
+div.fieldInput1Variant {
+ padding-bottom: 5px;
+}
+div.fieldInput1Variant label {  
+  display: block;
+  float: left;
+  width: 200px;
+  height: 20px;
+}
+div.fieldInput1Variant input[type=number] {  
+  display: block;
+  float: left;
+  width: 200px;
+  height: 33px;
+  margin-bottom: 5px;
+  margin-right: 15px;
+  padding-bottom: 5px;
+}
+#labelForCheckbox
+{
+    display: block;
+    float: left;
+    margin-top: 2px;
+    margin-left: 2px;
+    margin-right: 2px;
+    font-size: 14px;
+}
+fieldset legend {
+    display: block;
+    float: left;
+    padding: 2px 3px 2px 0px;
+    font-size: 16px;
+}
+fieldset label  {
+    display: block;
+    float: left;
+    margin-left: 2px;
+    margin-right: 2px;
+    padding-top: 0px;
+    color: #2F4F4F;
+    font-size: 13px;
+}
+img#forSpisok{
+    height: 13px;
+    width: 10px;
+}
+table#MethodsTable4 {
+  border-spacing: 0em 0em;
+  padding: 0 0 0 0;
+}
+table.methodsTable tbody tr td label{
+  min-width: 80px;
+  max-width: 110px;
+  height: 45px;  
+  padding: 0 0 0 0;
+  margin: 0 0 0 0;
+  text-align: center;
+  vertical-align: middle;
+}
+table.methodsTable tbody tr td label input[type="checkbox"]{
+ display: flex;
+}
+table.methodsTable tbody tr td label input[type="checkbox"]:checked{
+  width: 15px;
+  height: 15px;  
+  display: flex;
+}
+table.methodsTable tr td{
+  width: 80px;
+  height: 30px;  
+  padding: 0 0 0 0;
+  margin: 0 0 0 0;
+  text-align: center;
+  vertical-align: middle;
+}
+table.methodsTable tr td input[type=number]{
+  min-width: 50px;
+  max-width: 180px;
+  width:100%;
+  height: 30px;  
+  padding: 0 0 0 0;
+  margin: 0 0 0 0;
+  text-align: center;
+  vertical-align: middle;
+}
+table#MethodsTable4Multi {
+  border-spacing: 0em 0em;
+  padding: 0 0 0 0;
+}
+table#MethodsTable4Multi tbody tr td label{
+  min-width: 80px;
+  max-width: 110px;
+  height: 45px;  
+  padding: 0 0 0 0;
+  margin: 0 0 0 0;
+  text-align: center;
+  vertical-align: middle;
+}
+table#MethodsTable4Multi tbody tr td label input[type="checkbox"]{
+ display: flex;
+}
+table#MethodsTable4Multi tbody tr td label input[type="checkbox"]:checked{
+  width: 15px;
+  height: 15px;  
+  display: flex;
+}
+table#MethodsTable4Multi tr td{
+  width: 80px;
+  height: 30px;  
+  padding: 0 0 0 0;
+  margin: 0 0 0 0;
+  text-align: center;
+  vertical-align: middle;
+}
+table#MethodsTable4Multi tr td input[type=number]{
+  min-width: 50px;
+  max-width: 180px;
+  width:100%;
+  height: 30px;  
+  padding: 0 0 0 0;
+  margin: 0 0 0 0;
+  text-align: center;
+  vertical-align: middle;
+}
+.error {
+  color: red;
+  margin-left: 5px;
+  font-size:inherit;
+}
+label.error {
+  display: inline;
+}
+
+/*
+.body-content {
+    padding-left: 15px;
+    padding-right: 15px;
+}
+
+
+.dl-horizontal dt {
+    white-space: normal;
+}
+
+
+input,
+select,
+textarea {
+    max-width: 280px;
+}*/
